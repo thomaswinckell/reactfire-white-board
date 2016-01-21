@@ -1,0 +1,25 @@
+/* ## Centering
+================================================== */
+
+	/* ### Fluid centering
+	============================================= */
+
+		.fluid-center {
+			display: table;
+			height: 100%;
+			width: 100%;
+
+			.fluid-center-box {
+				display: table-cell;
+				vertical-align: middle;
+			}
+		}
+
+	/* ### Fluid horizontal centering
+	============================================= */
+
+	.fluid-horizontal-center {
+		display:inline-block;
+		text-align: center;
+		width:100%;
+	}

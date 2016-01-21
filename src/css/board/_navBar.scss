@@ -1,0 +1,120 @@
+.navbar-wrapper {
+    @include unselectable();
+    position: fixed;
+    left: 30px;
+    top:25px;
+    z-index: 2100000;
+    .navbar {
+        top: 65px;
+    }
+    .navbar:first-child {
+        top: 5px;
+    }
+}
+
+.navbar {
+    zoom: document;
+    ul {
+        li {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.5);
+            padding:10px 14px;
+            cursor: pointer;
+            @include transition();
+            i {
+                color: white;
+                font-size: 1em;
+            }
+            &.active {
+                background-color: white;
+                i {
+                    color: grey;
+                }
+            }
+            &:hover {
+                background-color: rgba(255,255,255,0.7);
+            }
+        }
+    }
+
+    &.horizontal {
+        margin-top:15px;
+        ul li {
+            padding:5px 7px;
+            display:block;
+            width: 18px;
+            &:nth-child(1) {
+                padding-top:7px;
+                @include multi-border-radius(5px, 5px, 0, 0);
+            }
+            &:nth-last-child(1) {
+                padding-bottom:7px;
+                @include multi-border-radius(0, 0, 5px, 5px);
+            }
+        }
+    }
+
+    .board-background {
+        top: -5px;
+        left: -5px;
+    }
+}
+
+
+.main-navbar {
+    ul li i {
+        color: white;
+        font-size: 2em;
+    }
+    ul li:nth-child(1) {
+        @include multi-border-radius(5px, 0, 5px, 0);
+    }
+    ul li:nth-child(2) {
+        @include multi-border-radius(0, 5px, 0, 5px);
+    }
+}
+
+
+.main-navbar-zoom {
+    zoom: document;
+    position:fixed;
+    top:0;
+    right:0;
+    z-index: 2100000;
+    padding:15px;
+    ul li {
+        opacity:0.8;
+        transition:all 200ms ease-in-out;
+        &:hover {
+            opacity:1;
+        }
+    }
+    i {
+        font-size: 2em;
+        color:white;
+    }
+    cursor:pointer;
+}
+
+.main-navbar-clear {
+    zoom: document;
+    position: fixed;
+    top: 2.4%;
+    left: 11%;
+    z-index: 2100000;
+    padding: 15px;
+    opacity: 0.8;
+    @include transition();
+    ul li {
+        float:left;
+        margin-right:10px;
+    }
+    &:hover {
+        opacity:1;
+    }
+    i {
+        font-size: 2em;
+        color:white;
+    }
+    cursor:pointer;
+}

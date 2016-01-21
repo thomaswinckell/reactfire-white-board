@@ -1,0 +1,56 @@
+
+.icon.active {
+    color:black!important;
+}
+.widget {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    outline: none;
+    @include box-sizing();
+    .widget-editor,
+    .widget-view {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        outline: none;
+        @include box-shadow(0px, 0px, 5px, rgba(0,0,0,0.1));
+        @include transition();
+        &.menu-displayed {
+            @include box-shadow(0px, 0px, 5px, rgba(0,0,0,0.3));
+        }
+
+        &.dragging {
+            @include box-shadow(0px, 0px, 10px, rgba(0,0,0,0.5));
+        }
+    }
+
+    .widget-view {
+        cursor      : auto;
+        padding: 15px;
+        padding-top: 50px;
+        &.dragging {
+            cursor: -webkit-grab;
+        }
+    }
+
+    .widget-editor {
+        cursor  : auto;
+        padding: 15px;
+        padding-top: 50px;
+    }
+
+    /* Resizer */
+    .resizer {
+        position: absolute;
+        &.resizer-width:hover {
+            cursor: e-resize;
+        }
+        &.resizer-height:hover {
+            cursor: s-resize;
+        }
+        &.resizer-width.resizer-height:hover {
+            cursor: nwse-resize;
+        }
+    }
+}

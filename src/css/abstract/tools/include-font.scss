@@ -1,0 +1,53 @@
+/* ## Font include mixin
+================================================== */
+
+/* NOTE: To use include-font directive,
+		 be sure to have theses four formats in the right directory
+
+		 .ttf - Works in most browsers except IE and iPhone.
+		 .eot - IE only. 
+		 .woff - Compressed, emerging standard. 
+		 .svg - iPhone/iPad
+
+		 .include-font("path/to/font", "font-name", "font-weight", "font-style");
+*/
+
+@mixin include-font($path:"../assets/fonts/", $name: arial, $weight: normal, $style: normal){
+	@font-face{
+		font-family: $name;
+		src:url('#{$path}#{$name}.eot');
+		src:url('#{$path}#{$name}.eot?#iefix') format('embedded-opentype'),
+			url('#{$path}#{$name}.woff') format('woff'),
+			url('#{$path}#{$name}.ttf') format('truetype'),
+			url('#{$path}#{$name}.svg#icon') format('svg');
+		font-weight: $weight;
+		font-style: $style;
+	}
+}
+
+
+
+/* ## Font size system
+================================================== */
+
+	//$phi: (1 + sqrt(5)) / 2;
+
+	// $xoo: 1 / (2 * $phi);
+
+	// $line-width: 960;
+	// $line-height: sqrt($line-width) / $phi;   
+
+// .golden-font-by-line-width(@line-width: @line-width) {
+
+// 	@font-size:				sqrt(@line-width) / @phi;
+
+// 	font-size: 				@font-size;
+// 	line-height: 			@font-size * @phi;
+// 	margin-bottom:			0px;
+// }
+
+// .golden-font-by-font-size(@size: 16px) {
+// 	font-size: 				@size;
+// 	line-height: 			@font * @phi;
+// 	margin-bottom:			0px;
+// }
