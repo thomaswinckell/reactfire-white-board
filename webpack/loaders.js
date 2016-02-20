@@ -26,8 +26,7 @@ const htmlLoader = [
 var sassLoader;
 var cssLoader;
 const sassParams = [
-    'outputStyle=expanded',
-    'includePaths[]=' + path.resolve( __dirname, '../node_modules/font-awesome/scss' )
+    'outputStyle=expanded'
 ];
 
 if( DEV ) {
