@@ -13,7 +13,7 @@ const jsBundle = path.join( 'js', util.format( '[name].js' ) );
 const entries = {
     app:       ['app.js'],
     vendors:   ['react', 'jquery', 'lodash', 'moment', 'firebase', 'classnames'],
-    polyfills: ['es6-promise']
+    polyfills: ['babel-polyfill']
 };
 const alias = {
 };
