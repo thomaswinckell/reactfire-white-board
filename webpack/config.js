@@ -1,6 +1,7 @@
 const _ = require( 'lodash' );
 const path = require( 'path' );
 const util = require( 'util' );
+const autoprefixer = require( 'autoprefixer' );
 const pkg = require( '../package.json' );
 const loaders = require( './loaders' );
 const plugins = require( './plugins' );
@@ -57,5 +58,8 @@ module.exports = {
         noInfo:      true,
         inline:      true,
         stats:       { colors: true }
+    },
+    postcss: function () {
+        return [ autoprefixer ];
     }
 };

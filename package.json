@@ -1,9 +1,12 @@
 {
   "name": "Whiteboard",
-  "version": "0.0.1",
+  "version": "0.0.1-beta1",
   "author": "Thomas Winckell",
   "license": "MIT",
-  "private": true,
+  "repository" : {
+    "type" : "git",
+    "utl" : "git://github.com:thomaswinckell/reactfire-white-board.git"
+  },
   "dependencies": {
     "classnames": "^2.1.3",
     "detectcss": "^1.0.2",
@@ -22,6 +25,7 @@
     "recordrtc": "^5.2.3"
   },
   "devDependencies": {
+    "autoprefixer": "^6.3.3",
     "babel-core": "^6.3.13",
     "babel-eslint": "1.0.12",
     "babel-jest": "^6.0.1",
