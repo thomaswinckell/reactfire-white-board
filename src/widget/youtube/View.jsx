@@ -1,8 +1,8 @@
 import React                    from 'react';
 
-import AbstractWidgetView       from 'core/AbstractWidgetView';
+import AbstractWidgetView       from 'widget/abstract/View';
 
-import Styles from './YoutubeWidgetView.scss';
+import Styles from './View.scss';
 
 
 export default class YoutubeWidgetView extends AbstractWidgetView {

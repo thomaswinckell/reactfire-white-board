@@ -8,7 +8,7 @@ import { timeBeforeHideMenu,
 import { gridWidth }                        from 'config/BoardConfig';
 import WidgetMenu                           from 'core/WidgetMenu';
 
-import Styles   from './AbstractWidgetView.scss';
+import Styles   from './View.scss';
 
 
 export default class AbstractWidgetView extends Component {

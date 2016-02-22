@@ -3,7 +3,7 @@ import RecordRTC                        from 'recordrtc';
 
 import { videoTime }                    from 'config/WidgetConfig';
 import Webcam                           from 'component/Webcam';
-import AbstractWidgetEditor             from 'core/AbstractWidgetEditor';
+import AbstractWidgetEditor             from 'widget/abstract/Editor';
 
 
 export default class VideoWidgetEditor extends AbstractWidgetEditor {

@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import classNames           from 'classnames';
 
-import AbstractWidgetEditor from 'core/AbstractWidgetEditor';
+import AbstractWidgetEditor from 'widget/abstract/Editor';
 
-import Styles from './YoutubeWidgetEditor.scss';
+import Styles from './Editor.scss';
 
 
 export default class YoutubeWidgetEditor extends AbstractWidgetEditor {

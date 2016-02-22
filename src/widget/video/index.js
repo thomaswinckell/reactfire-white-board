@@ -1,0 +1,1 @@
+export VideoWidgetView           from './View';

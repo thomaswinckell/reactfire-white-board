@@ -1,9 +1,9 @@
 import React                from 'react';
 import classNames           from 'classnames';
 
-import AbstractWidgetView   from 'core/AbstractWidgetView';
+import AbstractWidgetView   from 'widget/abstract/View';
 
-import Styles from './TodoListWidgetView.scss';
+import Styles from './View.scss';
 
 
 export default class TodoListWidgetView extends AbstractWidgetView {

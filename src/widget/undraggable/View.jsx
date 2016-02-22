@@ -1,8 +1,8 @@
 import React                from 'react';
 
-import AbstractWidgetView   from 'core/AbstractWidgetView';
+import AbstractWidgetView   from 'widget/abstract/View';
 
-import Styles from './UndraggableWidget.scss';
+import Styles from './View.scss';
 
 
 export default class UndraggableWidgetView extends AbstractWidgetView {

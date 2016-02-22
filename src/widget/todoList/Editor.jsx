@@ -1,9 +1,9 @@
 import React                from 'react';
 import classNames           from 'classnames';
 
-import AbstractWidgetEditor from 'core/AbstractWidgetEditor';
+import AbstractWidgetEditor from 'widget/abstract/Editor';
 
-import Styles from './TodoListWidgetEditor.scss';
+import Styles from './Editor.scss';
 
 
 export default class TodoListWidgetEditor extends AbstractWidgetEditor {

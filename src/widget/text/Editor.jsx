@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import ReactDOM             from 'react-dom';
 import $                    from 'jquery';
 
-import AbstractWidgetEditor from 'core/AbstractWidgetEditor';
+import AbstractWidgetEditor from 'widget/abstract/Editor';
 
-import Styles from './TextWidgetEditor.scss';
+import Styles from './Editor.scss';
 
 
 export default class TextWidgetEditor extends AbstractWidgetEditor {

@@ -1,0 +1,1 @@
+export UndraggableWidgetView           from './View';

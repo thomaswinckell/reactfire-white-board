@@ -3,9 +3,9 @@ import ReactDOM                 from 'react-dom';
 import GMapsApi                 from 'google-maps-api';
 
 import { gmapsApiKey }          from 'config/AppConfig';
-import AbstractWidgetView       from 'core/AbstractWidgetView';
+import AbstractWidgetView       from 'widget/abstract/View';
 
-import Styles from './GmapsWidgetView.scss';
+import Styles from './View.scss';
 
 
 export default class GMapsWidgetView extends AbstractWidgetView {

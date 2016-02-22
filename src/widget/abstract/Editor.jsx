@@ -3,7 +3,7 @@ import ReactDOM                         from 'react-dom';
 
 import WidgetMenu                       from 'core/WidgetMenu';
 
-import Styles from './AbstractWidgetEditor.scss';
+import Styles from './Editor.scss';
 
 
 export default class AbstractWidgetEditor extends Component {
