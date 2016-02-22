@@ -1,0 +1,34 @@
+@include '../theme/media.scss';
+
+.mediaDebug {
+	width: 100%;
+	padding: 10px;
+	color: white;
+	background-color:black;
+	text-align: center;
+	box-sizing: border-box;
+}
+
+@include phone {
+	.mediaDebug { &:after { content: 'Phone >= #{$phone-width}' } }
+}
+
+@include tablet {
+	.mediaDebug { &:after { content: 'Tablet >= #{$tablet-width}' } }
+}
+
+@include phablet {
+	.mediaDebug { &:after { content: 'Phablet >= #{$phablet-width}' } }
+}
+
+@include hd {
+	.mediaDebug { &:after { content: 'Hd >= #{$hd-width}' } }
+}
+
+@include retina {
+	.mediaDebug { &:before { content: 'Retina ' } }
+}
+
+@include print {
+	.mediaDebug { &:before { content: 'Print' } }
+}

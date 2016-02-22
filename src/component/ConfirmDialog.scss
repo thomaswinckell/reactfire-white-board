@@ -1,0 +1,54 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 2100000000;
+    top: 0;
+    left: 0;
+    display: flex;
+    opacity:1;
+    zoom: document;
+    transition : all 500ms ease-in-out;
+
+    &.onEnter {
+      opacity:0;
+      .content {
+          transform : translateY(-50px);
+      }
+    }
+
+    &.onLeave {
+      opacity:0;
+      .content {
+          transform : translateY(50px);
+      }
+    }
+
+}
+
+.overlay {
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    z-index: 1;
+    background-color: rgba( 0,0,0,0.6 );
+    transition : all 200ms ease-in-out;
+}
+
+.content {
+    margin: auto;
+    padding:25px;
+    z-index: 2;
+    background-color: white;
+    border-radius : 5px;
+    transform : translateY( 0 );
+    transition : all 200ms ease-in-out;
+}
+
+.message {
+    margin-bottom: 1em;
+}
+
+.buttons {
+    text-align: center;
+}

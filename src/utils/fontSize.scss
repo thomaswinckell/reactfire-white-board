@@ -1,0 +1,17 @@
+@mixin fontSize( $index: 0, $base-size: 1.6em, $ratio: 1.62 ) {
+
+	@if $index > 0 {
+		@for $i from 1 through $index {
+			$base-size: $base-size * $ratio;
+		}
+		font-size: 				$base-size;
+	}
+	@else {
+		font-size: 				$base-size;
+	}
+}
+
+//10.000 * 1.618 = 16.180
+//16.180 * 1.618 = 26.179
+//26.179 * 1.618 = 42.358
+//42.358 * etc.

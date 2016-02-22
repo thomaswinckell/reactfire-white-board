@@ -1,0 +1,24 @@
+.common {
+    position: absolute;
+}
+
+.width {
+    composes : common;
+    &:hover {
+        cursor: e-resize;
+    }
+}
+
+.height {
+    composes : common;
+    &:hover {
+        cursor: s-resize;
+    }
+}
+
+.widthHeight {
+    composes : common;
+    &:hover {
+        cursor: nwse-resize;
+    }
+}

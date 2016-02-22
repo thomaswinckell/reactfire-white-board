@@ -32,7 +32,6 @@
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
-    "copy-webpack-plugin": "^1.1.1",
     "css-loader": "^0.23.1",
     "del": "^2.2.0",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -55,7 +54,7 @@
   },
   "scripts": {
     "clean": "rimraf $npm_package_config_buildDir && mkdir $npm_package_config_buildDir",
-    "prewebpack": "npm run clean",
+    "prewebpack": "rimraf $npm_package_config_buildDir",
     "webpack": "webpack --colors --display-error-details --progress --config ./webpack/config",
     "start": "NODE_ENV=dev node ./webpack/dev-server  --colors --display-error-details --progress",
     "build": "npm run webpack",

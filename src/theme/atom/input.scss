@@ -1,0 +1,49 @@
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+input[type="date"],
+input,
+textarea,
+select {
+  display:inline-block;
+  height: auto;
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+  position:relative;
+  transition : all 200ms ease-in-out;
+
+  &::placeholder {
+	  color : $color-grey-text
+  }
+}
+
+label {
+	font-weight: 500;
+}
+
+textarea {
+  width: 350px;
+  min-height: 100px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 0;
+}
+
+input[disabled='disabled'] {
+  background-color: $color-grey-10;
+}
+
+input.large, textarea.large, select.large {
+	width: 100%;
+}

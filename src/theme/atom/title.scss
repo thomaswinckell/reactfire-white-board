@@ -1,0 +1,17 @@
+h1, h2, h3, h4, h5, h6 {
+	font-family: $title-font;
+	font-weight: 300;
+	margin-top: 0;
+	margin-bottom: 2rem;
+	letter-spacing: 2px;
+	line-height: 1.125;
+	color:$color-grey-text;
+	&a { font-weight: inherit; }
+}
+
+h1 { @include fontSize(5, $title-size, $ratio); letter-spacing: -.1rem;}
+h2 { @include fontSize(4, $title-size, $ratio); letter-spacing: -.1rem;}
+h3 { @include fontSize(3, $title-size, $ratio); letter-spacing: -.1rem;}
+h4 { @include fontSize(2, $title-size, $ratio); letter-spacing: -.08rem;}
+h5 { @include fontSize(1, $title-size, $ratio); letter-spacing: -.05rem;}
+h6 { @include fontSize(0, $title-size, $ratio); letter-spacing: 0;}

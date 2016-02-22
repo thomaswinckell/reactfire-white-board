@@ -1,0 +1,41 @@
+@import '../utils/antialiased';
+@import '../utils/fontSize';
+
+@import 'base/normalize';
+
+@import 'const/main.scss';
+
+
+/* NOTE
+html is set to 62.5% so that all the REM measurements throughout Skeleton
+are based on 10px sizing. So basically 1.5rem = 15px :) */
+html 				{ font-size: 62.5%; }
+html, body 			{ width: 100%; height: 100%; }
+body 				{
+    font-family: $text-font;
+    @include antialiased();
+    @include fontSize(0, $text-size, $ratio);
+}
+
+p, div {
+	color:$color-grey-text;
+}
+
+@import 'atom/main.scss';
+
+
+$fonts-path : '../fonts';
+
+@import 'icon/main.scss';
+
+:global {
+
+    em, i, .i       { font-style: italic; }
+    strong, b, .b   { font-weight: 800; }
+    .smaller 		{ font-size: 75%; }
+    small, .small   { font-size: 80%; }
+    big, .big		{ font-size: 130%; }
+    .bigger			{ font-size: 175%; }
+    .biggest		{ font-size: 200%; }
+    .lead			{ font-size: 120%; }
+}

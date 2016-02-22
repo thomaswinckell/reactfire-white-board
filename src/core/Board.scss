@@ -1,0 +1,27 @@
+.wrapper {
+    position: asbolute;
+    top: 0;
+    left: 0;
+    cursor: move;
+    user-select : none;
+}
+
+.background {
+    position: fixed;
+    top : 0;
+    left : 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 0, 0, 0, 0.25 );
+    background-size: cover !important;
+    z-index: 1;
+}
+
+.drawingBackground {
+    position: absolute;
+    top : 0;
+    left : 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+}

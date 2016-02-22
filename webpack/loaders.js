@@ -33,23 +33,23 @@ if( DEV ) {
     sassParams.push( 'sourceMap', 'sourceMapContents=true' );
     sassLoader = [
         'style-loader',
-        'css-loader',
+        'css-loader?modules=truel&localIdentName=[path][name]---[local]---[hash:base64:5]',
         'postcss-loader',
         'sass-loader?' + sassParams.join( '&' )
     ].join( '!' );
     cssLoader = [
         'style-loader',
-        'css-loader',
+        'css-loader?modules=true&localIdentName=[path][name]---[local]---[hash:base64:5]',
         'postcss-loader'
     ].join( '!' );
 } else {
     sassLoader = ExtractTextPlugin.extract( 'style-loader', [
-        'css-loader',
+        'css-loader?modules=true&localIdentName=[hash:base64]',
         'postcss-loader',
         'sass-loader?' + sassParams.join( '&' )
     ].join( '!' ) );
     cssLoader = ExtractTextPlugin.extract( 'style-loader', [
-        'css-loader',
+        'css-loader?modules=true&localIdentName=[hash:base64]',
         'postcss-loader'
     ].join( '!' ) );
 }
@@ -71,25 +71,23 @@ module.exports = [
     },
     {
         test:    /\.css$/,
-        exclude: /node_modules/,
         loader:  cssLoader
     },
     {
         test:    /\.scss$/,
-        exclude: /node_modules/,
         loader:  sassLoader
     },
     {
         test: /\.(jpe?g|gif|png)$/,
-        loader: 'url-loader'
+        loader: 'file-loader?name=images/[name].[ext]?[hash]'
     },
     {
         test:   /\.woff(2)?(\?.*)?$/,
-        loader: 'url-loader'
+        loader: 'file-loader?name=fonts/[name].[ext]'
     },
     {
         test:   /\.(eot|svg|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader'
+        loader: 'file-loader?name=fonts/[name].[ext]'
     },{
         test: /AppConfig.js$/,
         loader: StringReplacePlugin.replace( {

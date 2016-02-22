@@ -1,0 +1,16 @@
+.wrapper {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    outline: none;
+    box-shadow : 0px, 0px, 5px, rgba( 0, 0, 0, 0.1 );
+    transition : all 200ms ease-in-out;
+    cursor : auto;
+    padding: 15px;
+    padding-top: 50px;
+}
+
+.dragging {
+    cursor: -webkit-grab;
+    box-shadow : 0px, 0px, 10px, rgba( 0, 0, 0, 0.5 );
+}

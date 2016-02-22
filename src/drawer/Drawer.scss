@@ -1,0 +1,15 @@
+.common {
+    z-index : 210000 - 1;
+    position : absolute;
+    top : 0;
+    left : 0;
+}
+
+.oldCanvas {
+    composes : common;
+}
+
+.canvas {
+    composes : common;
+    cursor : crosshair;
+}

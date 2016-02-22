@@ -1,0 +1,57 @@
+.wrapper {
+    overflow : hidden;
+    height: 100%;
+
+    li {
+        display : flex;
+        margin-top : 0.5em;
+
+        span {
+            word-break: break-all;
+            flex : 1 100%;
+            padding-top: 0.4em;
+            padding-right: 0.25em;
+        }
+
+        button {
+            flex : 2;
+            margin : auto;
+            margin-left : 0.5em;
+            width : 35px;
+            height : 27px;
+        }
+    }
+}
+
+.form {
+    display : flex;
+    margin-top : 1.5em;
+    margin-bottom : 1.5em;
+
+    input {
+        flex : 1 100%;
+    }
+
+    button {
+        flex : 2;
+        margin-left : 0.5em;
+        margin-top : auto;
+        margin-bottom : auto;
+    }
+}
+
+.done {
+    text-decoration: line-through;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.doneTitle {
+    composes : title;
+}
+
+.todoTitle {
+    composes : title;
+}

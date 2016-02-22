@@ -1,0 +1,88 @@
+/* Animation */
+
+@mixin delay ( $duration: 2s ) {
+  transition-delay:     $duration;
+}
+
+@mixin fade ($opacity: 0.6) {
+
+  opacity:          $opacity;
+  &:hover           { opacity:1; }
+
+  transition : opacity 200ms ease-in-out;
+}
+
+/*.fade         { @include fade(0.6); }
+
+.hidden         { display: none; visibility: hidden; opacity:0; }
+.visible        { display: block; visibility: visible; opacity:1; }
+.invisible        { visibility: hidden; }
+
+.delay05s         { @include delay(0.5s);   }
+.delay1s          { @include delay(1.0s);   }
+.delay15s         { @include delay(1.5s);   }
+.delay2s          { @include delay(2.0s);   }
+.delay25s         { @include delay(2.5s);   }
+.delay3s          { @include delay(3.0s);   }*/
+
+
+/* Keyframes */
+
+@keyframes(bounce) {
+    0%, 20%, 50%, 80%, 100% {  @include translateX(0); }
+    40% { @include translateX(-30px); }
+    60% { @include translateX(-15px); }
+}
+
+@keyframes(box-fadein) {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes(box-flyright) {
+    0% { opacity: 0; @include translateX(-10px); }
+    100% { opacity: 1; @include translateX(0px); }
+}
+
+@keyframes(box-flybot) {
+    0% { opacity: 0; @include translateY(10px); }
+    100% { opacity: 1; @include translateY(0px); }
+}
+
+@keyframes(box-flyin) {
+    0% { opacity: 0; @include translateY(-10px); }
+    100% { opacity: 1; @include translateY(0px); }
+}
+
+@keyframes(box-flyout) {
+    0% { opacity: 1; @include translateY(0px); }
+    100% { opacity: 0; @include translateY(-40px); }
+}
+
+@keyframes(spin) {
+    0% {
+      @include rotate(0deg);
+    }
+    100% {
+      @include rotate(359deg);
+    }
+}
+
+
+@keyframes(reverse-spin) {
+    0% {
+      @include rotate(390deg);
+    }
+    100% {
+      @include rotate(0deg);
+    }
+}
+
+
+/*.fly-in {
+  @include animation(box-flyin, 1.5s, 1);
+}
+
+.box-flyright {
+  @include animation(box-flyright, 1.5s, 0);
+}*/

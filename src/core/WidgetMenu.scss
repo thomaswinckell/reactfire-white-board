@@ -1,0 +1,50 @@
+@import '~utils/clearfix';
+
+.wrapper {
+    font-size: 12px;
+    position: absolute;
+    width:calc(100% - 30px);
+
+    :global .icon.active {
+        background-color:rgba(0,0,0,0.1);
+        color:white;
+    }
+
+    hr {
+        opacity:0.1;
+    }
+}
+
+.hidden {
+    display: none; // FIXME
+}
+
+.list {
+    background:none;
+    li {
+        animation : box-flyin 0s 1.5s;
+        display : inline-block;
+        cursor  : pointer;
+        padding:5px;
+        overflow: hidden;
+        position: relative;
+        float:right;
+        transition : all 200ms ease-in-out;
+        opacity:0.8;
+        background:none;
+        box-sizing : border-box;
+
+        &:hover {
+            opacity:1;
+        }
+        i {
+            padding:5px;
+            background:none;
+            font-size: 1.5em;
+            color:white;
+        }
+    }
+    &:after {
+        @include clearfix();
+    }
+}

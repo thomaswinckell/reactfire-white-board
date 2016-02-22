@@ -26,7 +26,6 @@ if( DEV ) {
 }
 
 const context = path.join( __dirname, '../src' );
-const jsContext = path.join( __dirname, '../src/js' );
 
 module.exports = {
     context:   context,
@@ -40,7 +39,7 @@ module.exports = {
     },
     resolve:   {
         alias :     alias,
-        root:       jsContext,
+        root:       context,
         extensions: ['', '.js', '.json', '.jsx']
     },
     module:    {

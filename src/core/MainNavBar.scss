@@ -1,0 +1,66 @@
+.wrapper {
+    user-select : none;
+    position: fixed;
+    left: 30px;
+    top:25px;
+    z-index: 2100000;
+}
+
+
+.navbar {
+    ul li i {
+        color: white;
+        font-size: 2em;
+    }
+    ul li:nth-child(1) {
+        border-radius : 5px 0 5px 0;
+    }
+    ul li:nth-child(2) {
+        border-radius : 0 5px 0 5px;
+    }
+}
+
+
+.zoomNavbar {
+    zoom: document;
+    position:fixed;
+    top:0;
+    right:0;
+    z-index: 2100000;
+    padding:15px;
+    ul li {
+        opacity:0.8;
+        transition:all 200ms ease-in-out;
+        &:hover {
+            opacity:1;
+        }
+    }
+    i {
+        font-size: 2em;
+        color:white;
+    }
+    cursor:pointer;
+}
+
+.clearNavbar {
+    zoom: document;
+    position: fixed;
+    top: 2.4%;
+    left: 11%;
+    z-index: 2100000;
+    padding: 15px;
+    opacity: 0.8;
+    transition : all 200ms ease-in-out;
+    ul li {
+        float:left;
+        margin-right:10px;
+    }
+    &:hover {
+        opacity:1;
+    }
+    i {
+        font-size: 2em;
+        color:white;
+    }
+    cursor:pointer;
+}

@@ -1,0 +1,22 @@
+.common {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.blurPolyfill {
+    composes : common;
+    background: rgba(255,255,255,.25);
+}
+
+.blur {
+    composes : common;
+    backdrop-filter : blur(10px) contrast(0.4) brightness(1.4);
+    -webkit-backdrop-filter : blur(10px) contrast(0.4) brightness(1.4);
+
+    & + * {
+        filter: blur(0px);
+        -webkit-filter: blur(0px);
+    }
+}

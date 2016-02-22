@@ -1,0 +1,55 @@
+/* Media queries */
+
+$phone-width: 400px;
+$tablet-width: 550px;
+$phablet-width: 750px;
+$desktop-width: 1000px;
+$hd-width: 1200px;
+
+@mixin phone {
+  @media (min-width: #{$phone-width}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) {
+    @content;
+  }
+}
+
+@mixin phablet {
+  @media (min-width: #{$phablet-width}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+@mixin hd {
+  @media (min-width: #{$hd-width}) {
+    @content;
+  }
+}
+
+@mixin retina {
+  @media
+    only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min--moz-device-pixel-ratio: 2),
+    only screen and (-o-min-device-pixel-ratio: 2/1),
+    only screen and (min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 192dpi),
+    only screen and (min-resolution: 2dppx) {
+    @content;
+  }
+}
+
+@mixin print {
+  @media print {
+    @content;
+  }
+}
