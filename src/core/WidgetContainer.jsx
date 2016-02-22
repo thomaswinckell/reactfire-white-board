@@ -7,8 +7,9 @@ import classNames               from 'classnames';
 import ReactDOM                 from 'react-dom';
 
 import { firebaseUrl }          from 'config/AppConfig';
-import AuthenticationService    from 'service/AuthenticationService';
+import BoardStore               from 'core/BoardStore';
 import WidgetFactory            from 'core/WidgetFactory';
+import AuthStore                from 'core/AuthStore';
 import Resizer                  from 'component/Resizer';
 import Blur                     from 'component/Blur';
 import ConfirmDialog            from 'component/ConfirmDialog';
@@ -122,7 +123,7 @@ export default class WidgetContainer extends Component {
     }
 
     isLockedByCurrentUser() {
-        return AuthenticationService.isCurrentUser( this.state.isLockedBy );
+        return AuthStore.isCurrentUser( this.state.isLockedBy );
     }
 
     isLockedByAnotherUser() {
@@ -130,13 +131,13 @@ export default class WidgetContainer extends Component {
     }
 
     isEditingByCurrentUser() {
-        return AuthenticationService.isCurrentUser( this.state.isEditingBy );
+        return AuthStore.isCurrentUser( this.state.isEditingBy );
     }
 
     setEditMode() {
         this.updateData( {
-            isLockedBy  : AuthenticationService.currentUser,
-            isEditingBy : AuthenticationService.currentUser
+            isLockedBy  : AuthStore.currentUser,
+            isEditingBy : AuthStore.currentUser
         } );
     }
 
@@ -145,9 +146,9 @@ export default class WidgetContainer extends Component {
     }
 
     select() {
-        this.context.board.getLatestIndex( ( error, committed, snapshot ) => {
+        BoardStore.getLatestIndex( ( error, committed, snapshot ) => {
             if ( !error && committed ) {
-                this.updateData( { isLockedBy: AuthenticationService.currentUser, index: snapshot.val() } );
+                this.updateData( { isLockedBy: AuthStore.currentUser, index: snapshot.val() } );
             } else {
                 // TODO : how to handle error ?
             }
@@ -163,7 +164,7 @@ export default class WidgetContainer extends Component {
             message   : "Are you sure you want to delete this widget ?",
             onClose : confirm => {
                 if ( confirm ) {
-                    this.context.board.removeWidget( this.props.baseKey );
+                    BoardStore.removeWidget( this.props.baseKey );
                     this.isRemoved = true;
                     this.setState( { confirmDialog : false, onLeave : true }, () => setTimeout( () => {
                         this.setState( { onLeave : false } );
@@ -184,7 +185,7 @@ export default class WidgetContainer extends Component {
 
     onResizeStart( event ) {
       this.isResizing = true;
-      this.updateData( { isLockedBy: AuthenticationService.currentUser } );
+      this.updateData( { isLockedBy: AuthStore.currentUser } );
     }
 
     onResizeEnd( event) {
@@ -223,7 +224,7 @@ export default class WidgetContainer extends Component {
 
         const styleBoardBackground = _.extend(
             {},
-            this.context.board.size,
+            BoardStore.size,
             {
                 top     : -this.state.position.y,
                 left    : -this.state.position.x

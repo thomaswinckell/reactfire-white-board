@@ -29,7 +29,7 @@ export default class AbstractWidgetEditor extends Component {
         return [ {
             action      : ::this.context.widget.setViewMode,
             text        : 'View',
-            icon        : 'edit ' + Styles.iconActive // FIXME
+            icon        : `edit ${Styles.iconActive}`
         }, {
             action      : ::this.context.widget.deleteWidget,
             text        : 'Delete',

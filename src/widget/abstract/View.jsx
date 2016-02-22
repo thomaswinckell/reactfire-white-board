@@ -3,6 +3,7 @@ import classNames                           from 'classnames';
 import $                                    from 'jquery';
 import ReactDOM                             from 'react-dom';
 
+import BoardStore                           from 'core/BoardStore';
 import { timeBeforeHideMenu,
          spaceBetweenBorderToLaunchScroll } from 'config/WidgetConfig';
 import { gridWidth }                        from 'config/BoardConfig';
@@ -151,7 +152,7 @@ export default class AbstractWidgetView extends Component {
 
         this._lastTimeoutScrollLeft = setTimeout( () => this.isDragging ? this.scrollLeft( negativeScroll ) : null, 100 );
 
-        this.context.board.updateSize();
+        BoardStore.updateSize();
     }
 
     scrollTop( negativeScroll : boolean ) {
@@ -174,7 +175,7 @@ export default class AbstractWidgetView extends Component {
 
         this._lastTimeoutScrollTop = setTimeout( () => this.isDragging ? this.scrollTop( negativeScroll ) : null, 100 );
 
-        this.context.board.updateSize();
+        BoardStore.updateSize();
     }
 
     clearScrollTimeouts() {

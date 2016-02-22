@@ -4,6 +4,7 @@ import _                        from 'lodash';
 import $                        from 'jquery';
 import ReactDOM                 from 'react-dom';
 
+import BoardStore               from 'core/BoardStore';
 import WidgetFactory            from 'core/WidgetFactory';
 import Resizer                  from 'component/Resizer';
 import Blur                     from 'component/Blur';
@@ -13,12 +14,7 @@ import Styles from './WidgetContainer.scss';
 
 export default class WidgetContainerDisplay extends Component {
 
-    static contextTypes = {
-        board   : PropTypes.object
-    }
-
     static childContextTypes = {
-        board : PropTypes.object,
         widget: PropTypes.object
     }
 
@@ -34,7 +30,7 @@ export default class WidgetContainerDisplay extends Component {
         const widget = {
         };
 
-        return { widget, board : this.context.board };
+        return { widget };
     }
 
     renderWidgetView() {
@@ -53,7 +49,7 @@ export default class WidgetContainerDisplay extends Component {
 
         const styleBoardBackground = _.extend(
             {},
-            this.context.board.size,
+            BoardStore.size,
             {
                 top     : -this.props.position.y,
                 left    : -this.props.position.x

@@ -3,6 +3,7 @@ import React, { Component, PropTypes }  from 'react';
 import ReactDOM                         from 'react-dom';
 import ColorPicker                      from 'react-color';
 
+import BackgroundDrawingStore           from 'core/BackgroundDrawingStore';
 import NavBar, { NavBarElement }        from 'component/NavBar';
 import Pencil                           from 'drawer/Pencil';
 import Rectangle                        from 'drawer/Rectangle';
@@ -13,7 +14,6 @@ import Circle                           from 'drawer/Circle';
 export default class DrawerNavBar extends Component {
 
     static contextTypes = {
-        board   : PropTypes.object,
         drawing : PropTypes.object
     }
 
@@ -78,7 +78,7 @@ export default class DrawerNavBar extends Component {
         const file = event.dataTransfer ? event.dataTransfer.files[0] : event.target.files[0];
         if ( file ) {
             let reader = new FileReader();
-            reader.onload = e => this.context.board.setBackgroundImage( e.target.result );
+            reader.onload = e => BackgroundDrawingStore.setBackgroundImage( e.target.result );
             reader.readAsDataURL( file );
         }
     }

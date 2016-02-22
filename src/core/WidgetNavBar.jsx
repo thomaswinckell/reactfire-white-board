@@ -1,6 +1,7 @@
 import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 
+import BoardStore                       from 'core/BoardStore';
 import NavBar, { NavBarElement }        from 'component/NavBar';
 
 

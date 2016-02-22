@@ -1,6 +1,7 @@
 import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 
+import BoardStore                       from 'core/Board';
 import NavBar, { NavBarElement }        from 'component/NavBar';
 import ConfirmDialog                    from 'component/ConfirmDialog';
 import WidgetNavBar                     from 'core/WidgetNavBar';
@@ -63,7 +64,7 @@ export default class MainNavBar extends Component {
             message   : "Are you sure you want to clear the board ?",
             onClose : confirm => {
                 if ( confirm ) {
-                    this.context.board.clearBoard();
+                    BoardStore.clearBoard();
                 }
                 this.setState( { confirmDialog : false } );
             }
@@ -88,12 +89,13 @@ export default class MainNavBar extends Component {
                 <ConfirmDialog message={ this.state.confirmDialog.message } onClose={ this.state.confirmDialog.onClose } />
             );
         }
+        return null;
     }
 
     render() {
 
         let elements = [
-            //new NavBarElement( 'Logout', 'sign-out', ::this.context.board.logout ),
+            //new NavBarElement( 'Logout', 'sign-out', ::AuthStore.logout ),
             new NavBarElement( 'Paint mode',    'format_paint',        ::this.setDrawerMode,    this.state.mode === Mode.drawer ? 'active' : '', 'bottom' ),
             new NavBarElement( 'Widgets mode',  'dashboard',           ::this.saveDrawing,      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
         ];

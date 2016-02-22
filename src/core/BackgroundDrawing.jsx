@@ -1,6 +1,7 @@
 import { firebaseUrl }                  from 'config/AppConfig';
 import React, { Component, PropTypes }  from 'react';
 
+import BoardStore                       from 'core/BoardStore';
 import Drawer                           from 'drawer/Drawer';
 
 
@@ -43,7 +44,7 @@ export default class BackgroundDrawing extends Component {
     }
 
     enable() {
-        this.drawer = new Drawer( 'canvas-drawer-background', this.context.board.size, this.props.imageContent );
+        this.drawer = new Drawer( 'canvas-drawer-background', BoardStore.size, this.props.imageContent );
         this.context.board.setIsDrawing( true );
     }
 
@@ -58,7 +59,7 @@ export default class BackgroundDrawing extends Component {
 
     save() {
         if ( this.drawer ) {
-            this.context.board.setBackgroundDrawing( this.drawer.getResultAsDataUrl() );
+            BoardStore.setBackgroundDrawing( this.drawer.getResultAsDataUrl() );
         }
     }
 
@@ -69,7 +70,7 @@ export default class BackgroundDrawing extends Component {
             const oldColor = this.drawer.toolColor;
             this.drawer.clear();
             this.drawer.destroy();
-            this.drawer = new Drawer( 'canvas-drawer-background', this.context.board.size, false, oldTool, oldColor );
+            this.drawer = new Drawer( 'canvas-drawer-background', BoardStore.size, false, oldTool, oldColor );
         }
     }
 
