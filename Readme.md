@@ -20,8 +20,7 @@ Contribution
 ============
 
 The source can be refactored a lot and I know there's bugs, especially
-on other browser than Chrome, but I don't have time for that anymore. If
-you want to do a pull request, you're welcome :-)
+on other browser than Chrome. If you want to do a pull request, you're welcome :-)
 
 Build the app
 =============
