@@ -21,14 +21,14 @@ p, div {
 	color:$color-grey-text;
 }
 
-@import 'atom/main.scss';
-
 
 $fonts-path : '../fonts';
 
 @import 'icon/main.scss';
 
 :global {
+
+    @import 'atom/main.scss';
 
     em, i, .i       { font-style: italic; }
     strong, b, .b   { font-weight: 800; }

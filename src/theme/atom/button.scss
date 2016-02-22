@@ -1,0 +1,72 @@
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"]{
+    display: inline-block;
+    padding:10px 30px;
+    text-decoration: none;
+    cursor:pointer;
+    color:rgb(60,60,60);
+    background-color:transparent;
+    border: 1px solid $color-grey-20;
+    //text-shadow: -0.7px -0.7px 1px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition : all, 200ms, ease-in-out;
+    user-select : none;
+    border-radius : 5px;
+
+    + .button, + button {
+      margin: 0 0 0 10px;
+    }
+
+    i {
+      color:white;
+      margin-top: 3px;
+    }
+
+    i + span {
+        display:inline-block;
+        margin-left:10px;
+    }
+
+    span + i {
+        display:inline-block;
+        margin-left:10px;
+    }
+
+    &:hover {
+      border: 1px solid $color-grey-50;
+    }
+
+    &:active {
+    }
+
+    &[disabled="disabled"] {
+      background-color:$color-grey-20;
+      color:white;
+      cursor:initial;
+      border: 1px solid $color-grey-40;
+      &:hover {
+        background-color: lighten($color-grey-20, 10%);
+      }
+    }
+
+    /* Specific buttons */
+
+    &.small {
+      padding:5px 10px;
+    }
+
+    &.big {
+      padding:15px 35px;
+    }
+
+    &.full {
+      padding:10px 20px;
+      margin:15px 15px 15px 15px;
+      width:calc(100% - 30px);
+    }
+}
