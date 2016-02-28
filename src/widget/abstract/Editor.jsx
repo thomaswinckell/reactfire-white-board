@@ -1,7 +1,7 @@
 import React, { Component, PropTypes }  from 'react';
 import ReactDOM                         from 'react-dom';
 
-import WidgetMenu                       from 'core/WidgetMenu';
+import Menu                             from '../Menu';
 
 import Styles from './Editor.scss';
 
@@ -49,7 +49,7 @@ export default class AbstractWidgetEditor extends Component {
                  style={ style }
                  className={ Styles.wrapper }>
 
-                 { <WidgetMenu menuElements={ this.getMenuElements() } position={ this.props.position } display={ true } /> }
+                 { <Menu menuElements={ this.getMenuElements() } position={ this.props.position } display={ true } /> }
 
                  { this.renderEditor() }
             </div>

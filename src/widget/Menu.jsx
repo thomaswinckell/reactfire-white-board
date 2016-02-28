@@ -4,7 +4,7 @@ import ReactTooltip                     from 'react-tooltip';
 
 import Guid                             from 'utils/Guid';
 
-import Styles   from './WidgetMenu.scss';
+import Styles   from './Menu.scss';
 
 
 export default class WidgetMenu extends Component {

@@ -10,10 +10,10 @@ import * as Actions             from 'core/BoardActions';
 import BackgroundDrawingStore   from 'core/BackgroundDrawingStore';
 import BoardStore               from 'core/BoardStore';
 import AuthStore                from 'core/AuthStore';
-import WidgetContainer          from 'core/WidgetContainer';
 import MainNavBar               from 'core/MainNavBar';
 import BackgroundDrawing        from 'core/BackgroundDrawing';
-import WidgetClone              from 'core/WidgetClone';
+import WidgetContainer          from 'widget/Container';
+import WidgetClone              from 'widget/Clone';
 
 import Styles from './Board.scss';
 

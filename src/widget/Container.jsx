@@ -9,14 +9,14 @@ import ReactDOM                 from 'react-dom';
 import { firebaseUrl }          from 'config/AppConfig';
 import * as BoardActions        from 'core/BoardActions';
 import BoardStore               from 'core/BoardStore';
-import WidgetActions            from 'core/WidgetActions';
-import WidgetFactory            from 'core/WidgetFactory';
+import WidgetActions            from './Actions';
+import WidgetFactory            from './Factory';
 import AuthStore                from 'core/AuthStore';
 import Resizer                  from 'component/Resizer';
 import Blur                     from 'component/Blur';
 import ConfirmDialog            from 'component/ConfirmDialog';
 
-import Styles       from './WidgetContainer.scss';
+import Styles       from './Container.scss';
 
 const LoadingStatus = {
     init        : 0,

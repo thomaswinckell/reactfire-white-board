@@ -1,7 +1,7 @@
 import $                                from 'jquery';
 import _                                from 'lodash';
 import React, { Component, PropTypes }  from 'react';
-import WidgetContainerDisplay           from 'core/WidgetContainerDisplay';
+import WidgetContainerDisplay           from './ContainerDisplay';
 
 
 export default class WidgetClone extends Component {

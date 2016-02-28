@@ -7,7 +7,7 @@ import * as BoardActions                    from 'core/BoardActions';
 import { timeBeforeHideMenu,
          spaceBetweenBorderToLaunchScroll } from 'config/WidgetConfig';
 import { gridWidth }                        from 'config/BoardConfig';
-import WidgetMenu                           from 'core/WidgetMenu';
+import Menu                                 from '../Menu';
 
 import Styles   from './View.scss';
 
@@ -208,7 +208,7 @@ export default class AbstractWidgetView extends Component {
         });
 
         const style = {
-            width : this.props.size.width - 30,
+            width : this.props.size.width - 30, // FIXME
             height : this.props.size.height - 65
         };
 
@@ -231,7 +231,7 @@ export default class AbstractWidgetView extends Component {
                  onMouseOver={ ::this.onMouseOver }
                  onMouseOut={ ::this.onMouseOut } >
 
-                 <WidgetMenu ref="menu" menuElements={ this.getMenuElements() }
+                 <Menu ref="menu" menuElements={ this.getMenuElements() }
                    position={ this.props.position }
                    display={ !!this.state.displayMenu } />
 

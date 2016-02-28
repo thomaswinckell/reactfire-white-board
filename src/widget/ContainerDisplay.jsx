@@ -5,11 +5,11 @@ import $                        from 'jquery';
 import ReactDOM                 from 'react-dom';
 
 import BoardStore               from 'core/BoardStore';
-import WidgetFactory            from 'core/WidgetFactory';
+import WidgetFactory            from './Factory';
 import Resizer                  from 'component/Resizer';
 import Blur                     from 'component/Blur';
 
-import Styles from './WidgetContainer.scss';
+import Styles from './Container.scss';
 
 
 export default class WidgetContainerDisplay extends Component {
