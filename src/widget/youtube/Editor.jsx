@@ -19,7 +19,7 @@ export default class YoutubeWidgetEditor extends AbstractWidgetEditor {
 
     componentWillReceiveProps( nextProps ) {
         if ( nextProps.youtube.id !== this.props.youtube.id ) {
-            this.context.widget.setViewMode();
+            this.props.actions.setViewMode();
         }
     }
 

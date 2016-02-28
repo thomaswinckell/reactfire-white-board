@@ -14,23 +14,12 @@ import Styles from './WidgetContainer.scss';
 
 export default class WidgetContainerDisplay extends Component {
 
-    static childContextTypes = {
-        widget: PropTypes.object
-    }
-
     constructor( props ) {
         super( props );
         this.state = {
             position    : {},
             size        : {}
         };
-    }
-
-    getChildContext() {
-        const widget = {
-        };
-
-        return { widget };
     }
 
     renderWidgetView() {

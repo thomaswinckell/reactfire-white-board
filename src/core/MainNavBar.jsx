@@ -1,7 +1,8 @@
 import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 
-import BoardStore                       from 'core/Board';
+import * as DrawingActions              from 'core/BackgroundDrawingActions';
+import * as BoardActions                from 'core/BoardActions';
 import NavBar, { NavBarElement }        from 'component/NavBar';
 import ConfirmDialog                    from 'component/ConfirmDialog';
 import WidgetNavBar                     from 'core/WidgetNavBar';
@@ -17,11 +18,6 @@ const Mode = {
 
 export default class MainNavBar extends Component {
 
-    static contextTypes = {
-        board   : PropTypes.object,
-        drawing : PropTypes.object
-    }
-
     constructor( props ) {
         super( props );
         this.state = {
@@ -31,7 +27,7 @@ export default class MainNavBar extends Component {
 
     setDrawerMode() {
         if ( this.state.mode === Mode.widgets ) {
-            this.context.drawing.enable();
+            DrawingActions.enable();
             this.setState( { mode : Mode.drawer } );
         }
     }
@@ -44,7 +40,7 @@ export default class MainNavBar extends Component {
                 onClose : confirm => {
                     if ( confirm ) {
                         this.setState( { confirmDialog : false, mode : Mode.widgets } );
-                        this.context.drawing.disable();
+                        DrawingActions.disable();
                     } else {
                         this.setState( { confirmDialog : false } );
                     }
@@ -54,8 +50,8 @@ export default class MainNavBar extends Component {
     }
 
     saveDrawing() {
-        this.context.drawing.save();
-        this.context.drawing.disable();
+        DrawingActions.save();
+        DrawingActions.disable();
         this.setState( { mode : Mode.widgets  } );
     }
 
@@ -64,7 +60,7 @@ export default class MainNavBar extends Component {
             message   : "Are you sure you want to clear the board ?",
             onClose : confirm => {
                 if ( confirm ) {
-                    BoardStore.clearBoard();
+                    BoardActions.clearBoard();
                 }
                 this.setState( { confirmDialog : false } );
             }
@@ -76,7 +72,7 @@ export default class MainNavBar extends Component {
             message   : "Are you sure you want to clear this drawing ?",
             onClose : confirm => {
                 if ( confirm ) {
-                    this.context.drawing.clear();
+                    DrawingActions.clear();
                 }
                 this.setState( { confirmDialog : false } );
             }
@@ -95,14 +91,14 @@ export default class MainNavBar extends Component {
     render() {
 
         let elements = [
-            //new NavBarElement( 'Logout', 'sign-out', ::AuthStore.logout ),
+        //new NavBarElement( 'Logout', 'sign-out', ::AuthActions.logout ),
             new NavBarElement( 'Paint mode',    'format_paint',        ::this.setDrawerMode,    this.state.mode === Mode.drawer ? 'active' : '', 'bottom' ),
             new NavBarElement( 'Widgets mode',  'dashboard',           ::this.saveDrawing,      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
         ];
 
         let zoomElements = [
-            new NavBarElement( 'Zoom in', 'zoom_in', ::this.context.board.zoomIn,       '', 'left' ),
-            new NavBarElement( 'Zoom out', 'zoom_out', ::this.context.board.zoomOut,    '', 'left' )
+            new NavBarElement( 'Zoom in', 'zoom_in', BoardActions.zoomIn,       '', 'left' ),
+            new NavBarElement( 'Zoom out', 'zoom_out', BoardActions.zoomOut,    '', 'left' )
         ];
 
         let clearElements = [

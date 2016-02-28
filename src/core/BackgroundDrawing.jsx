@@ -1,42 +1,27 @@
 import { firebaseUrl }                  from 'config/AppConfig';
 import React, { Component, PropTypes }  from 'react';
 
+import * as Actions                     from 'core/BackgroundDrawingActions';
+import * as BoardActions                from 'core/BoardActions';
 import BoardStore                       from 'core/BoardStore';
 import Drawer                           from 'drawer/Drawer';
 
 
 export default class BackgroundDrawing extends Component {
 
-    static contextTypes = {
-        board               : PropTypes.object
-    }
-
-    static childContextTypes = {
-        drawing   : PropTypes.object,
-        board     : PropTypes.object
-    }
-
     constructor( props ) {
         super( props );
         this.state = {
             enabled      : false
         };
-    }
 
-    getChildContext() {
-        const drawing = {
-            save                : ::this.save,
-            clear               : ::this.clear,
-            enable              : ::this.enable,
-            disable             : ::this.disable,
-            setTool             : ::this.setTool,
-            setColor            : ::this.setColor,
-            setBackgroundColor  : ::this.setBackgroundColor,
-            getColor            : ::this.getColor,
-            getBackgroundColor  : ::this.getBackgroundColor
-        };
-
-        return { drawing, board : this.context.board };
+        Actions.save.listen( ::this.save );
+        Actions.clear.listen( ::this.clear );
+        Actions.enable.listen( ::this.enable );
+        Actions.disable.listen( ::this.disable );
+        Actions.setTool.listen( ::this.setTool );
+        Actions.setColor.listen( ::this.setColor );
+        Actions.setBackgroundColor.listen( ::this.setBackgroundColor );
     }
 
     componentWillUnmount() {
@@ -45,7 +30,7 @@ export default class BackgroundDrawing extends Component {
 
     enable() {
         this.drawer = new Drawer( 'canvas-drawer-background', BoardStore.size, this.props.imageContent );
-        this.context.board.setIsDrawing( true );
+        BoardActions.setIsDrawing( true );
     }
 
     disable() {
@@ -53,13 +38,13 @@ export default class BackgroundDrawing extends Component {
             this.drawer.clear();
             this.drawer.destroy();
             this.drawer = null;
-            this.context.board.setIsDrawing( false );
+            BoardActions.setIsDrawing( false );
         }
     }
 
     save() {
         if ( this.drawer ) {
-            BoardStore.setBackgroundDrawing( this.drawer.getResultAsDataUrl() );
+            Actions.setBackgroundDrawing( this.drawer.getResultAsDataUrl() );
         }
     }
 

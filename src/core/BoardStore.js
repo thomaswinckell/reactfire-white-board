@@ -3,6 +3,7 @@ import Firebase         from 'firebase';
 
 import { firebaseUrl }  from 'config/AppConfig';
 import AuthStore        from './AuthStore';
+import * as Actions     from './BoardActions';
 
 class BoardStore extends Store {
 
@@ -16,7 +17,11 @@ class BoardStore extends Store {
             widgets : []
         };
 
-        this.listenTo( AuthStore, this.onAuthSuccess );
+        this.listenTo( AuthStore, this._onAuthSuccess.bind( this ) );
+        Actions.setSize.listen( this._setSize.bind( this ) );
+        Actions.addWidget.listen( this._addWidget.bind( this ) );
+        Actions.removeWidget.listen( this._removeWidget.bind( this ) );
+        Actions.clearBoard.listen( this._clearBoard.bind( this ) );
     }
 
     get size() { return this.state.size; }
@@ -27,20 +32,25 @@ class BoardStore extends Store {
         this.latestIndexRef.off();
     }
 
-    onAuthSuccess() {
-        this.widgetsRef.on( 'child_added', ::this.onAddWidget );
-        this.widgetsRef.on( 'child_removed', ::this.onRemoveWidget );
-        this.boardSizeRef.on( 'value', ::this.onNewSize );
+    // FIXME : use promise
+    getLatestIndex( callback ) {
+        this.latestIndexRef.transaction( latestIndex => ( latestIndex || 0 ) + 1, callback );
     }
 
-    onAddWidget( dataSnapshot ) {
+    _onAuthSuccess() {
+        this.widgetsRef.on( 'child_added', ::this._onAddWidget );
+        this.widgetsRef.on( 'child_removed', ::this._onRemoveWidget );
+        this.boardSizeRef.on( 'value', ::this._onNewSize );
+    }
+
+    _onAddWidget( dataSnapshot ) {
         let { widgets } = this.state;
         widgets.push( { key : dataSnapshot.key(), val : dataSnapshot.val() } );
         this.state.widgets = widgets;
         this.publishState();
     }
 
-    onRemoveWidget( oldDataSnapshot ) {
+    _onRemoveWidget( oldDataSnapshot ) {
         const widgetKey = oldDataSnapshot.key();
         let { widgets } = this.state;
         _.remove( widgets, w => { return w.key === widgetKey; } );
@@ -48,7 +58,7 @@ class BoardStore extends Store {
         this.publishState();
     }
 
-    onNewSize( dataSnapshot ) {
+    _onNewSize( dataSnapshot ) {
        const size = dataSnapshot.val();
        if ( size ) {
            this.state.size = size;
@@ -56,8 +66,7 @@ class BoardStore extends Store {
        }
    }
 
-   addWidget( widget ) {
-       console.log(widget)
+   _addWidget( widget ) {
        this.getLatestIndex( ( error, committed, snapshot ) => {
            if ( !error && committed ) {
                widget.props.index = snapshot.val();
@@ -69,23 +78,18 @@ class BoardStore extends Store {
        });
    }
 
-    removeWidget( widgetKey ) {
+    _removeWidget( widgetKey ) {
         let widgetBase = new Firebase( `${firebaseUrl}/board/widget/${widgetKey}` );
         widgetBase.remove();
         widgetBase.off();
     }
 
-    clearBoard() {
+    _clearBoard() {
         this.widgetsRef.remove();
         this.latestIndexRef.remove();
     }
 
-    // FIXME : use promise
-    getLatestIndex( callback ) {
-        this.latestIndexRef.transaction( latestIndex => ( latestIndex || 0 ) + 1, callback );
-    }
-
-    setSize( size ) {
+    _setSize( size ) {
         this.boardSizeRef.set( size );
     }
 }

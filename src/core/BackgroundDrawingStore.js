@@ -4,6 +4,9 @@ import Firebase         from 'firebase';
 import { firebaseUrl }  from 'config/AppConfig';
 import AuthStore        from './AuthStore';
 
+import * as Actions     from './BackgroundDrawingActions';
+
+
 class BackgroundDrawingStore extends Store {
 
     constructor() {
@@ -13,7 +16,10 @@ class BackgroundDrawingStore extends Store {
 
         this.state = {};
 
-        this.listenTo( AuthStore, this.onAuthSuccess );
+        this.listenTo( AuthStore, this._onAuthSuccess.bind( this ) );
+
+        Actions.setBackgroundDrawing.listen( this._setBackgroundDrawing.bind( this ) );
+        Actions.setBackgroundImage.listen( this._setBackgroundImage.bind( this ) );
     }
 
     destroy() {
@@ -21,7 +27,7 @@ class BackgroundDrawingStore extends Store {
         this.backgroundImageRef.off();
     }
 
-    onAuthSuccess() {
+    _onAuthSuccess() {
 
         this.backgroundDrawingRef.on( 'value', dataSnapshot => {
             const backgroundDrawing = dataSnapshot.val();
@@ -40,11 +46,11 @@ class BackgroundDrawingStore extends Store {
         } );
     }
 
-    setBackgroundDrawing( data ) {
+    _setBackgroundDrawing( data ) {
         this.backgroundDrawingRef.set( data );
     }
 
-    setBackgroundImage( data ) {
+    _setBackgroundImage( data ) {
         this.backgroundImageRef.set( data );
     }
 }

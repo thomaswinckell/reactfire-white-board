@@ -3,7 +3,7 @@ import React, { Component, PropTypes }  from 'react';
 import ReactDOM                         from 'react-dom';
 import ColorPicker                      from 'react-color';
 
-import BackgroundDrawingStore           from 'core/BackgroundDrawingStore';
+import * as DrawingActions              from 'core/BackgroundDrawingActions';
 import NavBar, { NavBarElement }        from 'component/NavBar';
 import Pencil                           from 'drawer/Pencil';
 import Rectangle                        from 'drawer/Rectangle';
@@ -12,10 +12,6 @@ import Circle                           from 'drawer/Circle';
 
 
 export default class DrawerNavBar extends Component {
-
-    static contextTypes = {
-        drawing : PropTypes.object
-    }
 
     static propTypes = {
         position    : PropTypes.object
@@ -42,7 +38,7 @@ export default class DrawerNavBar extends Component {
     }
 
     setTool( tool ) {
-        this.context.drawing.setTool( tool );
+        DrawingActions.setTool( tool );
         this.setState( { tool } );
     }
 
@@ -51,11 +47,11 @@ export default class DrawerNavBar extends Component {
     }
 
     onChangeColor( color ) {
-        this.context.drawing.setColor( `#${color.hex}` );
+        DrawingActions.setColor( `#${color.hex}` );
     }
 
     onChangeBackgroundColor( color ) {
-        this.context.drawing.setBackgroundColor( `#${color.hex}` );
+        DrawingActions.setBackgroundColor( `#${color.hex}` );
     }
 
     onClose() {
@@ -78,7 +74,7 @@ export default class DrawerNavBar extends Component {
         const file = event.dataTransfer ? event.dataTransfer.files[0] : event.target.files[0];
         if ( file ) {
             let reader = new FileReader();
-            reader.onload = e => BackgroundDrawingStore.setBackgroundImage( e.target.result );
+            reader.onload = e => DrawingActions.setBackgroundImage( e.target.result );
             reader.readAsDataURL( file );
         }
     }
@@ -124,8 +120,8 @@ export default class DrawerNavBar extends Component {
 
         return (
             <div>
+                 { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
                 <ColorPicker type="chrome"
-                             color={ this.state.displayColorPicker ? this.context.drawing.getColor() : this.context.drawing.getBackgroundColor() }
                              display={ this.state.displayColorPicker || this.state.displayBackgroundColorPicker }
                              positionCSS={ this.state.displayColorPicker ? colorPosition : bgColorPosition }
                              onClose={ ::this.onClose }

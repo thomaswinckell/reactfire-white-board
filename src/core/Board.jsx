@@ -6,6 +6,7 @@ import React,
 import ReactDOM                 from 'react-dom';
 
 import { firebaseUrl }          from 'config/AppConfig';
+import * as Actions             from 'core/BoardActions';
 import BackgroundDrawingStore   from 'core/BackgroundDrawingStore';
 import BoardStore               from 'core/BoardStore';
 import AuthStore                from 'core/AuthStore';
@@ -19,10 +20,6 @@ import Styles from './Board.scss';
 @FluxComponent
 export default class Board extends Component {
 
-    static childContextTypes = {
-        board : PropTypes.object
-    }
-
     constructor( props ) {
         super( props );
         this.state = {};
@@ -30,21 +27,15 @@ export default class Board extends Component {
         this.connectStore( AuthStore,               'authStore' );
         this.connectStore( BoardStore,              'boardStore' );
         this.connectStore( BackgroundDrawingStore,  'backgroundDrawingStore' );
+
+        Actions.setIsDrawing.listen( ::this.setIsDrawing );
+        Actions.zoomOut.listen( ::this.zoomOut );
+        Actions.zoomIn.listen( ::this.zoomIn );
+        Actions.addWidgetClone.listen( ::this.addWidget );
+        Actions.updateSize.listen( ::this.updateSize );
     }
 
     get size() { return this.state.boardStore.size || { width : $( document ).width(), height : $( document ).height() };  }
-
-    getChildContext() {
-        const board = {
-            setIsDrawing            : ::this.setIsDrawing,
-            getZoom                 : ::this.getZoom,
-            zoomOut                 : ::this.zoomOut,
-            zoomIn                  : ::this.zoomIn,
-            addWidget               : ::this.addWidget
-        };
-
-        return { board };
-    }
 
     componentDidMount() {
         $( window ).resize( ::this.updateSize );
@@ -87,7 +78,7 @@ export default class Board extends Component {
             width = parseInt( width ) + newScrollLeft - scrollWidth;
         }
 
-        BoardStore.setSize( { height, width } );
+        Actions.setSize( { height, width } );
 
         $( 'body' ).scrollTop( newScrollTop );
         $( 'body' ).scrollLeft( newScrollLeft );
@@ -103,7 +94,7 @@ export default class Board extends Component {
         if ( widgetToAdd ) {
             let widget = widgetToAdd;
             widget.props.position = { x: event.pageX, y: event.pageY };
-            BoardStore.addWidget( widget );
+            Actions.addWidget( widget );
             this.setState( { widgetToAdd : null } );
         }
     }
@@ -154,7 +145,7 @@ export default class Board extends Component {
         }
 
         if ( shouldUpdate ) {
-            BoardStore.setSize( { width, height } );
+            Actions.setSize( { width, height } );
         }
     }
 
@@ -167,12 +158,6 @@ export default class Board extends Component {
     renderLoading() {
         return (
             <span>Loading...</span>
-        );
-    }
-
-    renderLoadingWidgets() {
-        return (
-            <span>Loading widgets...</span>
         );
     }
 

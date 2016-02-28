@@ -8,11 +8,6 @@ import Styles from './Editor.scss';
 
 export default class AbstractWidgetEditor extends Component {
 
-    static contextTypes = {
-        board   : PropTypes.object,
-        widget  : PropTypes.object
-    }
-
     constructor( props ) {
         super( props );
         this.state = {};
@@ -27,11 +22,11 @@ export default class AbstractWidgetEditor extends Component {
 
     getMenuElements() {
         return [ {
-            action      : ::this.context.widget.setViewMode,
+            action      : this.props.actions.setViewMode,
             text        : 'View',
             icon        : `edit ${Styles.iconActive}`
         }, {
-            action      : ::this.context.widget.deleteWidget,
+            action      : this.props.actions.deleteWidget,
             text        : 'Delete',
             icon        : 'delete'
         } ];

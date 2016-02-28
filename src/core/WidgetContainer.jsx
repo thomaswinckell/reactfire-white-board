@@ -7,7 +7,9 @@ import classNames               from 'classnames';
 import ReactDOM                 from 'react-dom';
 
 import { firebaseUrl }          from 'config/AppConfig';
+import * as BoardActions        from 'core/BoardActions';
 import BoardStore               from 'core/BoardStore';
+import WidgetActions            from 'core/WidgetActions';
 import WidgetFactory            from 'core/WidgetFactory';
 import AuthStore                from 'core/AuthStore';
 import Resizer                  from 'component/Resizer';
@@ -26,15 +28,6 @@ const LoadingStatus = {
 
 export default class WidgetContainer extends Component {
 
-    static contextTypes = {
-        board   : PropTypes.object
-    }
-
-    static childContextTypes = {
-        board : PropTypes.object,
-        widget: PropTypes.object
-    }
-
     constructor( props ) {
         super( props );
         this.state = {
@@ -44,19 +37,13 @@ export default class WidgetContainer extends Component {
             onEnter     : true
         };
         this.onFocusIn = ::this.onFocusIn;
-    }
+        this.actions = new WidgetActions();
 
-    getChildContext() {
-        const widget = {
-            deleteWidget            : ::this.deleteWidget,
-            setEditMode             : ::this.setEditMode,
-            setViewMode             : ::this.setViewMode,
-            isLockedByAnotherUser   : ::this.isLockedByAnotherUser,
-            select                  : ::this.select,
-            unselect                : ::this.unselect
-        };
-
-        return { widget, board : this.context.board };
+        this.actions.setEditMode.listen( this.setEditMode.bind( this ) );
+        this.actions.setViewMode.listen( this.setViewMode.bind( this ) );
+        this.actions.deleteWidget.listen( this.deleteWidget.bind( this ) );
+        this.actions.select.listen( this.select.bind( this ) );
+        this.actions.unselect.listen( this.unselect.bind( this ) );
     }
 
     componentWillMount() {
@@ -161,10 +148,10 @@ export default class WidgetContainer extends Component {
 
     deleteWidget() {
         this.setState( { confirmDialog : {
-            message   : "Are you sure you want to delete this widget ?",
+            message   : 'Are you sure you want to delete this widget ?',
             onClose : confirm => {
                 if ( confirm ) {
-                    BoardStore.removeWidget( this.props.baseKey );
+                    BoardActions.removeWidget( this.props.baseKey );
                     this.isRemoved = true;
                     this.setState( { confirmDialog : false, onLeave : true }, () => setTimeout( () => {
                         this.setState( { onLeave : false } );
@@ -194,11 +181,19 @@ export default class WidgetContainer extends Component {
     }
 
     renderWidgetView() {
-        return WidgetFactory.createWidgetView( this.props.widgetType, _.extend( {}, this.state, { valueLink: ::this.updateData } ) );
+        const props = _.extend( {}, this.state, {
+            valueLink   : this.updateData.bind( this ),
+            actions     : this.actions
+        } );
+        return WidgetFactory.createWidgetView( this.props.widgetType, props );
     }
 
     renderWidgetEditor() {
-        return WidgetFactory.createWidgetEditor( this.props.widgetType, _.extend( {}, this.state, { valueLink: ::this.updateData } ) );
+        const props = _.extend( {}, this.state, {
+            valueLink   : this.updateData.bind( this ),
+            actions     : this.actions
+        } );
+        return WidgetFactory.createWidgetEditor( this.props.widgetType, props );
     }
 
     renderConfirmDialog() {

@@ -3,7 +3,7 @@ import classNames                           from 'classnames';
 import $                                    from 'jquery';
 import ReactDOM                             from 'react-dom';
 
-import BoardStore                           from 'core/BoardStore';
+import * as BoardActions                    from 'core/BoardActions';
 import { timeBeforeHideMenu,
          spaceBetweenBorderToLaunchScroll } from 'config/WidgetConfig';
 import { gridWidth }                        from 'config/BoardConfig';
@@ -13,11 +13,6 @@ import Styles   from './View.scss';
 
 
 export default class AbstractWidgetView extends Component {
-
-    static contextTypes = {
-        board   : PropTypes.object,
-        widget  : PropTypes.object
-    }
 
     constructor( props ) {
         super( props );
@@ -39,11 +34,11 @@ export default class AbstractWidgetView extends Component {
     getMenuElements() {
         return [
             {
-                action      : ::this.context.widget.setEditMode,
+                action      : this.props.actions.setEditMode,
                 text        : "Edit",
                 icon        : "edit"
             },{
-                action      : ::this.context.widget.deleteWidget,
+                action      : this.props.actions.deleteWidget,
                 text        : "Delete",
                 icon        : "delete"
             }
@@ -52,20 +47,23 @@ export default class AbstractWidgetView extends Component {
 
     onDoubleClick( event ) {
         event.preventDefault();
-        if ( !this.context.widget.isLockedByAnotherUser() ) {
-            this.context.widget.setEditMode();
-        }
+        // FIXME
+        //if ( !this.context.widget.isLockedByAnotherUser() ) {
+            this.props.actions.setEditMode();
+        //}
     }
 
     onMouseDown( event ) {
-        if ( !this.context.widget.isLockedByAnotherUser() ) {
+        // FIXME
+        //if ( !this.context.widget.isLockedByAnotherUser() ) {
             this.onDragStart( event );
-        }
+        //}
     }
 
     getInvertedZoom() {
-        const zoom = this.context.board.getZoom();
-        return zoom >= 1 ? 1 - ( zoom - 1 ) : 1 + ( 1 - zoom );
+        // FIXME
+        //const zoom = BoardStore.getZoom();
+        //return zoom >= 1 ? 1 - ( zoom - 1 ) : 1 + ( 1 - zoom );
     }
 
     onDragStart( event ) {
@@ -85,7 +83,7 @@ export default class AbstractWidgetView extends Component {
 
         this.forceUpdate();
 
-        this.context.widget.select();
+        this.props.actions.select();
     }
 
     onDrag( event ) {
@@ -129,7 +127,7 @@ export default class AbstractWidgetView extends Component {
         this.isDragging = false;
         document.removeEventListener( 'mousemove', this.onDrag );
         document.removeEventListener( 'mouseup', this.onDragEnd );
-        this.context.widget.unselect();
+        this.props.actions.unselect();
     }
 
     scrollLeft( negativeScroll : boolean ) {
@@ -152,7 +150,7 @@ export default class AbstractWidgetView extends Component {
 
         this._lastTimeoutScrollLeft = setTimeout( () => this.isDragging ? this.scrollLeft( negativeScroll ) : null, 100 );
 
-        BoardStore.updateSize();
+        BoardActions.updateSize();
     }
 
     scrollTop( negativeScroll : boolean ) {
@@ -175,7 +173,7 @@ export default class AbstractWidgetView extends Component {
 
         this._lastTimeoutScrollTop = setTimeout( () => this.isDragging ? this.scrollTop( negativeScroll ) : null, 100 );
 
-        BoardStore.updateSize();
+        BoardActions.updateSize();
     }
 
     clearScrollTimeouts() {

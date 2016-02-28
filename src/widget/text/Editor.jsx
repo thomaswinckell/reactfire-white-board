@@ -23,7 +23,7 @@ export default class TextWidgetEditor extends AbstractWidgetEditor {
                       className={ Styles.wrapper }
                       placeholder="Write something here..."
                       valueLink={ ::this.link( 'value' ) }
-                      onKeyPress={ e => e.charCode === 13 ? this.context.widget.setViewMode() : null }>
+                      onKeyPress={ e => e.charCode === 13 ? this.props.actions.setViewMode() : null }>
             </textarea>
         );
     }

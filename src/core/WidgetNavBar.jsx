@@ -1,15 +1,12 @@
 import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 
-import BoardStore                       from 'core/BoardStore';
 import NavBar, { NavBarElement }        from 'component/NavBar';
+
+import * as BoardActions                from 'core/BoardActions';
 
 
 export default class WidgetNavBar extends Component {
-
-    static contextTypes = {
-        board   : PropTypes.object
-    }
 
     static propTypes = {
         position    : PropTypes.object
@@ -23,7 +20,7 @@ export default class WidgetNavBar extends Component {
     }
 
     addTextWidget( event ) {
-        this.context.board.addWidget( 'TextWidget', {
+        BoardActions.addWidgetClone( 'TextWidget', {
             size: {
                 height: 200,
                 width: 300
@@ -37,7 +34,7 @@ export default class WidgetNavBar extends Component {
     }
 
     addYoutubeWidget( event ) {
-        this.context.board.addWidget( 'YoutubeWidget', {
+        BoardActions.addWidgetClone( 'YoutubeWidget', {
             size: {
                 height: 300,
                 width: 400
@@ -53,7 +50,7 @@ export default class WidgetNavBar extends Component {
     }
 
     addGMapsWidget( event ) {
-        this.context.board.addWidget( 'GMapsWidget', {
+        BoardActions.addWidgetClone( 'GMapsWidget', {
             size: {
                 height: 300,
                 width: 400
@@ -70,7 +67,7 @@ export default class WidgetNavBar extends Component {
     }
 
     addVideoWidget( event ) {
-        this.context.board.addWidget( 'VideoWidget', {
+        BoardActions.addWidgetClone( 'VideoWidget', {
             size: {
                 height: 300,
                 width: 400
@@ -83,7 +80,7 @@ export default class WidgetNavBar extends Component {
     }
 
     addTodoListWidget( event ) {
-        this.context.board.addWidget( 'TodoListWidget', {
+        BoardActions.addWidgetClone( 'TodoListWidget', {
             size: {
                 height: 300,
                 width: 300
