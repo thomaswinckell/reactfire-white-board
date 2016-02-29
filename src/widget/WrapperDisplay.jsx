@@ -9,10 +9,10 @@ import WidgetFactory            from './Factory';
 import Resizer                  from 'component/Resizer';
 import Blur                     from 'component/Blur';
 
-import Styles from './Container.scss';
+import Styles from './Wrapper.scss';
 
 
-export default class WidgetContainerDisplay extends Component {
+export default class WidgetWrapperDisplay extends Component {
 
     constructor( props ) {
         super( props );

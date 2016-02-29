@@ -3,7 +3,7 @@ import 'theme/main.scss';
 
 import React        from 'react';
 import ReactDOM     from 'react-dom';
-import Board        from 'core/Board';
+import App          from 'core/App';
 
 
-ReactDOM.render( <Board/>, document.getElementById( 'app-container' ) );
+ReactDOM.render( <App/>, document.getElementById( 'app-container' ) );

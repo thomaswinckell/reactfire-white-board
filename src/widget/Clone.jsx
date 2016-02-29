@@ -1,7 +1,7 @@
 import $                                from 'jquery';
 import _                                from 'lodash';
 import React, { Component, PropTypes }  from 'react';
-import WidgetContainerDisplay           from './ContainerDisplay';
+import WidgetWrapperDisplay             from './WrapperDisplay';
 
 
 export default class WidgetClone extends Component {
@@ -38,7 +38,7 @@ export default class WidgetClone extends Component {
         const index = 2147483645;
         const props = _.merge( {}, this.props.widgetProps, { index, position : this.state.position, type : this.props.widgetType, displayOnly : true } );
         return (
-            <WidgetContainerDisplay { ...props } />
+            <WidgetWrapperDisplay { ...props } />
         );
     }
 }

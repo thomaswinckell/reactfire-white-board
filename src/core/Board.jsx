@@ -1,5 +1,4 @@
 import _                        from 'lodash';
-import { FluxComponent }        from 'airflux';
 import $                        from 'jquery';
 import React,
        { Component, PropTypes } from 'react';
@@ -7,38 +6,30 @@ import ReactDOM                 from 'react-dom';
 
 import { firebaseUrl }          from 'config/AppConfig';
 import * as Actions             from 'core/BoardActions';
-import BackgroundDrawingStore   from 'core/BackgroundDrawingStore';
-import BoardStore               from 'core/BoardStore';
-import AuthStore                from 'core/AuthStore';
-import MainNavBar               from 'core/MainNavBar';
-import BackgroundDrawing        from 'core/BackgroundDrawing';
-import WidgetContainer          from 'widget/Container';
+import WidgetWrapper            from 'widget/Wrapper';
 import WidgetClone              from 'widget/Clone';
+import BoardStore               from 'core/BoardStore';
 
 import Styles from './Board.scss';
 
-@FluxComponent
+
 export default class Board extends Component {
 
     constructor( props ) {
         super( props );
         this.state = {};
 
-        this.connectStore( AuthStore,               'authStore' );
-        this.connectStore( BoardStore,              'boardStore' );
-        this.connectStore( BackgroundDrawingStore,  'backgroundDrawingStore' );
-
-        Actions.setIsDrawing.listen( ::this.setIsDrawing );
-        Actions.zoomOut.listen( ::this.zoomOut );
-        Actions.zoomIn.listen( ::this.zoomIn );
-        Actions.addWidgetClone.listen( ::this.addWidget );
-        Actions.updateSize.listen( ::this.updateSize );
+        Actions.setIsDrawing.listen( this.setIsDrawing.bind( this ) );
+        Actions.zoomOut.listen( this.zoomOut.bind( this ) );
+        Actions.zoomIn.listen( this.zoomIn.bind( this ) );
+        Actions.addWidgetClone.listen( this.addWidget.bind( this ) );
+        Actions.updateSize.listen( this.updateSize.bind( this ) );
     }
 
-    get size() { return this.state.boardStore.size || { width : $( document ).width(), height : $( document ).height() };  }
+    get size() { return BoardStore.size || { width : $( document ).width(), height : $( document ).height() };  }
 
     componentDidMount() {
-        $( window ).resize( ::this.updateSize );
+        $( window ).resize( this.updateSize.bind( this ) );
         this.updateSize();
     }
 
@@ -57,8 +48,8 @@ export default class Board extends Component {
         this._startScrollLeft = $( 'body' ).scrollLeft();
         this._startScrollTop = $( 'body' ).scrollTop();
 
-        ReactDOM.findDOMNode( this.refs.boardElement ).addEventListener( 'mousemove', this.onMouseMove );
-        ReactDOM.findDOMNode( this.refs.boardElement ).addEventListener( 'mouseup', this.onMouseUp );
+        ReactDOM.findDOMNode( this ).addEventListener( 'mousemove', this.onMouseMove );
+        ReactDOM.findDOMNode( this ).addEventListener( 'mouseup', this.onMouseUp );
     }
 
     onMouseMove = ( event ) => {
@@ -85,8 +76,8 @@ export default class Board extends Component {
     };
 
     onMouseUp = ( event ) => {
-        ReactDOM.findDOMNode( this.refs.boardElement ).removeEventListener( 'mousemove', this.onMouseMove );
-        ReactDOM.findDOMNode( this.refs.boardElement ).removeEventListener( 'mouseup', this.onMouseUp );
+        ReactDOM.findDOMNode( this ).removeEventListener( 'mousemove', this.onMouseMove );
+        ReactDOM.findDOMNode( this ).removeEventListener( 'mouseup', this.onMouseUp );
     };
 
     onClick( event ) {
@@ -100,18 +91,18 @@ export default class Board extends Component {
     }
 
     getZoom() {
-        const boardElement = ReactDOM.findDOMNode( this.refs.boardElement )
+        const boardElement = ReactDOM.findDOMNode( this )
         return +$( boardElement ).css( 'zoom' );
     }
 
     zoomIn() {
-        $( ReactDOM.findDOMNode( this.refs.boardElement ) ).css( { zoom : this.getZoom() + 0.1 } );
+        $( ReactDOM.findDOMNode( this ) ).css( { zoom : this.getZoom() + 0.1 } );
     }
 
     zoomOut() {
         const oldZoom = this.getZoom();
         if ( oldZoom > 0.1 ) {
-            $( ReactDOM.findDOMNode( this.refs.boardElement ) ).css( { zoom : oldZoom - 0.1 } );
+            $( ReactDOM.findDOMNode( this ) ).css( { zoom : oldZoom - 0.1 } );
             this.updateSize();
         }
     }
@@ -128,8 +119,8 @@ export default class Board extends Component {
         };
 
         const documentSize = {
-            height : Math.max( $( ReactDOM.findDOMNode( this.refs.boardElement ) ).height(), windowSize.height / zoom ),
-            width  : Math.max( $( ReactDOM.findDOMNode( this.refs.boardElement ) ).width(), windowSize.width / zoom )
+            height : Math.max( $( ReactDOM.findDOMNode( this ) ).height(), windowSize.height / zoom ),
+            width  : Math.max( $( ReactDOM.findDOMNode( this ) ).width(), windowSize.width / zoom )
         };
 
         let { width, height } = this.size;
@@ -152,24 +143,13 @@ export default class Board extends Component {
     renderWidget( widget ) {
         const baseKey = widget.key;
         const baseUrl = `${firebaseUrl}/board/widget/${baseKey}/props`;
-        return <WidgetContainer key={ baseKey } baseKey={ baseKey } widgetType={ widget.val.type } baseUrl={ baseUrl } />
-    }
-
-    renderLoading() {
-        return (
-            <span>Loading...</span>
-        );
+        return <WidgetWrapper key={ baseKey } baseKey={ baseKey } widgetType={ widget.val.type } baseUrl={ baseUrl } />
     }
 
     render() {
-        const { currentUser } = this.state.authStore;
-        const { widgets } = this.state.boardStore;
-        const { backgroundDrawing, backgroundImage } = this.state.backgroundDrawingStore;
+        // FIXME : do we really need to show the background drawing here ???
+        const { widgets, backgroundDrawing, backgroundImage } = this.props;
         const { widgetToAdd, isDrawing } = this.state;
-
-        if ( !currentUser ) {
-            return this.renderLoading();
-        }
 
         const drawingBackgroundStyle = backgroundDrawing ? _.merge( {}, {
             background: `url(${backgroundDrawing})`,
@@ -182,16 +162,11 @@ export default class Board extends Component {
         } : {};
 
         return (
-            <div>
-                <div className={ Styles.wrapper } tabIndex="1" ref="boardElement" style={ this.size } onClick={ ::this.onClick } onMouseDown={ ::this.onMouseDown }>
-                    { widgets.map( ::this.renderWidget ) }
-                    { widgetToAdd ? <WidgetClone widgetType={ widgetToAdd.type } widgetProps={ widgetToAdd.props }/> : null  }
-                    { !isDrawing && backgroundDrawing ? <div className={ Styles.drawingBackground } style={ drawingBackgroundStyle } /> : null }
-                    <div className={ Styles.background } style={ boardBackgroundStyle }></div>
-                </div>
-                <BackgroundDrawing imageContent={ backgroundDrawing }>
-                    <MainNavBar/>
-                </BackgroundDrawing>
+            <div className={ Styles.wrapper } tabIndex="1" style={ this.size } onClick={ ::this.onClick } onMouseDown={ ::this.onMouseDown }>
+                { widgets.map( ::this.renderWidget ) }
+                { widgetToAdd ? <WidgetClone widgetType={ widgetToAdd.type } widgetProps={ widgetToAdd.props }/> : null  }
+                { !isDrawing && backgroundDrawing ? <div className={ Styles.drawingBackground } style={ drawingBackgroundStyle } /> : null }
+                <div className={ Styles.background } style={ boardBackgroundStyle }></div>
             </div>
         );
     }

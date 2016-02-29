@@ -16,7 +16,7 @@ import Resizer                  from 'component/Resizer';
 import Blur                     from 'component/Blur';
 import ConfirmDialog            from 'component/ConfirmDialog';
 
-import Styles       from './Container.scss';
+import Styles       from './Wrapper.scss';
 
 const LoadingStatus = {
     init        : 0,
@@ -26,7 +26,7 @@ const LoadingStatus = {
 };
 
 
-export default class WidgetContainer extends Component {
+export default class WidgetWrapper extends Component {
 
     constructor( props ) {
         super( props );
