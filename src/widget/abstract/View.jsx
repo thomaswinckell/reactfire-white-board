@@ -64,6 +64,7 @@ export default class AbstractWidgetView extends Component {
         // FIXME
         //const zoom = BoardStore.getZoom();
         //return zoom >= 1 ? 1 - ( zoom - 1 ) : 1 + ( 1 - zoom );
+        return 1;
     }
 
     onDragStart( event ) {
@@ -71,10 +72,10 @@ export default class AbstractWidgetView extends Component {
             return;
         }
 
-        const inversedZoom = this.getInvertedZoom();
+        const invertedZoom = this.getInvertedZoom();
 
-        this._startX = ( event.pageX * inversedZoom ) - this.props.position.x;
-        this._startY = ( event.pageY * inversedZoom ) - this.props.position.y;
+        this._startX = ( event.pageX * invertedZoom ) - this.props.position.x;
+        this._startY = ( event.pageY * invertedZoom ) - this.props.position.y;
 
         this.isDragging = true;
 

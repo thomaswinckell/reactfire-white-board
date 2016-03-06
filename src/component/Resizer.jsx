@@ -1,6 +1,7 @@
 import React, { Component, PropTypes }  from 'react';
 
 import { gridWidth }                    from 'config/BoardConfig';
+import { resizerConfig }                from 'config/WidgetConfig';
 
 import Styles   from './Resizer.scss';
 
@@ -19,9 +20,7 @@ export default class Resizer extends Component {
     };
 
     static defaultProps = {
-        resizerWidth    : 40,
-        minWidth        : 50,
-        minHeight       : 50,
+        ...resizerConfig,
         canResize       : () => true,
         onResizeStart   : () => true,
         onResizeEnd     : () => true
@@ -101,24 +100,24 @@ export default class Resizer extends Component {
 
         const styleResizerWidth = {
             zIndex  : index,
-            left    : width - resizerWidth,
+            left    : width - ( resizerWidth / 2 ),
             top     : 0,
             width   : resizerWidth,
-            height  : height - resizerWidth
+            height  : height - ( resizerWidth / 2 )
         };
 
         const styleResizerHeight = {
             zIndex  : index,
-            top     : height - resizerWidth,
+            top     : height - ( resizerWidth / 2 ),
             left    : 0,
             height  : resizerWidth,
-            width   : width - resizerWidth
+            width   : width - ( resizerWidth / 2 )
         };
 
         const styleResizer = {
             zIndex  : index,
-            left    : width - resizerWidth,
-            top     : height - resizerWidth,
+            left    : width - ( resizerWidth / 2 ),
+            top     : height - ( resizerWidth / 2 ),
             width   : resizerWidth,
             height  : resizerWidth
         };
