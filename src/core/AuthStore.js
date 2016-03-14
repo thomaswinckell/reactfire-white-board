@@ -31,10 +31,10 @@ class AuthStore extends Store {
 
     onAuthSuccess( authData ) {
         this.state.currentUser = {
-            uid: authData.uid,
-            displayName: authData.google.displayName || 'Guest',
-            profileImageURL: authData.google.profileImageURL || 'img/default_profile.png', // TODO : A DEFAULT picture image
-            locale: authData.google.cashedUserProfile && authData.google.cashedUserProfile.locale ? authData.google.cashedUserProfile.locale : 'en'
+            uid             : authData.uid,
+            displayName     : authData.google.displayName || 'Guest',
+            profileImageURL : authData.google.profileImageURL || 'img/default_profile.png', // TODO : A DEFAULT picture image
+            locale          : authData.google.cashedUserProfile && authData.google.cashedUserProfile.locale ? authData.google.cashedUserProfile.locale : 'en'
         };
         this.publishState();
     }

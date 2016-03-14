@@ -4,7 +4,7 @@ import Pencil                   from 'drawer/Pencil';
 
 import Styles from './Drawer.scss';
 
-// FIXME : react component ?
+// FIXME : react component
 
 export default class Drawer {
 

@@ -13,10 +13,10 @@
         font-size: 2em;
     }
     ul li:nth-child(1) {
-        border-radius : 5px 0 5px 0;
+        border-radius : 5px 0 0 5px;
     }
     ul li:nth-child(2) {
-        border-radius : 0 5px 0 5px;
+        border-radius : 0 5px 5px 0;
     }
 }
 
