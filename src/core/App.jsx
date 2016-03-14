@@ -39,9 +39,8 @@ export default class App extends Component {
         return (
             <div>
                 <Board widgets={ widgets } backgroundDrawing={ backgroundDrawing } backgroundImage={ backgroundImage }/>
-                <BackgroundDrawing imageContent={ backgroundDrawing }>
-                    <MainNavBar/>
-                </BackgroundDrawing>
+                <BackgroundDrawing imageContent={ backgroundDrawing } />
+                <MainNavBar/>
             </div>
 
         );

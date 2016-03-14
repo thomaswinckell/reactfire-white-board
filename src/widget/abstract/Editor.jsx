@@ -35,7 +35,9 @@ export default class AbstractWidgetEditor extends Component {
     /**
      * @abstract
      */
-    renderEditor() { return null; }
+    renderEditor() {
+        throw `The component ${this.constructor.name} should implement the method renderEditor !`;
+    }
 
     render() {
 

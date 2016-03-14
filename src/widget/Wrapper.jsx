@@ -36,7 +36,6 @@ export default class WidgetWrapper extends Component {
             status      : LoadingStatus.init,
             onEnter     : true
         };
-        this.onFocusIn = ::this.onFocusIn;
         this.actions = new WidgetActions();
 
         this.actions.setEditMode.listen( this.setEditMode.bind( this ) );
@@ -95,12 +94,7 @@ export default class WidgetWrapper extends Component {
         }
     }
 
-    onMouseDown( event ) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-
-    onFocusIn(event) {
+    onFocusIn = (event) => {
         // if the focusin event NOT occurs in a child element of this element (or this element)
         if ( event.path.indexOf( ReactDOM.findDOMNode( this ) ) === -1 ) {
             if ( this.isEditingByCurrentUser() ) {
@@ -239,8 +233,7 @@ export default class WidgetWrapper extends Component {
         return (
             <div tabIndex="1000"
                  className={ className }
-                 style={ styleWidget }
-                 onMouseDown={ ::this.onMouseDown }>
+                 style={ styleWidget }>
 
                  <Blur/>
 
@@ -248,7 +241,7 @@ export default class WidgetWrapper extends Component {
 
                 <Resizer valueLink={this.link('size')}
                          index={this.state.index + 2000}
-                         onResizeStart={::this.onResizeStart} onResizeEnd={::this.onResizeEnd}
+                         onResizeStart={this.onResizeStart.bind( this ) } onResizeEnd={this.onResizeEnd.bind( this ) }
                          canResize={ () => !this.isLockedByAnotherUser() }/>
 
                  { this.renderConfirmDialog() }

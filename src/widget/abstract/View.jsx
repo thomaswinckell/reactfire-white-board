@@ -20,8 +20,6 @@ export default class AbstractWidgetView extends Component {
             canDrag     : true,
             displayMenu : false
         };
-        this.onDrag = ::this.onDrag;
-        this.onDragEnd = ::this.onDragEnd;
     }
 
     link( prop ) {
@@ -37,7 +35,7 @@ export default class AbstractWidgetView extends Component {
                 action      : this.props.actions.setEditMode,
                 text        : "Edit",
                 icon        : "edit"
-            },{
+            }, {
                 action      : this.props.actions.deleteWidget,
                 text        : "Delete",
                 icon        : "delete"
@@ -87,7 +85,7 @@ export default class AbstractWidgetView extends Component {
         this.props.actions.select();
     }
 
-    onDrag( event ) {
+    onDrag = ( event ) => {
 
         this.clearScrollTimeouts();
 
@@ -122,14 +120,14 @@ export default class AbstractWidgetView extends Component {
 
             this.link( 'position' ).requestChange( { x, y } );
         }
-    }
+    };
 
-    onDragEnd( event ) {
+    onDragEnd = ( event ) => {
         this.isDragging = false;
         document.removeEventListener( 'mousemove', this.onDrag );
         document.removeEventListener( 'mouseup', this.onDragEnd );
         this.props.actions.unselect();
-    }
+    };
 
     scrollLeft( negativeScroll : boolean ) {
 
@@ -197,9 +195,7 @@ export default class AbstractWidgetView extends Component {
      * @abstract
      */
     renderView() {
-        return (
-            <div></div>
-        );
+        throw `The component ${this.constructor.name} should implement the method renderView !`;
     }
 
     render() {
