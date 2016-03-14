@@ -38,9 +38,9 @@ class BoardStore extends Store {
     }
 
     _onAuthSuccess() {
-        this.widgetsRef.on( 'child_added', ::this._onAddWidget );
-        this.widgetsRef.on( 'child_removed', ::this._onRemoveWidget );
-        this.boardSizeRef.on( 'value', ::this._onNewSize );
+        this.widgetsRef.on( 'child_added', this._onAddWidget.bind( this ) );
+        this.widgetsRef.on( 'child_removed', this._onRemoveWidget.bind( this ) );
+        this.boardSizeRef.on( 'value', this._onNewSize.bind( this ) );
     }
 
     _onAddWidget( dataSnapshot ) {

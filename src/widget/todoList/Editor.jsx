@@ -75,15 +75,15 @@ export default class TodoListWidgetEditor extends AbstractWidgetEditor {
         return (
             <ul className={ Styles.wrapper }>
                 { todos.length ? <div className={ Styles.todoTitle }>TODO</div> : "Nothing to do :-)" }
-                { todos.map( ::this.renderItem ) }
+                { todos.map( this.renderItem.bind( this ) ) }
 
                 <div className={ Styles.form }>
-                    <input type="text" placeholder="What to do..." valueLink={ ::this.linkNewTodo() } onKeyPress={ e => e.charCode === 13 ? this.addItem() : null }/>
-                    <button className="small" type="button" onClick={ ::this.addItem }><i className="icon icon-add"></i></button>
+                    <input type="text" placeholder="What to do..." valueLink={ this.linkNewTodo() } onKeyPress={ e => e.charCode === 13 ? this.addItem() : null }/>
+                    <button className="small" type="button" onClick={ this.addItem.bind( this ) }><i className="icon icon-add"></i></button>
                 </div>
 
                 { dones.length ? <div className={ Styles.doneTitle }>DONE :</div> : null }
-                { dones.map( ::this.renderItem ) }
+                { dones.map( this.renderItem.bind( this ) ) }
             </ul>
         );
     }

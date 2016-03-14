@@ -66,7 +66,7 @@ export default class NavBar extends Component {
         return (
             <div className={ className }>
                 <ul>
-                    { this.props.elements.map( ::this.renderNavBarElement ) }
+                    { this.props.elements.map( this.renderNavBarElement.bind( this ) ) }
                 </ul>
             </div>
         );

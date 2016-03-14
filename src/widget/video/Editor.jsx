@@ -23,13 +23,13 @@ export default class VideoWidgetEditor extends AbstractWidgetEditor {
         const additionalMenuElements = [ this.state.isRecording ?
             {
                 className   : "widget-menu-move-stop-recording",
-                action      : ::this.stopRecording,
+                action      : this.stopRecording.bind( this ),
                 text        : "Stop recording",
                 icon        : "stop"
             } :
             {
                 className   : "widget-menu-start-recording",
-                action      : ::this.startRecording,
+                action      : this.startRecording.bind( this ),
                 text        : "Start recording",
                 icon        : "play_arrow"
             }
@@ -45,7 +45,7 @@ export default class VideoWidgetEditor extends AbstractWidgetEditor {
     startRecording() {
         if ( this.recordRTC ) {
             this.recordRTC.startRecording();
-            this._stopRecordingTimeout = setTimeout( ::this.stopRecording, videoTime );
+            this._stopRecordingTimeout = setTimeout( this.stopRecording.bind( this ), videoTime );
             this.setState( { isRecording : true } )
         }
     }
@@ -65,7 +65,7 @@ export default class VideoWidgetEditor extends AbstractWidgetEditor {
             <div>
                 <Webcam width={ this.props.size.width - 30 }
                         height={ this.props.size.height - 65 }
-                        onUserMedia={ ::this.handleUserMedia } />
+                        onUserMedia={ this.handleUserMedia.bind( this ) } />
             </div>
         );
     }

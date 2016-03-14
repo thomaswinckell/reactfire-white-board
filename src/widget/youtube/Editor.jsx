@@ -59,7 +59,7 @@ export default class YoutubeWidgetEditor extends AbstractWidgetEditor {
         return (
             <div className={ Styles.wrapper }>
                 <textarea placeholder="Paste the URL of a youtube video"
-                      valueLink={ ::this.linkInput() }
+                      valueLink={ this.linkInput() }
                       className={ classNames( { error : this.props.youtube && this.props.youtube.url && !this.props.youtube.id } ) }>
                 </textarea>
             </div>

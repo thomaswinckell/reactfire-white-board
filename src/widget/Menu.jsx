@@ -66,7 +66,7 @@ export default class WidgetMenu extends Component {
         return (
             <div className={ className } style={ style }>
                 <ul className={ Styles.list }>
-                    { this.props.menuElements.map( ::this.renderMenuElement ) }
+                    { this.props.menuElements.map( this.renderMenuElement.bind( this ) ) }
                 </ul>
                 <hr/>
             </div>

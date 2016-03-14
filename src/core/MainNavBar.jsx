@@ -91,9 +91,9 @@ export default class MainNavBar extends Component {
     render() {
 
         let elements = [
-        //new NavBarElement( 'Logout', 'sign-out', ::AuthActions.logout ),
-            new NavBarElement( 'Paint mode',    'format_paint',        ::this.setDrawerMode,    this.state.mode === Mode.drawer ? 'active' : '', 'bottom' ),
-            new NavBarElement( 'Widgets mode',  'dashboard',           ::this.saveDrawing,      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
+        //new NavBarElement( 'Logout', 'sign-out', AuthActions.logout.bind( this ) ),
+            new NavBarElement( 'Paint mode',    'format_paint',        this.setDrawerMode.bind( this ),    this.state.mode === Mode.drawer ? 'active' : '', 'bottom' ),
+            new NavBarElement( 'Widgets mode',  'dashboard',           this.saveDrawing.bind( this ),      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
         ];
 
         let zoomElements = [
@@ -106,12 +106,12 @@ export default class MainNavBar extends Component {
 
         if ( this.state.mode === Mode.drawer ) {
             clearElements.push(
-                new NavBarElement( 'Clear drawing',     'clear',  ::this.clearDrawing,      '', 'bottom' ),
-                new NavBarElement( 'Cancel',            'undo',   ::this.cancelDrawing,    '', 'bottom' ),
+                new NavBarElement( 'Clear drawing',     'clear',  this.clearDrawing.bind( this ),      '', 'bottom' ),
+                new NavBarElement( 'Cancel',            'undo',   this.cancelDrawing.bind( this ),    '', 'bottom' ),
             );
         } else {
             clearElements.push(
-                new NavBarElement( 'Clear board',       'clear',  ::this.clearBoard,        '', 'bottom' ),
+                new NavBarElement( 'Clear board',       'clear',  this.clearBoard.bind( this ),        '', 'bottom' ),
             );
         }
 

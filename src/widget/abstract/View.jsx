@@ -223,10 +223,10 @@ export default class AbstractWidgetView extends Component {
             <div tabIndex="1000"
                  style={ style }
                  className={ className }
-                 onMouseDown={ ::this.onMouseDown }
-                 onDoubleClick={ ::this.onDoubleClick }
-                 onMouseOver={ ::this.onMouseOver }
-                 onMouseOut={ ::this.onMouseOut } >
+                 onMouseDown={ this.onMouseDown.bind( this )  }
+                 onDoubleClick={ this.onDoubleClick.bind( this )  }
+                 onMouseOver={ this.onMouseOver.bind( this )  }
+                 onMouseOut={ this.onMouseOut.bind( this )  } >
 
                  <Menu ref="menu" menuElements={ this.getMenuElements() }
                    position={ this.props.position }

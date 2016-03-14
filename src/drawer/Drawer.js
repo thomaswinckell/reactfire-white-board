@@ -39,9 +39,9 @@ export default class Drawer {
         this.backgroundColor = backgroundColor;
         this.tool = new toolType( this.context );
 
-        this.canvas.addEventListener( 'mousedown',  ::this.onMouseDown );
-        this.canvas.addEventListener( 'mousemove',  ::this.onMouseMove );
-        this.canvas.addEventListener( 'mouseup',    ::this.onMouseUp );
+        this.canvas.addEventListener( 'mousedown',  this.onMouseDown );
+        this.canvas.addEventListener( 'mousemove',  this.onMouseMove );
+        this.canvas.addEventListener( 'mouseup',    this.onMouseUp );
     }
 
     drawOldImageFromDataUrl( dataUrl ) {
@@ -71,24 +71,24 @@ export default class Drawer {
         this.backgroundColor = backgroundColor;
     }
 
-    onMouseDown( event ) {
+    onMouseDown = ( event ) => {
         if ( this.tool && this.tool.onMouseDown ) {
             this.tool.onMouseDown( event, this.color, this.backgroundColor );
         }
-    }
+    };
 
-    onMouseMove( event ) {
+    onMouseMove = ( event ) => {
         if ( this.tool && this.tool.onMouseMove ) {
             this.tool.onMouseMove( event, this.color, this.backgroundColor );
         }
-    }
+    };
 
-    onMouseUp( event ) {
+    onMouseUp = ( event ) => {
         if ( this.tool && this.tool.onMouseUp ) {
             this.tool.onMouseUp( event, this.color, this.backgroundColor );
             this.onDrawEnd();
         }
-    }
+    };
 
     clear() {
         this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
@@ -97,9 +97,9 @@ export default class Drawer {
     destroy() {
         $( `#${this.canvas.id}` ).remove();
         $( `#${this.oldCanvas.id}` ).remove();
-        this.canvas.removeEventListener( 'mousedown',  ::this.onMouseDown );
-        this.canvas.removeEventListener( 'mousemove',  ::this.onMouseMove );
-        this.canvas.removeEventListener( 'mouseup',    ::this.onMouseUp );
+        this.canvas.removeEventListener( 'mousedown',  this.onMouseDown );
+        this.canvas.removeEventListener( 'mousemove',  this.onMouseMove );
+        this.canvas.removeEventListener( 'mouseup',    this.onMouseUp );
     }
 
     getImageAsDataUrl( type = 'image/png', qualityRatio = 1.0 ) {

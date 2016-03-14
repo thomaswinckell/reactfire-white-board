@@ -51,10 +51,10 @@ export default class TodoListWidgetView extends AbstractWidgetView {
         return (
             <ul className={ Styles.wrapper }>
                 { todos.length ? <div className={ Styles.todoTitle }>TODO</div> : 'Nothing to do :-)' }
-                { todos.length ? todos.map( ::this.renderItem ) : null }
+                { todos.length ? todos.map( this.renderItem.bind( this ) ) : null }
 
                 { dones.length ? <div className={ Styles.doneTitle }>DONE</div> : null }
-                { dones.length ? dones.map( ::this.renderItem ) : null }
+                { dones.length ? dones.map( this.renderItem.bind( this ) ) : null }
             </ul>
         );
     }

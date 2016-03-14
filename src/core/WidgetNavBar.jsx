@@ -98,11 +98,11 @@ export default class WidgetNavBar extends Component {
     render() {
 
         const elements = [
-            new NavBarElement( 'Text',              'textsms',            ::this.addTextWidget ),
-            new NavBarElement( 'Todo List',         'list',               ::this.addTodoListWidget ),
-            new NavBarElement( 'Youtube',           'video_collection',   ::this.addYoutubeWidget ),
-            new NavBarElement( 'Google Maps',       'place',              ::this.addGMapsWidget ),
-            new NavBarElement( 'Video message',     'videocam',           ::this.addVideoWidget ),
+            new NavBarElement( 'Text',              'textsms',            this.addTextWidget.bind( this ) ),
+            new NavBarElement( 'Todo List',         'list',               this.addTodoListWidget.bind( this ) ),
+            new NavBarElement( 'Youtube',           'video_collection',   this.addYoutubeWidget.bind( this ) ),
+            new NavBarElement( 'Google Maps',       'place',              this.addGMapsWidget.bind( this ) ),
+            new NavBarElement( 'Video message',     'videocam',           this.addVideoWidget.bind( this ) ),
         ];
 
         return (

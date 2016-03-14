@@ -19,7 +19,6 @@ export default class WidgetClone extends Component {
                 y : props.widgetProps.position ? props.widgetProps.position.y : 0
             }
         };
-        this.onMove = ::this.onMove;
     }
 
     componentWillMount() {
@@ -30,9 +29,9 @@ export default class WidgetClone extends Component {
         document.removeEventListener( 'mousemove', this.onMove );
     }
 
-    onMove( event ) {
+    onMove = ( event ) => {
         this.setState( { position : { x : event.pageX, y : event.pageY } } )
-    }
+    };
 
     render() {
         const index = 2147483645;

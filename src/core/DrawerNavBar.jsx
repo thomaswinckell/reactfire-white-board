@@ -91,9 +91,9 @@ export default class DrawerNavBar extends Component {
             new NavBarElement( 'Line width',        'line_weight' /* TODO */ ),
             new NavBarElement( 'Color',             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ) ),
 
-            new NavBarElement( 'Background color',  'format_color_fill', ::this.toggleBackgroundColor ),
+            new NavBarElement( 'Background color',  'format_color_fill', this.toggleBackgroundColor.bind( this ) ),
 
-            new NavBarElement( 'Background image',  'image',             ::this.updateBackgroundImage ),
+            new NavBarElement( 'Background image',  'image',             this.updateBackgroundImage.bind( this ) ),
 
             /* Text */
             //new NavBarElement( 'Font',              'text_format' /* TODO */ ),
@@ -124,9 +124,9 @@ export default class DrawerNavBar extends Component {
                 <ColorPicker type="chrome"
                              display={ this.state.displayColorPicker || this.state.displayBackgroundColorPicker }
                              positionCSS={ this.state.displayColorPicker ? colorPosition : bgColorPosition }
-                             onClose={ ::this.onClose }
-                             onChange={ this.state.displayColorPicker ? ::this.onChangeColor : ::this.onChangeBackgroundColor }/>
-                 <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ ::this.onUpload } accept="image/*"/>
+                             onClose={ this.onClose.bind( this ) }
+                             onChange={ this.state.displayColorPicker ? this.onChangeColor.bind( this ) : this.onChangeBackgroundColor.bind( this ) }/>
+                         <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload.bind( this ) } accept="image/*"/>
                  <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
             </div>
         );

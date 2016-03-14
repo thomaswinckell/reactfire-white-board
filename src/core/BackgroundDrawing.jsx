@@ -15,13 +15,13 @@ export default class BackgroundDrawing extends Component {
             enabled      : false
         };
 
-        Actions.save.listen( ::this.save );
-        Actions.clear.listen( ::this.clear );
-        Actions.enable.listen( ::this.enable );
-        Actions.disable.listen( ::this.disable );
-        Actions.setTool.listen( ::this.setTool );
-        Actions.setColor.listen( ::this.setColor );
-        Actions.setBackgroundColor.listen( ::this.setBackgroundColor );
+        Actions.save.listen( this.save.bind( this ) );
+        Actions.clear.listen( this.clear.bind( this ) );
+        Actions.enable.listen( this.enable.bind( this ) );
+        Actions.disable.listen( this.disable.bind( this ) );
+        Actions.setTool.listen( this.setTool.bind( this ) );
+        Actions.setColor.listen( this.setColor.bind( this ) );
+        Actions.setBackgroundColor.listen( this.setBackgroundColor.bind( this ) );
     }
 
     componentWillUnmount() {
