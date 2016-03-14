@@ -169,9 +169,13 @@ export default class WidgetWrapper extends Component {
       this.updateData( { isLockedBy: AuthStore.currentUser } );
     }
 
-    onResizeEnd( event) {
+    onResizeEnd( event ) {
         this.isResizing = false;
         this.updateData( { isLockedBy: false } );
+    }
+
+    onMouseDown( event ) {
+        event.stopPropagation();
     }
 
     renderWidgetView() {
@@ -233,7 +237,8 @@ export default class WidgetWrapper extends Component {
         return (
             <div tabIndex="1000"
                  className={ className }
-                 style={ styleWidget }>
+                 style={ styleWidget }
+                 onMouseDown={ this.onMouseDown.bind( this ) }>
 
                  <Blur/>
 

@@ -26,7 +26,7 @@ export default class Board extends Component {
         Actions.updateSize.listen( this.updateSize.bind( this ) );
     }
 
-    get size() { return BoardStore.size || { width : $( document ).width(), height : $( document ).height() };  }
+    get size() { return BoardStore.size || { width : $( document ).width(), height : $( document ).height() }; }
 
     componentDidMount() {
         $( window ).resize( this.updateSize.bind( this ) );
@@ -162,8 +162,8 @@ export default class Board extends Component {
         } : {};
 
         return (
-            <div className={ Styles.wrapper } tabIndex="1" style={ this.size } onClick={ ::this.onClick } onMouseDown={ ::this.onMouseDown }>
-                { widgets.map( ::this.renderWidget ) }
+            <div className={ Styles.wrapper } tabIndex="1" style={ this.size } onClick={ this.onClick.bind( this ) } onMouseDown={ this.onMouseDown.bind( this ) }>
+                { widgets.map( this.renderWidget.bind( this ) ) }
                 { widgetToAdd ? <WidgetClone widgetType={ widgetToAdd.type } widgetProps={ widgetToAdd.props }/> : null  }
                 { !isDrawing && backgroundDrawing ? <div className={ Styles.drawingBackground } style={ drawingBackgroundStyle } /> : null }
                 <div className={ Styles.background } style={ boardBackgroundStyle }></div>
