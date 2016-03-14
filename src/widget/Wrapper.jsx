@@ -226,7 +226,7 @@ export default class WidgetWrapper extends Component {
 
         const isEditingByCurrentUser = this.isEditingByCurrentUser();
 
-        const className = classNames( Styles.wrapper, {
+        const className = classNames( Styles.root, {
             /*'resizing'                  : this.isResizing,
             'locked-by-current-user'    : this.isLockedByCurrentUser(),
             'locked-by-another'         : this.isLockedByAnotherUser(),

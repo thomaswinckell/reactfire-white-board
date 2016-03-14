@@ -42,7 +42,7 @@ export default class GMapsWidgetView extends AbstractWidgetView {
         }
 
         return (
-            <div className={ Styles.wrapper }>
+            <div className={ Styles.root }>
                 <div ref="map" className={ Styles.map } style={ { height : this.props.size.height - 65 } }></div>
             </div>
         );

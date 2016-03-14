@@ -200,7 +200,7 @@ export default class AbstractWidgetView extends Component {
 
     render() {
 
-        const className = classNames( Styles.wrapper, {
+        const className = classNames( Styles.root, {
             [ Styles.dragging ] : this.isDragging
         });
 

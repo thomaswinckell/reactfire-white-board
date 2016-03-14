@@ -60,7 +60,7 @@ export default class NavBar extends Component {
     }
 
     render() {
-        const className = classNames( Styles.wrapper, this.props.className, {
+        const className = classNames( Styles.root, this.props.className, {
             [ Styles.horizontal ] : this.props.horizontal
         } );
         return (

@@ -84,7 +84,7 @@ export default class GMapsWidgetEditor extends AbstractWidgetEditor {
 
     renderEditor() {
         return (
-            <div className={ Styles.wrapper }>
+            <div className={ Styles.root }>
                 <input ref="pacInput" className={ Styles.input } type="text" placeholder="Enter a location" />
                 <div ref="map" className={ Styles.map } style={ { height : this.props.size.height - 65 } }></div>
             </div>

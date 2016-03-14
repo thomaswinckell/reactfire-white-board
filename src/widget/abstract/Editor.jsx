@@ -49,7 +49,7 @@ export default class AbstractWidgetEditor extends Component {
         return (
             <div tabIndex="1000"
                  style={ style }
-                 className={ Styles.wrapper }>
+                 className={ Styles.root }>
 
                  { <Menu menuElements={ this.getMenuElements() } position={ this.props.position } display={ true } /> }
 

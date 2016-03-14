@@ -162,7 +162,7 @@ export default class Board extends Component {
         } : {};
 
         return (
-            <div className={ Styles.wrapper } tabIndex="1" style={ this.size } onClick={ this.onClick.bind( this ) } onMouseDown={ this.onMouseDown.bind( this ) }>
+            <div className={ Styles.root } tabIndex="1" style={ this.size } onClick={ this.onClick.bind( this ) } onMouseDown={ this.onMouseDown.bind( this ) }>
                 { widgets.map( this.renderWidget.bind( this ) ) }
                 { widgetToAdd ? <WidgetClone widgetType={ widgetToAdd.type } widgetProps={ widgetToAdd.props }/> : null  }
                 { !isDrawing && backgroundDrawing ? <div className={ Styles.drawingBackground } style={ drawingBackgroundStyle } /> : null }

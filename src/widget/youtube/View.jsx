@@ -9,7 +9,7 @@ export default class YoutubeWidgetView extends AbstractWidgetView {
 
     renderView() {
         return (
-            <div className={ Styles.wrapper }>
+            <div className={ Styles.root }>
                 { this.props.youtube && this.props.youtube.id ?
                     <iframe src={ `http://www.youtube.com/embed/${this.props.youtube.id}` } width={ this.props.size.width - 30 }
                             height={ this.props.size.height - 65 }></iframe>

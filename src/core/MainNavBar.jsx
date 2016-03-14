@@ -116,7 +116,7 @@ export default class MainNavBar extends Component {
         }
 
         return (
-            <div className={ Styles.wrapper }>
+            <div className={ Styles.root }>
                 <NavBar elements={ elements } className={ Styles.navbar } />
                 { this.state.mode === Mode.widgets ? <WidgetNavBar/> : null }
                 { this.state.mode === Mode.drawing ? <DrawingNavBar/> : null }

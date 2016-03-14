@@ -25,7 +25,7 @@ export default class UndraggableWidgetView extends AbstractWidgetView {
 
     renderUndraggableView( widget ) {
         return (
-            <div className={ Styles.wrapper }>
+            <div className={ Styles.root }>
                 { widget }
                 { this.state.canDrag ? <div className={ Styles.layer }></div> : null }
             </div>

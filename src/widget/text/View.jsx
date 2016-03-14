@@ -11,7 +11,7 @@ export default class TextWidgetView extends AbstractWidgetView {
         const { width, height } = this.props.size;
         const isImage = this.props.value.match( /^http(.*)(png|jpg|jpeg|gif)$/i );
         return (
-            <div className={ Styles.wrapper }>
+            <div className={ Styles.root }>
                 {
                     isImage ?
                     <img width={ width } height={ height } src={this.props.value} />

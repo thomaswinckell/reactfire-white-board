@@ -73,7 +73,7 @@ export default class TodoListWidgetEditor extends AbstractWidgetEditor {
         const dones = items.filter( t => t.done );
 
         return (
-            <ul className={ Styles.wrapper }>
+            <ul className={ Styles.root }>
                 { todos.length ? <div className={ Styles.todoTitle }>TODO</div> : "Nothing to do :-)" }
                 { todos.map( this.renderItem.bind( this ) ) }
 

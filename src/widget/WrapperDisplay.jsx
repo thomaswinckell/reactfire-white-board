@@ -47,7 +47,7 @@ export default class WidgetWrapperDisplay extends Component {
 
         return (
             <div tabIndex="1000"
-                 className={ Styles.wrapper }
+                 className={ Styles.root }
                  style={ styleWidget } >
 
                  <Blur/>

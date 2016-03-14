@@ -37,12 +37,12 @@ export default class ConfirmDialog extends Component {
     }
 
     render() {
-        const wrapperClassName = classNames( Styles.wrapper, {
+        const rootClassName = classNames( Styles.root, {
             [ Styles.onEnter ] : this.state.onEnter,
             [ Styles.onLeave ] : this.state.onLeave
         } );
         return (
-            <div className={ wrapperClassName }>
+            <div className={ rootClassName }>
                 <div className={ Styles.overlay } onClick={ () => this.close( Result.cancel ) }></div>
                 <div className={ Styles.content }>
                     <div className={ Styles.message }>{ this.props.message }</div>

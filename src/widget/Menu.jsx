@@ -59,7 +59,7 @@ export default class WidgetMenu extends Component {
             top     : '5px'
         };
 
-        const className = classNames( Styles.wrapper, {
+        const className = classNames( Styles.root, {
             [ Styles.hidden ] : !this.props.display
         } );
 
