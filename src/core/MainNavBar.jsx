@@ -1,19 +1,19 @@
 import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 
-import * as DrawingActions              from 'core/BackgroundDrawingActions';
+import * as DrawingActions              from 'drawing/BackgroundDrawingActions';
 import * as BoardActions                from 'core/BoardActions';
 import NavBar, { NavBarElement }        from 'component/NavBar';
 import ConfirmDialog                    from 'component/ConfirmDialog';
-import WidgetNavBar                     from 'core/WidgetNavBar';
-import DrawerNavBar                     from 'core/DrawerNavBar';
+import WidgetNavBar                     from 'widget/NavBar';
+import DrawingNavBar                    from 'drawing/DrawingNavBar';
 
 import Styles from './MainNavBar.scss';
 
 
 const Mode = {
     widgets : 0,
-    drawer  : 1
+    drawing : 1
 };
 
 export default class MainNavBar extends Component {
@@ -25,15 +25,15 @@ export default class MainNavBar extends Component {
         };
     }
 
-    setDrawerMode() {
+    setDrawingMode() {
         if ( this.state.mode === Mode.widgets ) {
             DrawingActions.enable();
-            this.setState( { mode : Mode.drawer } );
+            this.setState( { mode : Mode.drawing } );
         }
     }
 
     cancelDrawing() {
-        if ( this.state.mode === Mode.drawer ) {
+        if ( this.state.mode === Mode.drawing ) {
 
             this.setState( { confirmDialog : {
                 message   : "Are you sure you want to cancel ?",
@@ -92,7 +92,7 @@ export default class MainNavBar extends Component {
 
         let elements = [
         //new NavBarElement( 'Logout', 'sign-out', AuthActions.logout.bind( this ) ),
-            new NavBarElement( 'Paint mode',    'format_paint',        this.setDrawerMode.bind( this ),    this.state.mode === Mode.drawer ? 'active' : '', 'bottom' ),
+            new NavBarElement( 'Paint mode',    'format_paint',        this.setDrawingMode.bind( this ),    this.state.mode === Mode.drawing ? 'active' : '', 'bottom' ),
             new NavBarElement( 'Widgets mode',  'dashboard',           this.saveDrawing.bind( this ),      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
         ];
 
@@ -104,7 +104,7 @@ export default class MainNavBar extends Component {
         let clearElements = [
         ];
 
-        if ( this.state.mode === Mode.drawer ) {
+        if ( this.state.mode === Mode.drawing ) {
             clearElements.push(
                 new NavBarElement( 'Clear drawing',     'clear',  this.clearDrawing.bind( this ),      '', 'bottom' ),
                 new NavBarElement( 'Cancel',            'undo',   this.cancelDrawing.bind( this ),    '', 'bottom' ),
@@ -119,7 +119,7 @@ export default class MainNavBar extends Component {
             <div className={ Styles.wrapper }>
                 <NavBar elements={ elements } className={ Styles.navbar } />
                 { this.state.mode === Mode.widgets ? <WidgetNavBar/> : null }
-                { this.state.mode === Mode.drawer ? <DrawerNavBar/> : null }
+                { this.state.mode === Mode.drawing ? <DrawingNavBar/> : null }
                 <div className={ Styles.zoomNavbar }>
                     { zoomElements.map( ( e, key ) => e.render( key ) ) }
                 </div>

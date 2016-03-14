@@ -1,10 +1,10 @@
 import { firebaseUrl }                  from 'config/AppConfig';
 import React, { Component, PropTypes }  from 'react';
 
-import * as Actions                     from 'core/BackgroundDrawingActions';
 import * as BoardActions                from 'core/BoardActions';
 import BoardStore                       from 'core/BoardStore';
-import Drawer                           from 'drawer/Drawer';
+import * as Actions                     from 'drawing/BackgroundDrawingActions';
+import DrawingSurface                   from 'drawing/DrawingSurface';
 
 
 export default class BackgroundDrawing extends Component {
@@ -25,69 +25,69 @@ export default class BackgroundDrawing extends Component {
     }
 
     componentWillUnmount() {
-        this.drawer.destroy();
+        this.drawingSurface.destroy();
     }
 
     enable() {
-        this.drawer = new Drawer( 'canvas-drawer-background', BoardStore.size, this.props.imageContent );
+        this.drawingSurface = new DrawingSurface( 'canvas-drawing-surface', BoardStore.size, this.props.imageContent );
         BoardActions.setIsDrawing( true );
     }
 
     disable() {
-        if ( this.drawer ) {
-            this.drawer.clear();
-            this.drawer.destroy();
-            this.drawer = null;
+        if ( this.drawingSurface ) {
+            this.drawingSurface.clear();
+            this.drawingSurface.destroy();
+            this.drawingSurface = null;
             BoardActions.setIsDrawing( false );
         }
     }
 
     save() {
-        if ( this.drawer ) {
-            Actions.setBackgroundDrawing( this.drawer.getResultAsDataUrl() );
+        if ( this.drawingSurface ) {
+            Actions.setBackgroundDrawing( this.drawingSurface.getResultAsDataUrl() );
         }
     }
 
     clear() {
-        if ( this.drawer ) {
+        if ( this.drawingSurface ) {
             // TODO : confirm
-            const oldTool = this.drawer.toolType;
-            const oldColor = this.drawer.toolColor;
-            this.drawer.clear();
-            this.drawer.destroy();
-            this.drawer = new Drawer( 'canvas-drawer-background', BoardStore.size, false, oldTool, oldColor );
+            const oldTool = this.drawingSurface.toolType;
+            const oldColor = this.drawingSurface.toolColor;
+            this.drawingSurface.clear();
+            this.drawingSurface.destroy();
+            this.drawingSurface = new DrawingSurface( 'canvas-drawingSurface-background', BoardStore.size, false, oldTool, oldColor );
         }
     }
 
     setTool( tool ) {
-        if ( this.drawer ) {
-            this.drawer.setTool( tool );
+        if ( this.drawingSurface ) {
+            this.drawingSurface.setTool( tool );
         }
     }
 
     getColor() {
-        if ( this.drawer ) {
-            return this.drawer.color
+        if ( this.drawingSurface ) {
+            return this.drawingSurface.color
         }
         return null;
     }
 
     setColor( color ) {
-        if ( this.drawer ) {
-            this.drawer.setColor( color );
+        if ( this.drawingSurface ) {
+            this.drawingSurface.setColor( color );
         }
     }
 
     getBackgroundColor() {
-        if ( this.drawer ) {
-            return this.drawer.backgroundColor;
+        if ( this.drawingSurface ) {
+            return this.drawingSurface.backgroundColor;
         }
         return null;
     }
 
     setBackgroundColor( backgroundColor ) {
-        if ( this.drawer ) {
-            this.drawer.setBackgroundColor( backgroundColor );
+        if ( this.drawingSurface ) {
+            this.drawingSurface.setBackgroundColor( backgroundColor );
         }
     }
 

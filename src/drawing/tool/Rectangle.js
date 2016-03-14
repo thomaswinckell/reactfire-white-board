@@ -1,4 +1,4 @@
-import Tool from 'drawer/Tool';
+import Tool from 'drawing/tool/Tool';
 
 
 export default class Rectangle extends Tool {

@@ -3,15 +3,15 @@ import React, { Component, PropTypes }  from 'react';
 import ReactDOM                         from 'react-dom';
 import ColorPicker                      from 'react-color';
 
-import * as DrawingActions              from 'core/BackgroundDrawingActions';
+import * as DrawingActions              from 'drawing/BackgroundDrawingActions';
 import NavBar, { NavBarElement }        from 'component/NavBar';
-import Pencil                           from 'drawer/Pencil';
-import Rectangle                        from 'drawer/Rectangle';
-import Line                             from 'drawer/Line';
-import Circle                           from 'drawer/Circle';
+import Pencil                           from 'drawing/tool/Pencil';
+import Rectangle                        from 'drawing/tool/Rectangle';
+import Line                             from 'drawing/tool/Line';
+import Circle                           from 'drawing/tool/Circle';
 
 
-export default class DrawerNavBar extends Component {
+export default class DrawingNavBar extends Component {
 
     static propTypes = {
         position    : PropTypes.object

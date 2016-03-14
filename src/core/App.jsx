@@ -2,11 +2,11 @@ import React, { Component }     from 'react';
 import { FluxComponent }        from 'airflux';
 
 import Board                    from 'core/Board';
-import BackgroundDrawing        from 'core/BackgroundDrawing';
-import MainNavBar               from 'core/MainNavBar';
 import AuthStore                from 'core/AuthStore';
 import BoardStore               from 'core/BoardStore';
-import BackgroundDrawingStore   from 'core/BackgroundDrawingStore';
+import MainNavBar               from 'core/MainNavBar';
+import BackgroundDrawing        from 'drawing/BackgroundDrawing';
+import BackgroundDrawingStore   from 'drawing/BackgroundDrawingStore';
 
 
 @FluxComponent

@@ -1,12 +1,13 @@
 import _                        from 'lodash';
 import $                        from 'jquery';
-import Pencil                   from 'drawer/Pencil';
 
-import Styles from './Drawer.scss';
+import Pencil                   from 'drawing/tool/Pencil';
+
+import Styles from './DrawingSurface.scss';
 
 // FIXME : react component
 
-export default class Drawer {
+export default class DrawingSurface {
 
     constructor( id, size, oldImage = false, toolType = Pencil, color = '', backgroundColor = 'transparent' ) {
         this.size = size;
