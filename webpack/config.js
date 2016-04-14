@@ -40,7 +40,6 @@ module.exports = {
     },
     resolve:   {
         alias :     alias,
-        root:       context,
         extensions: ['', '.js', '.json', '.jsx']
     },
     module:    {
