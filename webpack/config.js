@@ -11,7 +11,7 @@ const MODE = process.env.MODE || '';
 
 const jsBundle = path.join( 'js', util.format( '[name].js' ) );
 const entries = {
-    app:       ['app.js'],
+    app:       ['../demo/app.js'],
     vendors:   ['react', 'jquery', 'lodash', 'moment', 'firebase', 'classnames'],
     polyfills: ['babel-polyfill']
 };
@@ -25,14 +25,15 @@ if( DEV ) {
     );
 }
 
+const demoContext = path.join( __dirname, '../demo' );
 const context = path.join( __dirname, '../src' );
 
 module.exports = {
-    context:   context,
+    context:   demoContext,
     entry:     entries,
     target:    'web',
     output:    {
-        path:       path.resolve( pkg.config.buildDir ),
+        path:       path.resolve( pkg.config.demoBuildDir ),
         publicPath: '/',
         filename:   jsBundle,
         pathinfo:   false
@@ -51,7 +52,7 @@ module.exports = {
     cache:     DEV,
     debug:     DEV,
     devServer: {
-        contentBase: path.resolve( pkg.config.buildDir ),
+        contentBase: path.resolve( pkg.config.demoBuildDir ),
         reload:      util.format( 'http://%s:%d', pkg.config.devHost, pkg.config.devPort ),
         hot:         true,
         noInfo:      true,

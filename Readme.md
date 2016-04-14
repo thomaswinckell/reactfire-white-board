@@ -49,4 +49,6 @@ npm run build
 
 Publish
 ------------
-npm run publish
+npm run build
+cd build
+npm publish

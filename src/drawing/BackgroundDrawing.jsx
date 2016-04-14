@@ -1,4 +1,3 @@
-import { firebaseUrl }                  from 'config/AppConfig';
 import React, { Component, PropTypes }  from 'react';
 
 import * as BoardActions                from 'core/BoardActions';

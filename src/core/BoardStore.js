@@ -1,23 +1,20 @@
-import { Store }        from 'airflux';
-import Firebase         from 'firebase';
+import { Store }            from 'airflux';
+import Firebase             from 'firebase';
 
-import { firebaseUrl }  from 'config/AppConfig';
-import AuthStore        from './AuthStore';
-import * as Actions     from './BoardActions';
+import AuthStore            from './AuthStore';
+import * as Actions         from './BoardActions';
 
 class BoardStore extends Store {
 
+    state = {
+        widgets : []
+    };
+
     constructor() {
         super();
-        this.boardSizeRef = new Firebase( `${firebaseUrl}/board/size` );
-        this.widgetsRef = new Firebase( `${firebaseUrl}/board/widget` );
-        this.latestIndexRef = new Firebase( `${firebaseUrl}/board/latestWidgetIndex` );
-
-        this.state = {
-            widgets : []
-        };
 
         this.listenTo( AuthStore, this._onAuthSuccess.bind( this ) );
+
         Actions.setSize.listen( this._setSize.bind( this ) );
         Actions.addWidget.listen( this._addWidget.bind( this ) );
         Actions.removeWidget.listen( this._removeWidget.bind( this ) );
@@ -37,7 +34,13 @@ class BoardStore extends Store {
         this.latestIndexRef.transaction( latestIndex => ( latestIndex || 0 ) + 1, callback );
     }
 
-    _onAuthSuccess() {
+    _onAuthSuccess( authStoreState ) {
+        const { firebaseUrl } = authStoreState.appConfig;
+
+        this.boardSizeRef = new Firebase( `${firebaseUrl}/board/size` );
+        this.widgetsRef = new Firebase( `${firebaseUrl}/board/widget` );
+        this.latestIndexRef = new Firebase( `${firebaseUrl}/board/latestWidgetIndex` );
+
         this.widgetsRef.on( 'child_added', this._onAddWidget.bind( this ) );
         this.widgetsRef.on( 'child_removed', this._onRemoveWidget.bind( this ) );
         this.boardSizeRef.on( 'value', this._onNewSize.bind( this ) );

@@ -6,7 +6,6 @@ import $                        from 'jquery';
 import classNames               from 'classnames';
 import ReactDOM                 from 'react-dom';
 
-import { firebaseUrl }          from 'config/AppConfig';
 import * as BoardActions        from 'core/BoardActions';
 import BoardStore               from 'core/BoardStore';
 import WidgetActions            from './Actions';

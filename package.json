@@ -1,5 +1,5 @@
 {
-  "name": "Whiteboard",
+  "name": "whiteboard",
   "version": "0.0.1-beta1",
   "author": "Thomas Winckell",
   "license": "MIT",
@@ -45,7 +45,6 @@
     "resolve-url-loader": "^1.4.3",
     "rimraf": "^2.5.2",
     "sass-loader": "^3.1.2",
-    "string-replace-webpack-plugin": "0.0.3",
     "style-loader": "^0.13.0",
     "template-html-loader": "0.0.3",
     "url-loader": "^0.5.7",
@@ -54,32 +53,19 @@
     "webpack-notifier": "^1.2.1"
   },
   "scripts": {
-    "clean": "rimraf $npm_package_config_buildDir && mkdir $npm_package_config_buildDir",
-    "prewebpack": "rimraf $npm_package_config_buildDir",
+    "prewebpack": "rimraf $npm_package_config_demoBuildDir",
     "webpack": "webpack --colors --display-error-details --progress --config ./webpack/config",
     "start": "NODE_ENV=dev node ./webpack/dev-server  --colors --display-error-details --progress",
-    "build": "npm run webpack",
-    "prepublish": "npm run build",
-    "publish": "aws s3 cp $npm_package_config_buildDir $npm_package_config_aws_s3_bucket --recursive --exclude \"*.DS_Store\"",
-    "postpublish": "npm run clean"
+    "prebuilddemo": "rimraf $npm_package_config_demoBuildDir && mkdir $npm_package_config_demoBuildDir",
+    "builddemo": "npm run webpack",
+    "prebuild": "rimraf $npm_package_config_buildDir && mkdir $npm_package_config_buildDir",
+    "build": "cp -R src/* $npm_package_config_buildDir && cp package.json $npm_package_config_buildDir && cp Readme.md $npm_package_config_buildDir && cp .npmrc $npm_package_config_buildDir"
   },
   "config": {
-    "buildDir": "./build",
+    "buildDir":"./build",
+    "demoBuildDir": "./demobuild",
     "devHost": "localhost",
-    "devPort": 9786,
-    "aws": {
-      "s3": {
-        "bucket": "PATH_TO_YOUR_AWS_BUCKET"
-      }
-    },
-    "firebase": {
-      "url": "YOUR_FIREBASE_URL"
-    },
-    "google": {
-      "maps": {
-        "apiKey": "YOUR_GOOGLE_MAPS_API_KEY"
-      }
-    }
+    "devPort": 9786
   },
   "engines": {
     "node": ">=5.0.0",

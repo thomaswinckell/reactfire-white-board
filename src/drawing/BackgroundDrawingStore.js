@@ -1,7 +1,6 @@
 import { Store }        from 'airflux';
 import Firebase         from 'firebase';
 
-import { firebaseUrl }  from 'config/AppConfig';
 import AuthStore        from 'core/AuthStore';
 
 import * as Actions     from 'drawing/BackgroundDrawingActions';
@@ -9,12 +8,10 @@ import * as Actions     from 'drawing/BackgroundDrawingActions';
 
 class BackgroundDrawingStore extends Store {
 
+    state = {};
+
     constructor() {
         super();
-        this.backgroundDrawingRef = new Firebase( `${firebaseUrl}/board/backgroundDrawing` );
-        this.backgroundImageRef = new Firebase( `${firebaseUrl}/board/backgroundImage` );
-
-        this.state = {};
 
         this.listenTo( AuthStore, this._onAuthSuccess.bind( this ) );
 
@@ -27,7 +24,11 @@ class BackgroundDrawingStore extends Store {
         this.backgroundImageRef.off();
     }
 
-    _onAuthSuccess() {
+    _onAuthSuccess( authStoreState ) {
+        const { firebaseUrl } = authStoreState.appConfig;
+
+        this.backgroundDrawingRef = new Firebase( `${firebaseUrl}/board/backgroundDrawing` );
+        this.backgroundImageRef = new Firebase( `${firebaseUrl}/board/backgroundImage` );
 
         this.backgroundDrawingRef.on( 'value', dataSnapshot => {
             const backgroundDrawing = dataSnapshot.val();

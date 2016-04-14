@@ -2,7 +2,7 @@ import React, { PropTypes }     from 'react';
 import ReactDOM                 from 'react-dom';
 import GMapsApi                 from 'google-maps-api';
 
-import { gmapsApiKey }          from 'config/AppConfig';
+import AuthStore                from 'core/AuthStore';
 import AbstractWidgetView       from 'widget/abstract/View';
 
 import Styles from './View.scss';
@@ -12,6 +12,7 @@ export default class GMapsWidgetView extends AbstractWidgetView {
 
     componentDidMount() {
         if ( this.props.gmaps ) {
+            const { gmapsApiKey } = AuthStore.appConfig;
             GMapsApi( gmapsApiKey, ['places'] )().then( maps => {
                 this.initMap( maps, this.props.gmaps );
             }, err => console.error( err )  );
@@ -20,6 +21,7 @@ export default class GMapsWidgetView extends AbstractWidgetView {
 
     componentWillReceiveProps() {
         if ( this.props.gmaps ) {
+            const { gmapsApiKey } = AuthStore.appConfig;
             GMapsApi( gmapsApiKey, ['places'] )().then( maps => {
                 this.initMap( maps, this.props.gmaps );
             }, err => console.error( err )  );

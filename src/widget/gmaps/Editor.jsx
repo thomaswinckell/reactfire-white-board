@@ -2,7 +2,7 @@ import React, { PropTypes }     from 'react';
 import ReactDOM                 from 'react-dom';
 import GMapsApi                 from 'google-maps-api';
 
-import { gmapsApiKey }          from 'config/AppConfig';
+import AuthStore                from 'core/AuthStore';
 import AbstractWidgetEditor     from 'widget/abstract/Editor';
 
 import Styles from './Editor.scss';
@@ -16,6 +16,7 @@ export default class GMapsWidgetEditor extends AbstractWidgetEditor {
     }
 
     componentDidMount() {
+        const { gmapsApiKey } = AuthStore.appConfig;
         GMapsApi( gmapsApiKey, ['places'] )().then( maps => {
             this.initMap( maps, this.props.gmaps || {lat: -33.8688, lng: 151.2195} );
         }, err => console.error( err )  )

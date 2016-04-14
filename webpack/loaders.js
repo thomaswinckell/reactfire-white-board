@@ -1,7 +1,6 @@
 const pkg = require( '../package.json' );
 const path = require( 'path' );
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-const StringReplacePlugin = require( 'string-replace-webpack-plugin' );
 
 const DEV = process.env.NODE_ENV === 'dev';
 
@@ -88,22 +87,5 @@ module.exports = [
     {
         test:   /\.(eot|svg|ttf|otf)(\?.*)?$/,
         loader: 'file-loader?name=fonts/[name].[ext]'
-    },{
-        test: /AppConfig.js$/,
-        loader: StringReplacePlugin.replace( {
-            replacements: [
-                {
-                    pattern: /<!-- @firebase (\w*?) -->/ig,
-                    replacement: function ( match, p1, offset, string ) {
-                        return pkg.config.firebase[p1];
-                    }
-                },{
-                    pattern: /<!-- @gmaps (\w*?) -->/ig,
-                    replacement: function ( match, p1, offset, string ) {
-                        return pkg.config.google.maps[p1];
-                    }
-                }
-            ]
-        } )
     }
 ];

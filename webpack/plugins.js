@@ -1,7 +1,6 @@
 const webpack = require( 'webpack' );
 const util = require( 'util' );
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-const StringReplacePlugin = require( 'string-replace-webpack-plugin' );
 const WebpackNotifier = require( 'webpack-notifier' );
 const pkg = require( '../package.json' );
 const path = require( 'path' );
@@ -14,8 +13,7 @@ const plugins = [
     new webpack.optimize.CommonsChunkPlugin( {
         names:    ['vendors', 'polyfills'],
         filename: path.join( 'js', util.format( '[name].js' ) )
-    } ),
-    new StringReplacePlugin()
+    } )
 ];
 
 if( DEV ) {

@@ -4,7 +4,7 @@ import React,
        { Component, PropTypes } from 'react';
 import ReactDOM                 from 'react-dom';
 
-import { firebaseUrl }          from 'config/AppConfig';
+import AuthStore                from 'core/AuthStore';
 import * as Actions             from 'core/BoardActions';
 import WidgetWrapper            from 'widget/Wrapper';
 import WidgetClone              from 'widget/Clone';
@@ -142,6 +142,7 @@ export default class Board extends Component {
 
     renderWidget( widget ) {
         const baseKey = widget.key;
+        const { firebaseUrl } = AuthStore.appConfig;
         const baseUrl = `${firebaseUrl}/board/widget/${baseKey}/props`;
         return <WidgetWrapper key={ baseKey } baseKey={ baseKey } widgetType={ widget.val.type } baseUrl={ baseUrl } />
     }
