@@ -3,10 +3,10 @@ import classNames                           from 'classnames';
 import $                                    from 'jquery';
 import ReactDOM                             from 'react-dom';
 
-import * as BoardActions                    from 'core/BoardActions';
+import * as BoardActions                    from '../../core/BoardActions';
 import { timeBeforeHideMenu,
-         spaceBetweenBorderToLaunchScroll } from 'config/WidgetConfig';
-import { gridWidth }                        from 'config/BoardConfig';
+         spaceBetweenBorderToLaunchScroll } from '../../config/WidgetConfig';
+import { gridWidth }                        from '../../config/BoardConfig';
 import Menu                                 from '../Menu';
 
 import Styles   from './View.scss';

@@ -6,14 +6,14 @@ import $                        from 'jquery';
 import classNames               from 'classnames';
 import ReactDOM                 from 'react-dom';
 
-import * as BoardActions        from 'core/BoardActions';
-import BoardStore               from 'core/BoardStore';
+import * as BoardActions        from '../core/BoardActions';
+import BoardStore               from '../core/BoardStore';
 import WidgetActions            from './Actions';
 import WidgetFactory            from './Factory';
-import AuthStore                from 'core/AuthStore';
-import Resizer                  from 'component/Resizer';
-import Blur                     from 'component/Blur';
-import ConfirmDialog            from 'component/ConfirmDialog';
+import AuthStore                from '../core/AuthStore';
+import Resizer                  from '../component/Resizer';
+import Blur                     from '../component/Blur';
+import ConfirmDialog            from '../component/ConfirmDialog';
 
 import Styles       from './Wrapper.scss';
 

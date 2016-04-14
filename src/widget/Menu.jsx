@@ -2,7 +2,7 @@ import React, { Component, PropTypes }  from 'react';
 import classNames                       from 'classnames';
 import ReactTooltip                     from 'react-tooltip';
 
-import Guid                             from 'utils/Guid';
+import Guid                             from '../utils/Guid';
 
 import Styles   from './Menu.scss';
 

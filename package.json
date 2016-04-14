@@ -56,10 +56,13 @@
     "prewebpack": "rimraf $npm_package_config_demoBuildDir",
     "webpack": "webpack --colors --display-error-details --progress --config ./webpack/config",
     "start": "NODE_ENV=dev node ./webpack/dev-server  --colors --display-error-details --progress",
+    "start_windows": "set NODE_ENV=dev&&node ./webpack/dev-server  --colors --display-error-details --progress",
     "prebuilddemo": "rimraf $npm_package_config_demoBuildDir && mkdir $npm_package_config_demoBuildDir",
     "builddemo": "npm run webpack",
     "prebuild": "rimraf $npm_package_config_buildDir && mkdir $npm_package_config_buildDir",
-    "build": "cp -R src/* $npm_package_config_buildDir && cp package.json $npm_package_config_buildDir && cp Readme.md $npm_package_config_buildDir && cp .npmrc $npm_package_config_buildDir"
+    "build": "cp -R src/* $npm_package_config_buildDir && cp package.json $npm_package_config_buildDir && cp Readme.md $npm_package_config_buildDir && cp .npmrc $npm_package_config_buildDir",
+    "prebuild_windows": "rimraf build && mkdir build",
+    "build_windows": "cp -R src/* build && cp package.json build && cp Readme.md build && cp .npmrc build"
   },
   "config": {
     "buildDir":"./build",

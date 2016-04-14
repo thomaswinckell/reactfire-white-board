@@ -1,7 +1,7 @@
 import _                        from 'lodash';
 import $                        from 'jquery';
 
-import Pencil                   from 'drawing/tool/Pencil';
+import Pencil                   from './tool/Pencil';
 
 import Styles from './DrawingSurface.scss';
 

@@ -1,6 +1,6 @@
 import React                from 'react';
 
-import AbstractWidgetView   from 'widget/abstract/View';
+import AbstractWidgetView   from '../abstract/View';
 
 import Styles from './View.scss';
 

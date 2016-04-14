@@ -1,7 +1,7 @@
 import React, { Component, PropTypes }  from 'react';
 
-import { gridWidth }                    from 'config/BoardConfig';
-import { resizerConfig }                from 'config/WidgetConfig';
+import { gridWidth }                    from '../config/BoardConfig';
+import { resizerConfig }                from '../config/WidgetConfig';
 
 import Styles   from './Resizer.scss';
 

@@ -1,12 +1,12 @@
 import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 
-import * as DrawingActions              from 'drawing/BackgroundDrawingActions';
-import * as BoardActions                from 'core/BoardActions';
-import NavBar, { NavBarElement }        from 'component/NavBar';
-import ConfirmDialog                    from 'component/ConfirmDialog';
-import WidgetNavBar                     from 'widget/NavBar';
-import DrawingNavBar                    from 'drawing/DrawingNavBar';
+import * as DrawingActions              from '../drawing/BackgroundDrawingActions';
+import * as BoardActions                from './BoardActions';
+import NavBar, { NavBarElement }        from '../component/NavBar';
+import ConfirmDialog                    from '../component/ConfirmDialog';
+import WidgetNavBar                     from '../widget/NavBar';
+import DrawingNavBar                    from '../drawing/DrawingNavBar';
 
 import Styles from './MainNavBar.scss';
 

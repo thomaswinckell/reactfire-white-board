@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import ReactDOM             from 'react-dom';
 import $                    from 'jquery';
 
-import AbstractWidgetEditor from 'widget/abstract/Editor';
+import AbstractWidgetEditor from '../abstract/Editor';
 
 import Styles from './Editor.scss';
 

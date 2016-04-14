@@ -1,9 +1,9 @@
 import React, { Component, PropTypes }  from 'react';
 
-import * as BoardActions                from 'core/BoardActions';
-import BoardStore                       from 'core/BoardStore';
-import * as Actions                     from 'drawing/BackgroundDrawingActions';
-import DrawingSurface                   from 'drawing/DrawingSurface';
+import * as BoardActions                from '../core/BoardActions';
+import BoardStore                       from '../core/BoardStore';
+import * as Actions                     from './BackgroundDrawingActions';
+import DrawingSurface                   from './DrawingSurface';
 
 
 export default class BackgroundDrawing extends Component {

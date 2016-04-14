@@ -1,7 +1,7 @@
 import { Store }            from 'airflux';
 import Firebase             from 'firebase';
 
-import * as ConfigActions   from 'config/ConfigActions';
+import * as ConfigActions   from '../config/ConfigActions';
 
 
 class AuthStore extends Store {

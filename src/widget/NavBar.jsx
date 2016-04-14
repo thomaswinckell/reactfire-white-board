@@ -1,9 +1,9 @@
 import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 
-import NavBar, { NavBarElement }        from 'component/NavBar';
+import NavBar, { NavBarElement }        from '../component/NavBar';
 
-import * as BoardActions                from 'core/BoardActions';
+import * as BoardActions                from '../core/BoardActions';
 
 
 export default class WidgetNavBar extends Component {

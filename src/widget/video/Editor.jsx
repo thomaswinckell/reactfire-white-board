@@ -1,9 +1,9 @@
 import React                            from 'react';
 import RecordRTC                        from 'recordrtc';
 
-import { videoTime }                    from 'config/WidgetConfig';
-import Webcam                           from 'component/Webcam';
-import AbstractWidgetEditor             from 'widget/abstract/Editor';
+import { videoTime }                    from '../../config/WidgetConfig';
+import Webcam                           from '../../component/Webcam';
+import AbstractWidgetEditor             from '../abstract/Editor';
 
 
 export default class VideoWidgetEditor extends AbstractWidgetEditor {

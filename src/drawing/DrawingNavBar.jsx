@@ -3,12 +3,12 @@ import React, { Component, PropTypes }  from 'react';
 import ReactDOM                         from 'react-dom';
 import ColorPicker                      from 'react-color';
 
-import * as DrawingActions              from 'drawing/BackgroundDrawingActions';
-import NavBar, { NavBarElement }        from 'component/NavBar';
-import Pencil                           from 'drawing/tool/Pencil';
-import Rectangle                        from 'drawing/tool/Rectangle';
-import Line                             from 'drawing/tool/Line';
-import Circle                           from 'drawing/tool/Circle';
+import * as DrawingActions              from './BackgroundDrawingActions';
+import NavBar, { NavBarElement }        from '../component/NavBar';
+import Pencil                           from './tool/Pencil';
+import Rectangle                        from './tool/Rectangle';
+import Line                             from './tool/Line';
+import Circle                           from './tool/Circle';
 
 
 export default class DrawingNavBar extends Component {

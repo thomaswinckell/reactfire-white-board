@@ -3,8 +3,8 @@ import React, { Component, PropTypes }  from 'react';
 import classNames                       from 'classnames';
 import ReactTooltip                     from 'react-tooltip';
 
-import Blur                             from 'component/Blur';
-import Guid                             from 'utils/Guid';
+import Blur                             from './Blur';
+import Guid                             from '../utils/Guid';
 
 import Styles from './NavBar.scss';
 

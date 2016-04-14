@@ -4,11 +4,11 @@ import React,
        { Component, PropTypes } from 'react';
 import ReactDOM                 from 'react-dom';
 
-import AuthStore                from 'core/AuthStore';
-import * as Actions             from 'core/BoardActions';
-import WidgetWrapper            from 'widget/Wrapper';
-import WidgetClone              from 'widget/Clone';
-import BoardStore               from 'core/BoardStore';
+import AuthStore                from './AuthStore';
+import * as Actions             from './BoardActions';
+import WidgetWrapper            from '../widget/Wrapper';
+import WidgetClone              from '../widget/Clone';
+import BoardStore               from './BoardStore';
 
 import Styles from './Board.scss';
 

@@ -1,4 +1,4 @@
-import Tool from 'drawing/tool/Tool';
+import Tool from './Tool';
 
 export default class Pencil extends Tool {
 

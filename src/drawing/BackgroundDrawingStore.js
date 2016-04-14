@@ -1,9 +1,9 @@
 import { Store }        from 'airflux';
 import Firebase         from 'firebase';
 
-import AuthStore        from 'core/AuthStore';
+import AuthStore        from '../core/AuthStore';
 
-import * as Actions     from 'drawing/BackgroundDrawingActions';
+import * as Actions     from './BackgroundDrawingActions';
 
 
 class BackgroundDrawingStore extends Store {

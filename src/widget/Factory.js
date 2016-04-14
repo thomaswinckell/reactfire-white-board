@@ -1,6 +1,6 @@
 import React        from 'react';
 
-import * as Widgets from 'widget';
+import * as Widgets from '../widget';
 
 
 class WidgetFactory {

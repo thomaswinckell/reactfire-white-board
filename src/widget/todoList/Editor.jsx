@@ -1,7 +1,7 @@
 import React                from 'react';
 import classNames           from 'classnames';
 
-import AbstractWidgetEditor from 'widget/abstract/Editor';
+import AbstractWidgetEditor from '../abstract/Editor';
 
 import Styles from './Editor.scss';
 

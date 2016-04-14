@@ -2,8 +2,8 @@ import React, { PropTypes }     from 'react';
 import ReactDOM                 from 'react-dom';
 import GMapsApi                 from 'google-maps-api';
 
-import AuthStore                from 'core/AuthStore';
-import AbstractWidgetView       from 'widget/abstract/View';
+import AuthStore                from '../../core/AuthStore';
+import AbstractWidgetView       from '../abstract/View';
 
 import Styles from './View.scss';
 

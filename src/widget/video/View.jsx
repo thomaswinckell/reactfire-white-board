@@ -1,7 +1,7 @@
 import React                    from 'react';
-import Webcam                   from 'component/Webcam';
 
-import AbstractWidgetView       from 'widget/abstract/View';
+import Webcam                   from '../../component/Webcam';
+import AbstractWidgetView       from '../abstract/View';
 
 
 export default class VideoWidgetView extends AbstractWidgetView {
