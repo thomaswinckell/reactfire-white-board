@@ -25,7 +25,7 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        const appConfig = new AppConfig( this.props.firebaseUrl, this.props.gmapsApiKey );
+        const appConfig = new AppConfig( this.props.firebaseUrl, this.props.gmapsApiKey, this.props.boardKey );
         ConfigActions.loadConfig( appConfig );
     }
 

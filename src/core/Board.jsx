@@ -142,8 +142,8 @@ export default class Board extends Component {
 
     renderWidget( widget ) {
         const baseKey = widget.key;
-        const { firebaseUrl } = AuthStore.appConfig;
-        const baseUrl = `${firebaseUrl}/board/widget/${baseKey}/props`;
+        const { firebaseUrl , boardKey } = AuthStore.appConfig;
+        const baseUrl = `${firebaseUrl}/boards/${boardKey}/widget/${baseKey}/props`;
         return <WidgetWrapper key={ baseKey } baseKey={ baseKey } widgetType={ widget.val.type } baseUrl={ baseUrl } />
     }
 

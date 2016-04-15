@@ -25,10 +25,10 @@ class BackgroundDrawingStore extends Store {
     }
 
     _onAuthSuccess( authStoreState ) {
-        const { firebaseUrl } = authStoreState.appConfig;
-
-        this.backgroundDrawingRef = new Firebase( `${firebaseUrl}/board/backgroundDrawing` );
-        this.backgroundImageRef = new Firebase( `${firebaseUrl}/board/backgroundImage` );
+        const { firebaseUrl, boardKey } = authStoreState.appConfig;
+        
+        this.backgroundDrawingRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/backgroundDrawing` );
+        this.backgroundImageRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/backgroundImage` );
 
         this.backgroundDrawingRef.on( 'value', dataSnapshot => {
             const backgroundDrawing = dataSnapshot.val();
