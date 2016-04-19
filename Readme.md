@@ -1,5 +1,18 @@
 A real time white board using ReactJS and Firebase.
 
+
+Version 0.0.3-beta1
+ ===========
+Refactor the way widgets are stored
+- now it is /widgets/${boardKey}/${widgetKey}/
+- instead of /board/${key}/widgets/${widgetKey}/
+
+Version 0.0.2-beta1
+===========
+
+A boardKey can be passed as a props to the board (one is given by default)
+
+
 Compatibility
 =============
 
