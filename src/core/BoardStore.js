@@ -85,6 +85,7 @@ class BoardStore extends Store {
    }
 
     _removeWidget( widgetKey ) {
+        const { firebaseUrl , boardKey } = authStoreState.appConfig;
         let widgetBase = new Firebase( `${firebaseUrl}/widgets/${boardKey}/${widgetKey}` );
         widgetBase.remove();
         widgetBase.off();
