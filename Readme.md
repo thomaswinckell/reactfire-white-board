@@ -1,6 +1,12 @@
 A real time white board using ReactJS and Firebase.
 
 
+Version 0.0.4-beta1
+============
+
+Fix Youtube video widget to load over https
+
+
 Version 0.0.3-beta1
  ===========
 Refactor the way widgets are stored

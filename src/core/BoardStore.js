@@ -7,7 +7,8 @@ import * as Actions         from './BoardActions';
 class BoardStore extends Store {
 
     state = {
-        widgets : []
+        widgets : [],
+        authStoreState : ''
     };
 
     constructor() {
@@ -36,6 +37,7 @@ class BoardStore extends Store {
 
     _onAuthSuccess( authStoreState ) {
         const { firebaseUrl , boardKey } = authStoreState.appConfig;
+        this.authStoreState = authStoreState;
         //this.boardSizeRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/size` );
         //this.widgetsRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/widget` );
         //this.latestIndexRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/latestWidgetIndex` );
@@ -85,7 +87,7 @@ class BoardStore extends Store {
    }
 
     _removeWidget( widgetKey ) {
-        const { firebaseUrl , boardKey } = authStoreState.appConfig;
+        const { firebaseUrl , boardKey } = this.authStoreState.appConfig;
         let widgetBase = new Firebase( `${firebaseUrl}/widgets/${boardKey}/${widgetKey}` );
         widgetBase.remove();
         widgetBase.off();
