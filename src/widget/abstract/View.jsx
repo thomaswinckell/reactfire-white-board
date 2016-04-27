@@ -45,17 +45,15 @@ export default class AbstractWidgetView extends Component {
 
     onDoubleClick( event ) {
         event.preventDefault();
-        // FIXME
-        //if ( !this.context.widget.isLockedByAnotherUser() ) {
+        if ( !this.props.isLockedByAnotherUser ) {
             this.props.actions.setEditMode();
-        //}
+        }
     }
 
     onMouseDown( event ) {
-        // FIXME
-        //if ( !this.context.widget.isLockedByAnotherUser() ) {
+        if ( !this.props.isLockedByAnotherUser ) {
             this.onDragStart( event );
-        //}
+        }
     }
 
     getInvertedZoom() {
@@ -66,6 +64,7 @@ export default class AbstractWidgetView extends Component {
     }
 
     onDragStart( event ) {
+        console.log('started');
         if ( !this.state.canDrag ) {
             return;
         }

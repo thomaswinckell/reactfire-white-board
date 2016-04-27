@@ -107,8 +107,9 @@ export default class WidgetWrapper extends Component {
         return AuthStore.isCurrentUser( this.state.isLockedBy );
     }
 
+    //FIX this.state.isEditingBy.uid and not .id
     isLockedByAnotherUser() {
-        return this.state.isEditingBy && this.state.isEditingBy.id && !this.isLockedByCurrentUser();
+        return this.state.isEditingBy && this.state.isEditingBy.uid && !this.isLockedByCurrentUser();
     }
 
     isEditingByCurrentUser() {
@@ -126,7 +127,7 @@ export default class WidgetWrapper extends Component {
         this.updateData( { isEditingBy : false, isLockedBy : false } );
     }
 
-    // FIX with 2 updates to prevent the lock to be fired after the unlock 
+    // FIX with 2 updates to prevent the lock to be fired after the unlock
     select() {
         this.updateData( { isLockedBy: AuthStore.currentUser } );
         BoardStore.getLatestIndex( ( error, committed, snapshot ) => {
@@ -183,7 +184,8 @@ export default class WidgetWrapper extends Component {
     renderWidgetView() {
         const props = _.extend( {}, this.state, {
             valueLink   : this.updateData.bind( this ),
-            actions     : this.actions
+            actions     : this.actions,
+            isLockedByAnotherUser : this.isLockedByAnotherUser()
         } );
         return WidgetFactory.createWidgetView( this.props.widgetType, props );
     }
@@ -191,7 +193,8 @@ export default class WidgetWrapper extends Component {
     renderWidgetEditor() {
         const props = _.extend( {}, this.state, {
             valueLink   : this.updateData.bind( this ),
-            actions     : this.actions
+            actions     : this.actions,
+            isLockedByAnotherUser : this.isLockedByAnotherUser()
         } );
         return WidgetFactory.createWidgetEditor( this.props.widgetType, props );
     }
