@@ -77,6 +77,7 @@ export default class WidgetWrapper extends Component {
 
         // TODO : remove lock
         //this.setViewMode();
+        this.unselect();
         document.removeEventListener( 'focusin', this.onFocusIn );
         this.base.off();
     }
@@ -125,10 +126,12 @@ export default class WidgetWrapper extends Component {
         this.updateData( { isEditingBy : false, isLockedBy : false } );
     }
 
+    // FIX with 2 updates to prevent the lock to be fired after the unlock 
     select() {
+        this.updateData( { isLockedBy: AuthStore.currentUser } );
         BoardStore.getLatestIndex( ( error, committed, snapshot ) => {
             if ( !error && committed ) {
-                this.updateData( { isLockedBy: AuthStore.currentUser, index: snapshot.val() } );
+                this.updateData( { index: snapshot.val() } );
             } else {
                 // TODO : how to handle error ?
             }
