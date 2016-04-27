@@ -8,6 +8,7 @@ import { timeBeforeHideMenu,
          spaceBetweenBorderToLaunchScroll } from '../../config/WidgetConfig';
 import { gridWidth }                        from '../../config/BoardConfig';
 import Menu                                 from '../Menu';
+import BoardStore                           from '../../core/BoardStore';
 
 import Styles   from './View.scss';
 
@@ -57,20 +58,17 @@ export default class AbstractWidgetView extends Component {
     }
 
     getInvertedZoom() {
-        // FIXME
-        //const zoom = BoardStore.getZoom();
-        //return zoom >= 1 ? 1 - ( zoom - 1 ) : 1 + ( 1 - zoom );
-        return 1;
+        const zoom = BoardStore.zoom;
+        return zoom >= 1 ? 1 - ( zoom - 1 ) : 1 + ( 1 - zoom );
+        //return 1;
     }
 
     onDragStart( event ) {
-        console.log('started');
         if ( !this.state.canDrag ) {
             return;
         }
 
         const invertedZoom = this.getInvertedZoom();
-
         this._startX = ( event.pageX * invertedZoom ) - this.props.position.x;
         this._startY = ( event.pageY * invertedZoom ) - this.props.position.y;
 

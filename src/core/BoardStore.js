@@ -8,7 +8,8 @@ class BoardStore extends Store {
 
     state = {
         widgets : [],
-        authStoreState : ''
+        authStoreState : '',
+        zoom : 1
     };
 
     constructor() {
@@ -20,14 +21,21 @@ class BoardStore extends Store {
         Actions.addWidget.listen( this._addWidget.bind( this ) );
         Actions.removeWidget.listen( this._removeWidget.bind( this ) );
         Actions.clearBoard.listen( this._clearBoard.bind( this ) );
+        Actions.setZoom.listen( this._setZoom.bind(this ) );
     }
 
     get size() { return this.state.size; }
+
+    get zoom() { return this.state.zoom || 1; }
 
     destroy() {
         this.boardSizeRef.off();
         this.widgetsRef.off();
         this.latestIndexRef.off();
+    }
+
+    _setZoom( zoom ) {
+        this.state.zoom = zoom;
     }
 
     // FIXME : use promise
@@ -79,9 +87,12 @@ class BoardStore extends Store {
            if ( !error && committed ) {
                widget.props.index = snapshot.val();
                widget.props.isEditingBy = AuthStore.currentUser;
-               this.widgetsRef.push( widget );
+               this.widgetsRef.push( widget, (error) => {
+                    error ? console.log(error) : null;
+               });
            } else {
                // TODO : handle error ?
+               console.log(error);
            }
        });
    }

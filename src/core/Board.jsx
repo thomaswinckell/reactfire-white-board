@@ -97,12 +97,14 @@ export default class Board extends Component {
 
     zoomIn() {
         $( ReactDOM.findDOMNode( this ) ).css( { zoom : this.getZoom() + 0.1 } );
+        Actions.setZoom( this.getZoom() );
     }
 
     zoomOut() {
         const oldZoom = this.getZoom();
         if ( oldZoom > 0.1 ) {
             $( ReactDOM.findDOMNode( this ) ).css( { zoom : oldZoom - 0.1 } );
+            Actions.setZoom( this.getZoom() );
             this.updateSize();
         }
     }

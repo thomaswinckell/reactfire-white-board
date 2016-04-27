@@ -14,3 +14,4 @@ export const addWidget      : Action = new Action().asFunction;
 export const removeWidget   : Action = new Action().asFunction;
 export const setSize        : Action = new Action().asFunction;
 export const clearBoard     : Action = new Action().asFunction;
+export const setZoom        : Action = new Action().asFunction;
