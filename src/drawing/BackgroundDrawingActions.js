@@ -16,3 +16,5 @@ export const setBackgroundImage     : Action = new Action().asFunction;
 
 export const setColor               : Action = new Action().asFunction;
 export const setBackgroundColor     : Action = new Action().asFunction;
+
+export const setLineWidth           : Action = new Action().asFunction;

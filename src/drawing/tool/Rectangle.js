@@ -9,7 +9,7 @@ export default class Rectangle extends Tool {
 		this.y0 = event.pageY;
     }
 
-    onMouseMove( event, color, backgroundColor ) {
+    onMouseMove( event, color, backgroundColor , lineWidth ) {
         if ( this.isDragging ) {
             const x = Math.min( event.pageX, this.x0 ),
 			y = Math.min( event.pageY, this.y0 ),
@@ -25,6 +25,7 @@ export default class Rectangle extends Tool {
             this.context.fillStyle = backgroundColor;
             this.context.fillRect( x, y, w, h );
             this.context.strokeStyle = color;
+            this.context.lineWidth = lineWidth;
     		this.context.strokeRect( x, y, w, h );
         }
     }

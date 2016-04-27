@@ -7,7 +7,7 @@ export default class Circle extends Tool {
         this.initialPosition = { pageX : event.pageX, pageY : event.pageY };
     }
 
-    onMouseMove( event, color, backgroundColor ) {
+    onMouseMove( event, color, backgroundColor, lineWidth ) {
         if ( this.isDragging ) {
             this.context.clearRect( 0, 0, this.context.canvas.width, this.context.canvas.height );
             this.context.beginPath();
@@ -16,6 +16,7 @@ export default class Circle extends Tool {
             this.context.fillStyle = backgroundColor;
             this.context.fill();
             this.context.strokeStyle = color;
+            this.context.lineWidth = lineWidth;
             this.context.stroke();
         }
     }

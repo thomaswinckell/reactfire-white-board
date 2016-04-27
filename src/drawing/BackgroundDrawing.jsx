@@ -21,6 +21,7 @@ export default class BackgroundDrawing extends Component {
         Actions.setTool.listen( this.setTool.bind( this ) );
         Actions.setColor.listen( this.setColor.bind( this ) );
         Actions.setBackgroundColor.listen( this.setBackgroundColor.bind( this ) );
+        Actions.setLineWidth.listen( this.setLineWidth.bind( this ) );
     }
 
     componentWillUnmount() {
@@ -87,6 +88,12 @@ export default class BackgroundDrawing extends Component {
     setBackgroundColor( backgroundColor ) {
         if ( this.drawingSurface ) {
             this.drawingSurface.setBackgroundColor( backgroundColor );
+        }
+    }
+
+    setLineWidth ( width ) {
+        if ( this.drawingSurface ) {
+            this.drawingSurface.setLineWidth( width );
         }
     }
 

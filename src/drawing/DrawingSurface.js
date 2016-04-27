@@ -72,21 +72,25 @@ export default class DrawingSurface {
         this.backgroundColor = backgroundColor;
     }
 
+    setLineWidth ( width ) {
+        this.lineWidth = width;
+    }
+
     onMouseDown = ( event ) => {
         if ( this.tool && this.tool.onMouseDown ) {
-            this.tool.onMouseDown( event, this.color, this.backgroundColor );
+            this.tool.onMouseDown( event, this.color, this.backgroundColor, this.lineWidth );
         }
     };
 
     onMouseMove = ( event ) => {
         if ( this.tool && this.tool.onMouseMove ) {
-            this.tool.onMouseMove( event, this.color, this.backgroundColor );
+            this.tool.onMouseMove( event, this.color, this.backgroundColor, this.lineWidth );
         }
     };
 
     onMouseUp = ( event ) => {
         if ( this.tool && this.tool.onMouseUp ) {
-            this.tool.onMouseUp( event, this.color, this.backgroundColor );
+            this.tool.onMouseUp( event, this.color, this.backgroundColor, this.lineWidth );
             this.onDrawEnd();
         }
     };

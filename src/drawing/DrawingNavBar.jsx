@@ -29,6 +29,8 @@ export default class DrawingNavBar extends Component {
         this.state = {
             displayColorPicker              : false,
             displayBackgroundColorPicker    : false,
+            displayLineWidthPicker          : false,
+            lineWidth                       : 10,
             tool                            : Pencil
         };
     }
@@ -54,8 +56,17 @@ export default class DrawingNavBar extends Component {
         DrawingActions.setBackgroundColor( `#${color.hex}` );
     }
 
+    onLineWidthChange ( width ) {
+        this.setState({ lineWidth : width.target.value });
+        DrawingActions.setLineWidth( this.state.lineWidth );
+    }
+
+    hideLinewidthPicker(){
+        this.setState({ displayLineWidthPicker : false });
+    }
+
     onClose() {
-        this.setState( { displayColorPicker : false, displayBackgroundColorPicker : false } );
+        this.setState( { displayColorPicker : false, displayBackgroundColorPicker : false, displayLineWidthPicker : false } );
     }
 
     toggleColor() {
@@ -88,7 +99,7 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( 'Circle',            'radio_button_unchecked',     () => this.setTool( Circle ), this.isActiveTool( Circle ) ? "active" : "" ),
             //new NavBarElement( 'Text',              'text_fields' /* TODO */ ),
 
-            new NavBarElement( 'Line width',        'line_weight' /* TODO */ ),
+            new NavBarElement( 'Line width',        'line_weight', () => this.setState( { displayLineWidthPicker : !this.state.displayLineWidthPicker } ) ),
             new NavBarElement( 'Color',             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ) ),
 
             new NavBarElement( 'Background color',  'format_color_fill', this.toggleBackgroundColor.bind( this ) ),
@@ -118,9 +129,17 @@ export default class DrawingNavBar extends Component {
             zIndex: 2147483647
         };
 
+        const LinePickerPosition = {
+            position: 'fixed',
+            top: '235px',
+            left: '70px',
+            zIndex: 2147483647
+        };
+
         return (
             <div>
                  { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
+                {this.state.displayLineWidthPicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideLinewidthPicker() : null}value ={this.state.lineWidth}style= {LinePickerPosition} onChange={ this.onLineWidthChange.bind(this) } /> : null }
                 <ColorPicker type="chrome"
                              display={ this.state.displayColorPicker || this.state.displayBackgroundColorPicker }
                              positionCSS={ this.state.displayColorPicker ? colorPosition : bgColorPosition }
