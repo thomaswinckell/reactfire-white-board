@@ -9,7 +9,7 @@ import Pencil                           from './tool/Pencil';
 import Rectangle                        from './tool/Rectangle';
 import Line                             from './tool/Line';
 import Circle                           from './tool/Circle';
-
+import TextTool                         from './tool/TextTool';
 
 export default class DrawingNavBar extends Component {
 
@@ -30,8 +30,13 @@ export default class DrawingNavBar extends Component {
             displayColorPicker              : false,
             displayBackgroundColorPicker    : false,
             displayLineWidthPicker          : false,
+            displayText                     : false,
+            text                            : '',
             lineWidth                       : 10,
-            tool                            : Pencil
+            tool                            : Pencil,
+            bold                            : false,
+            italic                          : false,
+            underline                       : false
         };
     }
 
@@ -44,8 +49,34 @@ export default class DrawingNavBar extends Component {
         this.setState( { tool } );
     }
 
+    setText() {
+        this.setState({ displayText : !this.state.displayText });
+        DrawingActions.endText(); 
+        this.setTool( TextTool );
+    }
+
+    onTextChange( event ) {
+        this.setState({ text : event.target.value });
+        DrawingActions.setText( event.target.value );
+    }
+
     isActiveTool( tool ) {
         return tool === this.state.tool;
+    }
+
+    setBold(){
+        this.state.bold = !this.state.bold;
+        DrawingActions.setBold( this.state.bold );
+    }
+
+    setItalic(){
+        this.state.italic =!this.state.italic;
+        DrawingActions.setItalic( this.state.italic );
+    }
+
+    setUnderline(){
+        this.state.underline = !this.state.underline;
+        DrawingActions.setUnderline( this.state.underline );
     }
 
     onChangeColor( color ) {
@@ -97,7 +128,6 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( 'Line',              'line',      () => this.setTool( Line ), this.isActiveTool( Line ) ? "active" : "" ),
             new NavBarElement( 'Rectangle',         'check_box_outline_blank',     () => this.setTool( Rectangle ), this.isActiveTool( Rectangle ) ? "active" : "" ),
             new NavBarElement( 'Circle',            'radio_button_unchecked',     () => this.setTool( Circle ), this.isActiveTool( Circle ) ? "active" : "" ),
-            //new NavBarElement( 'Text',              'text_fields' /* TODO */ ),
 
             new NavBarElement( 'Line width',        'line_weight', () => this.setState( { displayLineWidthPicker : !this.state.displayLineWidthPicker } ) ),
             new NavBarElement( 'Color',             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ) ),
@@ -106,13 +136,13 @@ export default class DrawingNavBar extends Component {
 
             new NavBarElement( 'Background image',  'image',             this.updateBackgroundImage.bind( this ) ),
 
-            /* Text */
-            //new NavBarElement( 'Font',              'text_format' /* TODO */ ),
-            //new NavBarElement( 'Font size',         'format_size' /* TODO */ ),
-            //new NavBarElement( 'Bold',              'format_bold' /* TODO */ ),
-            //new NavBarElement( 'Underline',         'format_underlined' /* TODO */ ),
-            //new NavBarElement( 'Strike through',    'format_strikethrough' /* TODO */ ),
-            //new NavBarElement( 'Italic',            'format_italic' /* TODO */ )
+            new NavBarElement( 'TextTool',          'text_fields', () => this.setText(), this.isActiveTool( TextTool ) ? "active" : "" ),
+            new NavBarElement( 'Font',              'text_format' /* TODO */ ),
+            new NavBarElement( 'Font size',         'format_size' /* TODO */ ),
+            new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), "active" ),
+            new NavBarElement( 'Strike through',    'format_strikethrough' /* TODO */ ),
+            new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline() ),
+            new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic() )
         ];
 
         const colorPosition = {
@@ -136,9 +166,17 @@ export default class DrawingNavBar extends Component {
             zIndex: 2147483647
         };
 
+        const TextPosition = {
+            position: 'fixed',
+            top: '580px',
+            left: '85px',
+            zIndex: 2147483647
+        }
+
         return (
             <div>
                  { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
+                {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text}style= {TextPosition} onChange={ this.onTextChange.bind(this) } /> : null }
                 {this.state.displayLineWidthPicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideLinewidthPicker() : null}value ={this.state.lineWidth}style= {LinePickerPosition} onChange={ this.onLineWidthChange.bind(this) } /> : null }
                 <ColorPicker type="chrome"
                              display={ this.state.displayColorPicker || this.state.displayBackgroundColorPicker }

@@ -18,3 +18,8 @@ export const setColor               : Action = new Action().asFunction;
 export const setBackgroundColor     : Action = new Action().asFunction;
 
 export const setLineWidth           : Action = new Action().asFunction;
+export const setText                : Action = new Action().asFunction;
+export const setBold                : Action = new Action().asFunction;
+export const setItalic              : Action = new Action().asFunction;
+export const setUnderline           : Action = new Action().asFunction;
+export const endText                : Action = new Action().asFunction;

@@ -22,6 +22,11 @@ export default class BackgroundDrawing extends Component {
         Actions.setColor.listen( this.setColor.bind( this ) );
         Actions.setBackgroundColor.listen( this.setBackgroundColor.bind( this ) );
         Actions.setLineWidth.listen( this.setLineWidth.bind( this ) );
+        Actions.setText.listen( this.setText.bind( this) );
+        Actions.setBold.listen( this.setBold.bind( this) );
+        Actions.setItalic.listen( this.setItalic.bind( this) );
+        Actions.setUnderline.listen( this.setUnderline.bind( this) );
+        Actions.endText.listen( this.endText.bind( this) );
     }
 
     componentWillUnmount() {
@@ -43,6 +48,7 @@ export default class BackgroundDrawing extends Component {
     }
 
     save() {
+        console.log(this.drawingSurface);
         if ( this.drawingSurface ) {
             Actions.setBackgroundDrawing( this.drawingSurface.getResultAsDataUrl() );
         }
@@ -63,6 +69,22 @@ export default class BackgroundDrawing extends Component {
         if ( this.drawingSurface ) {
             this.drawingSurface.setTool( tool );
         }
+    }
+
+    setBold( bold ){
+        this.drawingSurface.setBold( bold );
+    }
+
+    setUnderline( underline ){
+        this.drawingSurface.setUnderline( underline);
+    }
+
+    setItalic( italic ){
+        this.drawingSurface.setItalic( italic );
+    }
+
+    endText(){
+        this.drawingSurface.endText();
     }
 
     getColor() {
@@ -91,9 +113,15 @@ export default class BackgroundDrawing extends Component {
         }
     }
 
-    setLineWidth ( width ) {
+    setLineWidth( width ) {
         if ( this.drawingSurface ) {
             this.drawingSurface.setLineWidth( width );
+        }
+    }
+
+    setText( text ) {
+        if ( this.drawingSurface ){
+            this.drawingSurface.setText( text );
         }
     }
 

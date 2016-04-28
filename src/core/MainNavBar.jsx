@@ -106,6 +106,7 @@ export default class MainNavBar extends Component {
 
         if ( this.state.mode === Mode.drawing ) {
             clearElements.push(
+                new NavBarElement( 'Save drawing',      'save',   this.saveDrawing.bind( this ),      '', 'bottom' ),
                 new NavBarElement( 'Clear drawing',     'clear',  this.clearDrawing.bind( this ),      '', 'bottom' ),
                 new NavBarElement( 'Cancel',            'undo',   this.cancelDrawing.bind( this ),    '', 'bottom' ),
             );

@@ -40,6 +40,15 @@ export default class DrawingSurface {
         this.backgroundColor = backgroundColor;
         this.tool = new toolType( this.context );
 
+        this.fontParams = {
+            fontSize        : '25px',
+            font            : 'arial',
+            italic          : false,
+            bold            : false,
+            underline       : false,
+            strikeThrough   : false
+        }
+
         this.canvas.addEventListener( 'mousedown',  this.onMouseDown );
         this.canvas.addEventListener( 'mousemove',  this.onMouseMove );
         this.canvas.addEventListener( 'mouseup',    this.onMouseUp );
@@ -64,6 +73,18 @@ export default class DrawingSurface {
         }
     }
 
+    setBold( bold ) {
+        this.fontParams.bold = bold;
+    }
+
+    setItalic( italic ) {
+        this.fontParams.italic = italic;
+    }
+
+    setUnderline( underline ) {
+        this.fontParams.underline = underline;
+    }
+
     setColor( color ) {
         this.color = color;
     }
@@ -74,6 +95,17 @@ export default class DrawingSurface {
 
     setLineWidth ( width ) {
         this.lineWidth = width;
+    }
+
+    setText( text ) {
+        this.text = text;
+        if ( this.tool && this.tool.onNewText ) {
+            this.tool.onNewText( text , this.fontParams );
+        }
+    }
+
+    endText(){
+        this.onDrawEnd();
     }
 
     onMouseDown = ( event ) => {
