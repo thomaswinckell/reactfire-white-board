@@ -3,6 +3,10 @@ import Tool from './Tool';
 
 export default class TextTool extends Tool {
 
+    constructor( context ){
+        super( context , 'TextTool');
+    }
+
     onMouseDown( event ) {
         this.x = event.pageX;
         this.y = event.pageY;

@@ -10,6 +10,7 @@ import Rectangle                        from './tool/Rectangle';
 import Line                             from './tool/Line';
 import Circle                           from './tool/Circle';
 import TextTool                         from './tool/TextTool';
+import Eraser                           from './tool/Eraser';
 
 export default class DrawingNavBar extends Component {
 
@@ -51,7 +52,7 @@ export default class DrawingNavBar extends Component {
 
     setText() {
         this.setState({ displayText : !this.state.displayText });
-        DrawingActions.endText(); 
+        DrawingActions.endText();
         this.setTool( TextTool );
     }
 
@@ -128,6 +129,7 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( 'Line',              'line',      () => this.setTool( Line ), this.isActiveTool( Line ) ? "active" : "" ),
             new NavBarElement( 'Rectangle',         'check_box_outline_blank',     () => this.setTool( Rectangle ), this.isActiveTool( Rectangle ) ? "active" : "" ),
             new NavBarElement( 'Circle',            'radio_button_unchecked',     () => this.setTool( Circle ), this.isActiveTool( Circle ) ? "active" : "" ),
+            new NavBarElement( 'Eraser',            'eraser',     () => this.setTool( Eraser ), this.isActiveTool( Eraser ) ? "active" : "" ),
 
             new NavBarElement( 'Line width',        'line_weight', () => this.setState( { displayLineWidthPicker : !this.state.displayLineWidthPicker } ) ),
             new NavBarElement( 'Color',             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ) ),

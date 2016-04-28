@@ -51,8 +51,13 @@ export default class MainNavBar extends Component {
 
     saveDrawing() {
         DrawingActions.save();
-        DrawingActions.disable();
-        this.setState( { mode : Mode.widgets  } );
+    }
+
+    setWidgetMode(){
+        if ( this.state.mode === Mode.drawing ) {
+            DrawingActions.disable();
+            this.setState( { mode : Mode.widgets  } );
+        }
     }
 
     clearBoard() {
@@ -93,7 +98,7 @@ export default class MainNavBar extends Component {
         let elements = [
         //new NavBarElement( 'Logout', 'sign-out', AuthActions.logout.bind( this ) ),
             new NavBarElement( 'Paint mode',    'format_paint',        this.setDrawingMode.bind( this ),    this.state.mode === Mode.drawing ? 'active' : '', 'bottom' ),
-            new NavBarElement( 'Widgets mode',  'dashboard',           this.saveDrawing.bind( this ),      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
+            new NavBarElement( 'Widgets mode',  'dashboard',           this.setWidgetMode.bind( this ),      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
         ];
 
         let zoomElements = [

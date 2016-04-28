@@ -48,7 +48,6 @@ export default class BackgroundDrawing extends Component {
     }
 
     save() {
-        console.log(this.drawingSurface);
         if ( this.drawingSurface ) {
             Actions.setBackgroundDrawing( this.drawingSurface.getResultAsDataUrl() );
         }

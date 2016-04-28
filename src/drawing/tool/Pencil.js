@@ -2,6 +2,10 @@ import Tool from './Tool';
 
 export default class Pencil extends Tool {
 
+    constructor( context ){
+        super( context , 'Pencil');
+    }
+
     onMouseDown( event ) {
         this.isDragging = true;
         this.context.beginPath();

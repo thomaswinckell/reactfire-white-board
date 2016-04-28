@@ -2,6 +2,10 @@ import Tool from './Tool';
 
 export default class Circle extends Tool {
 
+    constructor( context ){
+        super( context , 'Circle');
+    }
+
     onMouseDown( event ) {
         this.isDragging = true;
         this.initialPosition = { pageX : event.pageX, pageY : event.pageY };

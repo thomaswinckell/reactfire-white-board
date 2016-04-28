@@ -3,6 +3,10 @@ import Tool from './Tool';
 
 export default class Rectangle extends Tool {
 
+    constructor( context ){
+        super( context , 'Rectangle');
+    }
+
     onMouseDown( event ) {
         this.isDragging = true;
 		this.x0 = event.pageX;
