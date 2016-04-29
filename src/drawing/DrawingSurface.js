@@ -102,7 +102,7 @@ export default class DrawingSurface {
 
     setText( text ) {
         this.text = text;
-        if ( this.tool && this.tool.onNewText ) {
+        if ( this.tool && this.tool.__proto__.hasOwnProperty( 'onNewText' ) ) {
             this.tool.onNewText( text , this.fontParams );
         }
     }
@@ -112,19 +112,19 @@ export default class DrawingSurface {
     }
 
     onMouseDown = ( event ) => {
-        if ( this.tool && this.tool.onMouseDown ) {
+        if ( this.tool && this.tool.__proto__.hasOwnProperty( 'onMouseDown' ) ) {
             this.tool.onMouseDown( event, this.color, this.backgroundColor, this.lineWidth );
         }
     };
 
     onMouseMove = ( event ) => {
-        if ( this.tool && this.tool.onMouseMove ) {
+        if ( this.tool && this.tool.__proto__.hasOwnProperty( 'onMouseMove' ) ) {
             this.tool.onMouseMove( event, this.color, this.backgroundColor, this.lineWidth );
         }
     };
 
     onMouseUp = ( event ) => {
-        if ( this.tool && this.tool.onMouseUp ) {
+        if ( this.tool && this.tool.__proto__.hasOwnProperty( 'onMouseUp' ) ) {
             this.tool.onMouseUp( event, this.color, this.backgroundColor, this.lineWidth );
             this.onDrawEnd();
         }

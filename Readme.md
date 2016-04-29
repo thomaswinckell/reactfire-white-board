@@ -1,6 +1,11 @@
 A real time white board using ReactJS and Firebase.
 
 
+Version 0.0.5-beta1
+============
+
+Added Eraser tool and text tool
+
 Version 0.0.4-beta1
 ============
 

@@ -24,7 +24,6 @@ export default class TextTool extends Tool {
             this.context.clearRect( 0, 0, this.context.canvas.width, this.context.canvas.height );
 
             this.context.font = this.buildfont( fontParams );
-            console.log(this.context.font);
 
             if( fontParams.underline ){
                 this.underline( text );
