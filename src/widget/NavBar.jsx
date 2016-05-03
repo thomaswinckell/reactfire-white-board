@@ -95,6 +95,22 @@ export default class WidgetNavBar extends Component {
         } );
     }
 
+    addJiraWidget( event ){
+        BoardActions.addWidgetClone( 'JiraWidget', {
+            size: {
+                height: 300,
+                width: 300
+            },
+            position : {
+                x : event.pageX,
+                y : event.pageY
+            },
+            youtube: {
+                id : '5HZdyUUhzXU'
+            }
+        } );
+    }
+
     render() {
 
         const elements = [
@@ -103,6 +119,7 @@ export default class WidgetNavBar extends Component {
             new NavBarElement( 'Youtube',           'video_collection',   this.addYoutubeWidget.bind( this ) ),
             new NavBarElement( 'Google Maps',       'place',              this.addGMapsWidget.bind( this ) ),
             new NavBarElement( 'Video message',     'videocam',           this.addVideoWidget.bind( this ) ),
+            new NavBarElement( 'Jira',              'videocam',           this.addJiraWidget.bind( this ) ),
         ];
 
         return (
