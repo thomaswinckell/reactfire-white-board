@@ -17,8 +17,6 @@ export default class JiraWidgetView extends AbstractWidgetView {
         if(req.status == 200)
           dump(req.responseText);
 */
-        console.log(this.props);
-
         return (
             <div className={ Styles.root }>
                 { this.props.adresse && this.props.adresse.serv ?

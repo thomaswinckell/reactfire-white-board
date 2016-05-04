@@ -168,6 +168,7 @@ export default class DrawingNavBar extends Component {
             zIndex: 2147483647
         };
 
+        //FIXME Try to put the position under the click
         const TextPosition = {
             position: 'fixed',
             top: '580px',

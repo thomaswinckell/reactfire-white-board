@@ -16,10 +16,12 @@
     "google-maps-api": "^2.0.1",
     "jquery": "^2.2.0",
     "lodash": "^4.5.0",
+    "lodash.range": "^3.1.4",
     "moment": "^2.11.2",
     "react": "^0.14.7",
     "react-color": "^1.3.7",
     "react-dom": "^0.14.7",
+    "react-motion": "^0.3.1",
     "react-tooltip": "^1.1.2",
     "react-webcam": "^0.0.9",
     "recordrtc": "^5.2.7"
@@ -66,7 +68,7 @@
     "build_windows": "cp -R src/* build && cp package.json build && cp Readme.md build && cp .npmrc build"
   },
   "config": {
-    "buildDir":"./build",
+    "buildDir": "./build",
     "demoBuildDir": "./demobuild",
     "devHost": "localhost",
     "devPort": 9786
