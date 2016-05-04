@@ -1,6 +1,13 @@
 A real time white board using ReactJS and Firebase.
 
 
+
+Version 0.0.6-beta1
+============
+
+Some test done with react-motion
+
+
 Version 0.0.5-beta1
 ============
 
