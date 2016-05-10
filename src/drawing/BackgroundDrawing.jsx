@@ -30,7 +30,9 @@ export default class BackgroundDrawing extends Component {
     }
 
     componentWillUnmount() {
-        this.drawingSurface.destroy();
+        if ( this.drawingSurface ) {
+            this.drawingSurface.destroy();
+        }
     }
 
     enable() {
