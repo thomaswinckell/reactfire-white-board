@@ -143,6 +143,12 @@ export default class Board extends Component {
     }
 
     renderWidget( widget ) {
+        //FIXME on clear board it seems all widget are re-added to firebase without
+        //their type so I delete this stupid copy here ...
+        if( widget.val.type === undefined){
+            Actions.removeWidget( widget.key);
+            return null;
+        }
         const baseKey = widget.key;
         const { firebaseUrl , boardKey } = AuthStore.appConfig;
         const baseUrl = `${firebaseUrl}/widgets/${boardKey}/${baseKey}/props`;
