@@ -39,9 +39,6 @@ class AuthStore extends Store {
     onAuthSuccess( authData, appConfig ) {
         const currentUser = {
             uid             : authData.uid,
-            displayName     : authData.google.displayName || 'Guest',
-            profileImageURL : authData.google.profileImageURL || 'img/default_profile.png', // TODO : A DEFAULT picture image
-            locale          : authData.google.cachedUserProfile && authData.google.cachedUserProfile.locale ? authData.google.cachedUserProfile.locale : 'en'
         };
         this.state = { currentUser, appConfig };
         this.publishState();
