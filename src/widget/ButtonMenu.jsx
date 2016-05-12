@@ -78,12 +78,17 @@ export default class ButtonMenu extends Component {
 	}
 
 	componentDidMount() {
-		window.addEventListener('click', this.closeMenu.bind(this));
+		this.closeMenuBinded = this.closeMenu.bind(this);
+		window.addEventListener('click', this.closeMenuBinded);
 		let childButtons = [];
 		//this.setState({childButtons: childButtons.slice(0)});
 		this.setState({childButtons: this.props.elements});
 		this.updateDimensions()
 		 window.addEventListener("resize", this.updateDimensions.bind(this));
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('click', this.closeMenuBinded, false);
 	}
 
 	mainButtonStyles() {

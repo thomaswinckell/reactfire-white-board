@@ -2,6 +2,12 @@ A real time white board using ReactJS and Firebase.
 
 
 
+Version 0.0.7-beta1
+============
+
+Auth.currentUser only take uid now
+drawingSurface componentWillUnmount method fixed 
+
 Version 0.0.6-beta1
 ============
 
