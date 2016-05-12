@@ -4,6 +4,7 @@ import ReactDOM                         from 'react-dom';
 import ColorPicker                      from 'react-color';
 
 import * as DrawingActions              from './BackgroundDrawingActions';
+import * as TextToolActions             from './tool/TextToolActions';
 import NavBar, { NavBarElement }        from '../component/NavBar';
 import Pencil                           from './tool/Pencil';
 import Rectangle                        from './tool/Rectangle';
@@ -37,8 +38,13 @@ export default class DrawingNavBar extends Component {
             tool                            : Pencil,
             bold                            : false,
             italic                          : false,
-            underline                       : false
+            underline                       : false,
+            x                               : 580,
+            y                               : 85
         };
+
+        TextToolActions.onMouseDown.listen( this._onMouseDown.bind( this ) );
+
     }
 
     componentWillUnmount() {
@@ -122,6 +128,12 @@ export default class DrawingNavBar extends Component {
         }
     }
 
+    _onMouseDown( x, y ){
+        this.setState({
+            x, y
+        });
+    }
+
     render() {
 
         const elements = [
@@ -168,11 +180,10 @@ export default class DrawingNavBar extends Component {
             zIndex: 2147483647
         };
 
-        //FIXME Try to put the position under the click
         const TextPosition = {
             position: 'fixed',
-            top: '580px',
-            left: '85px',
+            top: this.state.y+10 + 'px',
+            left: this.state.x + 'px',
             zIndex: 2147483647
         }
 

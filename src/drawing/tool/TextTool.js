@@ -1,5 +1,5 @@
-import Tool from './Tool';
-
+import Tool                     from './Tool';
+import * as TextToolActions     from './TextToolActions';
 
 export default class TextTool extends Tool {
 
@@ -10,6 +10,7 @@ export default class TextTool extends Tool {
     onMouseDown( event ) {
         this.x = event.pageX;
         this.y = event.pageY;
+        TextToolActions.onMouseDown(this.x, this.y);
     }
 
     onMouseMove( event, color, bgcolor, lineWidth ) {
@@ -18,11 +19,11 @@ export default class TextTool extends Tool {
     onMouseUp( event ) {
     }
 
-    onNewText ( text , fontParams ){
+    onNewText ( text , color, fontParams ){
         if(this.x && this.y){
             //erase the previous text
             this.context.clearRect( 0, 0, this.context.canvas.width, this.context.canvas.height );
-
+            this.context.strokeStyle = color;
             this.context.font = this.buildfont( fontParams );
 
             if( fontParams.underline ){

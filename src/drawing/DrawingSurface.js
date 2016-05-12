@@ -103,7 +103,7 @@ export default class DrawingSurface {
     setText( text ) {
         this.text = text;
         if ( this.tool && this.tool.__proto__.hasOwnProperty( 'onNewText' ) ) {
-            this.tool.onNewText( text , this.fontParams );
+            this.tool.onNewText( text , this.color, this.fontParams );
         }
     }
 
