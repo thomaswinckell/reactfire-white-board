@@ -46,13 +46,15 @@ class BoardStore extends Store {
     _onAuthSuccess( authStoreState ) {
         const { firebaseUrl , boardKey } = authStoreState.appConfig;
         this.authStoreState = authStoreState;
-        //this.boardSizeRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/size` );
-        //this.widgetsRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/widget` );
-        //this.latestIndexRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/latestWidgetIndex` );
 
         this.boardSizeRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/size` );
         this.widgetsRef = new Firebase( `${firebaseUrl}/widgets/${boardKey}` );
         this.latestIndexRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/latestWidgetIndex` );
+
+        this.widgetsRef.off();
+        this.boardSizeRef.off();
+        this.state.widgets = [];
+
 
         this.widgetsRef.on( 'child_added', this._onAddWidget.bind( this ) );
         this.widgetsRef.on( 'child_removed', this._onRemoveWidget.bind( this ) );
