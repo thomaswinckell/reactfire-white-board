@@ -39,6 +39,7 @@ export default class DrawingNavBar extends Component {
             bold                            : false,
             italic                          : false,
             underline                       : false,
+            strikeThrough                   : false,
             x                               : 580,
             y                               : 85
         };
@@ -84,6 +85,11 @@ export default class DrawingNavBar extends Component {
     setUnderline(){
         this.state.underline = !this.state.underline;
         DrawingActions.setUnderline( this.state.underline );
+    }
+
+    setStrikeThrough(){
+        this.state.strikeThrough = !this.state.strikeThrough;
+        DrawingActions.setStrikeThrough( this.state.strikeThrough );
     }
 
     onChangeColor( color ) {
@@ -154,7 +160,7 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( 'Font',              'text_format' /* TODO */ ),
             new NavBarElement( 'Font size',         'format_size' /* TODO */ ),
             new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), "active" ),
-            new NavBarElement( 'Strike through',    'format_strikethrough' /* TODO */ ),
+            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), "active"),
             new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline() ),
             new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic() )
         ];

@@ -88,6 +88,10 @@ export default class DrawingSurface {
         this.fontParams.underline = underline;
     }
 
+    setStrikeThrough( strikeThrough ){
+        this.fontParams.strikeThrough = strikeThrough;
+    }
+
     setColor( color ) {
         this.color = color;
     }

@@ -26,6 +26,7 @@ export default class BackgroundDrawing extends Component {
         Actions.setBold.listen( this.setBold.bind( this) );
         Actions.setItalic.listen( this.setItalic.bind( this) );
         Actions.setUnderline.listen( this.setUnderline.bind( this) );
+        Actions.setStrikeThrough.listen( this.setStrikeThrough.bind( this) );
         Actions.endText.listen( this.endText.bind( this) );
     }
 
@@ -82,6 +83,10 @@ export default class BackgroundDrawing extends Component {
 
     setItalic( italic ){
         this.drawingSurface.setItalic( italic );
+    }
+
+    setStrikeThrough( strikeThrough ){
+        this.drawingSurface.setStrikeThrough( strikeThrough );
     }
 
     endText(){

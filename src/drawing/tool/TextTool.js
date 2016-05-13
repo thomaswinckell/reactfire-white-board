@@ -29,6 +29,9 @@ export default class TextTool extends Tool {
             if( fontParams.underline ){
                 this.underline( text );
             }
+            if( fontParams.strikeThrough ){
+                this.strikeThrough( text );
+            }
 
             this.context.strokeText( text , this.x, this.y);
         }
@@ -65,6 +68,27 @@ export default class TextTool extends Tool {
         //this.context.lineWidth = 3;
         this.context.moveTo(x_under,y_under);
         this.context.lineTo(x_under+width,y_under);
+        this.context.stroke();
+
+    }
+
+    strikeThrough( text ){
+        var width = this.context.measureText( text ).width;
+        let x_under = this.x , y_middle = this.y;
+        switch(this.context.textAlign){
+            case "center":
+            x_under -= (width/2); break;
+            case "right":
+            x_under -= width; break;
+        }
+
+        //TODO should be font size /2 or something
+        y_middle -= 8;
+        
+        this.context.beginPath();
+        //this.context.lineWidth = 3;
+        this.context.moveTo(x_under,y_middle);
+        this.context.lineTo(x_under+width,y_middle);
         this.context.stroke();
 
     }
