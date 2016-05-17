@@ -6,30 +6,32 @@
     right: 3%;
     opacity:1;
     zoom: document;
-    transition : all 500ms ease-in-out;
-
-    &.onEnter {
-      opacity:0;
-      .content {
-          transform : translateY(-50px);
-      }
-    }
-
-    &.onLeave {
-      opacity:0;
-      .content {
-          transform : translateY(50px);
-      }
-    }
 
 }
+
+:global .notif-enter {
+  opacity: 0.01;
+}
+
+:global .notif-enter.notif-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+:global .notif-leave {
+  opacity: 1;
+}
+
+:global .notif-leave.notif-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
 
 .content {
     margin-top: 5px;
     padding:5px;
     z-index: 2;
-    transform : translateY( 0 );
-    transition : all 200ms ease-in-out;
 }
 
 .success {

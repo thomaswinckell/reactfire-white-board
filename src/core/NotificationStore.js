@@ -30,7 +30,7 @@ class NotificationStore extends Store {
         this.notifRef.on( 'child_added', this._onAddNotif.bind( this ) );
         this.notifRef.on( 'child_removed', this._onRemoveNotif.bind( this ) );
 
-        this.state.interval = setInterval( this.removeOldNotif.bind( this ), 3*1000 );
+        this.state.interval = setInterval( this.removeOldNotif.bind( this ), 1000 );
 
     }
 

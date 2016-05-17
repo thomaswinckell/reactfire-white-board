@@ -50,7 +50,7 @@ export default class App extends Component {
 
         return (
             <div>
-                { notifs.length !==0 ? <Notification notifs= { notifs } /> : null }
+                <Notification notifs= { notifs } />
                 <Board widgets={ widgets } backgroundDrawing={ backgroundDrawing } backgroundImage={ backgroundImage }/>
                 <BackgroundDrawing imageContent={ backgroundDrawing } />
                 <MainNavBar/>
