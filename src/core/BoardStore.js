@@ -1,8 +1,9 @@
-import { Store }            from 'airflux';
-import Firebase             from 'firebase';
+import { Store }                        from 'airflux';
+import Firebase                         from 'firebase';
 
-import AuthStore            from './AuthStore';
-import * as Actions         from './BoardActions';
+import AuthStore                        from './AuthStore';
+import * as Actions                     from './BoardActions';
+import * as NotificationActions         from '../core/NotificationActions';
 
 class BoardStore extends Store {
 
@@ -90,11 +91,27 @@ class BoardStore extends Store {
                widget.props.index = snapshot.val();
                widget.props.isEditingBy = AuthStore.currentUser;
                this.widgetsRef.push( widget, (error) => {
-                    error ? console.log(error) : null;
+                    if (error){
+                        console.log(error);
+                        NotificationActions.pushNotif({
+                            type     : 'error',
+                            message  : error
+                        });
+                    } else {
+                        console.log('l2l');
+                        NotificationActions.pushNotif({
+                            type     : 'success',
+                            message  : 'Widget added'
+                        });
+                    }
                });
            } else {
                // TODO : handle error ?
                console.log(error);
+               NotificationActions.pushNotif({
+                   type     : 'error',
+                   message  : error
+               });
            }
        });
    }
@@ -104,6 +121,10 @@ class BoardStore extends Store {
         let widgetBase = new Firebase( `${firebaseUrl}/widgets/${boardKey}/${widgetKey}` );
         widgetBase.remove();
         widgetBase.off();
+        NotificationActions.pushNotif({
+            type     : 'success',
+            message  : 'Widget removed'
+        });
     }
 
     _clearBoard() {
