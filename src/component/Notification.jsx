@@ -35,7 +35,7 @@ export default class Notification extends Component {
         var notifs = this.props.notifs.map( (notif) => {
             const notifClassName = classNames ( Styles.content, {
                 [ Styles.success ] : notif.val.type === 'success',
-                [ Styles.info    ] : notif.val.type === 'login',
+                [ Styles.info    ] : notif.val.type === 'info',
                 [ Styles.warning ] : notif.val.type === 'warning',
                 [ Styles.error   ] : notif.val.type === 'error'
             } );

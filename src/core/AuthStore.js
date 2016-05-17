@@ -44,7 +44,7 @@ class AuthStore extends Store {
         this.state = { currentUser, appConfig };
         this.publishState();
         NotificationActions.pushNotif({
-            type        : 'login',
+            type        : 'info',
             message     : authData.google.displayName + ' logged in!'
         });
     }
