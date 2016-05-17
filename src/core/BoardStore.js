@@ -98,10 +98,9 @@ class BoardStore extends Store {
                             message  : error
                         });
                     } else {
-                        console.log('l2l');
                         NotificationActions.pushNotif({
                             type     : 'success',
-                            message  : 'Widget added'
+                            message  : 'Widget ' + widget.type + ' added'
                         });
                     }
                });
