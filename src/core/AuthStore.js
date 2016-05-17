@@ -1,8 +1,8 @@
-import { Store }            from 'airflux';
-import Firebase             from 'firebase';
+import { Store }                from 'airflux';
+import Firebase                 from 'firebase';
 
-import * as ConfigActions   from '../config/ConfigActions';
-
+import * as ConfigActions       from '../config/ConfigActions';
+import * as NotificationActions from './NotificationActions';
 
 class AuthStore extends Store {
 
@@ -37,11 +37,16 @@ class AuthStore extends Store {
     }
 
     onAuthSuccess( authData, appConfig ) {
+        console.log(authData);
         const currentUser = {
             uid             : authData.uid,
         };
         this.state = { currentUser, appConfig };
         this.publishState();
+        NotificationActions.pushNotif({
+            type        : 'login',
+            message     : authData.google.displayName + ' logged in!'
+        });
     }
 
     onAuthFailure() {

@@ -1,0 +1,52 @@
+.root {
+    width: 15%;
+    position: fixed;
+    z-index: 2100000000;
+    top: 1%;
+    right: 3%;
+    opacity:1;
+    zoom: document;
+    transition : all 500ms ease-in-out;
+
+    &.onEnter {
+      opacity:0;
+      .content {
+          transform : translateY(-50px);
+      }
+    }
+
+    &.onLeave {
+      opacity:0;
+      .content {
+          transform : translateY(50px);
+      }
+    }
+
+}
+
+.content {
+    margin-top: 5px;
+    padding:5px;
+    z-index: 2;
+    transform : translateY( 0 );
+    transition : all 200ms ease-in-out;
+}
+
+.success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+
+.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
+.info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}

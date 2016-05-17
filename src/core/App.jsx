@@ -9,6 +9,8 @@ import BoardStore               from './BoardStore';
 import MainNavBar               from './MainNavBar';
 import BackgroundDrawing        from '../drawing/BackgroundDrawing';
 import BackgroundDrawingStore   from '../drawing/BackgroundDrawingStore';
+import NotificationStore        from './NotificationStore';
+import Notification             from '../component/Notification';
 
 import '../theme/main.scss';
 
@@ -22,6 +24,7 @@ export default class App extends Component {
         this.connectStore( AuthStore,               'authStore' );
         this.connectStore( BoardStore,              'boardStore' );
         this.connectStore( BackgroundDrawingStore,  'backgroundDrawingStore' );
+        this.connectStore( NotificationStore,       'notificationStore' );
     }
 
     componentDidMount() {
@@ -39,6 +42,7 @@ export default class App extends Component {
         const { currentUser } = this.state.authStore;
         const { widgets } = this.state.boardStore;
         const { backgroundDrawing, backgroundImage } = this.state.backgroundDrawingStore;
+        const { notifs } = this.state.notificationStore;
 
         if ( !currentUser ) {
             return this.renderLoading();
@@ -46,6 +50,7 @@ export default class App extends Component {
 
         return (
             <div>
+                { notifs.length !==0 ? <Notification notifs= { notifs } /> : null }
                 <Board widgets={ widgets } backgroundDrawing={ backgroundDrawing } backgroundImage={ backgroundImage }/>
                 <BackgroundDrawing imageContent={ backgroundDrawing } />
                 <MainNavBar/>
