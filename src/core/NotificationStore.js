@@ -4,6 +4,8 @@ import AuthStore                from './AuthStore';
 
 import * as NotificationActions from './NotificationActions';
 
+const notifDuration = 7;
+
 class NotificationStore extends Store {
 
 
@@ -36,7 +38,7 @@ class NotificationStore extends Store {
 
     removeOldNotif(){
         var now = Date.now();
-        var cutoff = now - 7 * 1000;
+        var cutoff = now - notifDuration * 1000;
         var old = this.notifRef.orderByChild('timestamp').endAt(cutoff).limitToLast(1);
         var listener = old.on('child_added', function(snapshot) {
             snapshot.ref().remove();
