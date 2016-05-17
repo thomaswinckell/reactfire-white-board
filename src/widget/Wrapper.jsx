@@ -89,7 +89,7 @@ export default class WidgetWrapper extends Component {
     }
 
     updateData( data ) {
-        if ( !this.isRemoved ) {
+        if ( this.hasOwnProperty('isRemoved') &&  !this.isRemoved ) {
             this.base.set( _.merge( {}, this.state, data, { status : null, onEnter : null, onLeave : null, confirmDialog : null } ) );
         }
     }
@@ -148,11 +148,11 @@ export default class WidgetWrapper extends Component {
             message   : 'Are you sure you want to delete this widget ?',
             onClose : confirm => {
                 if ( confirm ) {
-                    BoardActions.removeWidget( this.props.baseKey );
                     this.isRemoved = true;
                     this.setState( { confirmDialog : false, onLeave : true }, () => setTimeout( () => {
                         this.setState( { onLeave : false } );
                     }, 500 ) );
+                    BoardActions.removeWidget( this.props.baseKey );
                 } else {
                     this.setState( { confirmDialog : false } );
                 }
