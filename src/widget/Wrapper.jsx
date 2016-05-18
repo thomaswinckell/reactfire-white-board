@@ -50,6 +50,8 @@ export default class WidgetWrapper extends Component {
 
     componentDidMount() {
 
+        this.isRemoved = false;
+
         document.addEventListener( 'focusin', this.onFocusIn );
 
         //this.setState( { status : LoadingStatus.loading } );
