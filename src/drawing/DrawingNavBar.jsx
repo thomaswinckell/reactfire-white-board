@@ -37,7 +37,7 @@ export default class DrawingNavBar extends Component {
             text                            : '',
             lineWidth                       : 10,
             tool                            : Pencil,
-            fontSize                        : 12,
+            fontSize                        : 24,
             bold                            : false,
             italic                          : false,
             underline                       : false,
@@ -97,7 +97,7 @@ export default class DrawingNavBar extends Component {
 
     onFontSizeChange ( size ) {
         this.setState({ fontSize : size.target.value });
-        DrawingActions.setFontSize( this.state.fontSize );
+        DrawingActions.setFontSize( size.target.value );
     }
 
     onChangeColor( color ) {
@@ -110,7 +110,7 @@ export default class DrawingNavBar extends Component {
 
     onLineWidthChange ( width ) {
         this.setState({ lineWidth : width.target.value });
-        DrawingActions.setLineWidth( this.state.lineWidth );
+        DrawingActions.setLineWidth( width.target.value );
     }
 
     hideLinewidthPicker(){

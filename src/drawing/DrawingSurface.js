@@ -41,7 +41,7 @@ export default class DrawingSurface {
         this.tool = new toolType( this.context );
 
         this.fontParams = {
-            fontSize        : '25px',
+            fontSize        : 24,
             font            : 'arial',
             italic          : false,
             bold            : false,
@@ -81,7 +81,7 @@ export default class DrawingSurface {
     }
 
     setFontSize( fontSize ){
-        this.fontParams.fontSize = fontSize + 'px';
+        this.fontParams.fontSize = fontSize;
     }
 
     setItalic( italic ) {

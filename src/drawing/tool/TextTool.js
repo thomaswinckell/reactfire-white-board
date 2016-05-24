@@ -30,7 +30,7 @@ export default class TextTool extends Tool {
                 this.underline( text );
             }
             if( fontParams.strikeThrough ){
-                this.strikeThrough( text );
+                this.strikeThrough( text, fontParams.fontSize);
             }
 
             this.context.strokeText( text , this.x, this.y);
@@ -41,7 +41,7 @@ export default class TextTool extends Tool {
         Create the ctx.font attribute
      */
     buildfont( fontParams ){
-        let font = fontParams.fontSize;
+        let font = fontParams.fontSize + 'px';
         font += ' ' + fontParams.font;
         fontParams.italic        ? font = 'italic '        + font            : null;
         fontParams.bold          ? font = 'bold '          + font            : null;
@@ -72,7 +72,7 @@ export default class TextTool extends Tool {
 
     }
 
-    strikeThrough( text ){
+    strikeThrough( text, fontSize ){
         var width = this.context.measureText( text ).width;
         let x_under = this.x , y_middle = this.y;
         switch(this.context.textAlign){
@@ -82,9 +82,8 @@ export default class TextTool extends Tool {
             x_under -= width; break;
         }
 
-        //TODO should be font size /2 or something
-        y_middle -= 8;
-        
+        y_middle -= fontSize/3;
+
         this.context.beginPath();
         //this.context.lineWidth = 3;
         this.context.moveTo(x_under,y_middle);
