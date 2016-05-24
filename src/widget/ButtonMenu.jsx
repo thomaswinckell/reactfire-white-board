@@ -26,7 +26,10 @@ const NUM_CHILDREN = 6;
 // nd initialChildButtonStyles)
 const OFFSET = 0.4;
 
-const SPRING_CONFIG = [400, 28];
+//Version 3.1 with array
+//const SPRING_CONFIG = [400, 28];
+// version 4.X uses object instead
+const SPRING_CONFIG = {stiffness : 400, damping : 28};
 
 // How far away from the main button does the child buttons go
 const FLY_OUT_RADIUS = 130,
@@ -100,6 +103,17 @@ export default class ButtonMenu extends Component {
 		};
 	}
 
+	initialChildButtonStylesInit() {
+		return {
+			width: CHILD_BUTTON_DIAM,
+			height: CHILD_BUTTON_DIAM,
+			top: this.state.M_Y - (CHILD_BUTTON_DIAM/2),
+			left: this.state.M_X - (CHILD_BUTTON_DIAM/2),
+			rotate: -180,
+			scale: 0.5
+		};
+	}
+
 	initialChildButtonStyles() {
 		return {
 			width: CHILD_BUTTON_DIAM,
@@ -108,6 +122,18 @@ export default class ButtonMenu extends Component {
 			left: spring(this.state.M_X - (CHILD_BUTTON_DIAM/2), SPRING_CONFIG),
 			rotate: spring(-180, SPRING_CONFIG),
 			scale: spring(0.5, SPRING_CONFIG)
+		};
+	}
+
+	finalChildButtonStylesInit(childIndex) {
+		let {deltaX, deltaY} = finalChildDeltaPositions(childIndex);
+		return {
+			width: CHILD_BUTTON_DIAM,
+			height: CHILD_BUTTON_DIAM,
+			top: this.state.M_Y - deltaY,
+			left: this.state.M_X + deltaX,
+			rotate: 0,
+			scale: 1
 		};
 	}
 
@@ -137,16 +163,22 @@ export default class ButtonMenu extends Component {
 
 	renderChildButtons() {
 		const {isOpen} = this.state;
+		const targetButtonStylesInitObject = range(NUM_CHILDREN).map(i => {
+			return isOpen ? this.finalChildButtonStylesInit(i) : this.initialChildButtonStylesInit();
+		});
+
+		const targetButtonStylesInit = Object.keys(targetButtonStylesInitObject).map(key => targetButtonStylesInitObject[key]);
 
 		const targetButtonStyles = range(NUM_CHILDREN).map(i => {
 			return isOpen ? this.finalChildButtonStyles(i) : this.initialChildButtonStyles();
 		});
-
 		const scaleMin = this.initialChildButtonStyles().scale.val;
 		const scaleMax = this.finalChildButtonStyles(0).scale.val;
+		//console.log('scaleMin', scaleMin, 'scaleMax', scaleMax);
 
 		let calculateStylesForNextFrame = prevFrameStyles => {
-			prevFrameStyles = isOpen ? prevFrameStyles : prevFrameStyles.reverse();
+			// prevFrameStyles = isOpen ? prevFrameStyles : prevFrameStyles.reverse();
+			prevFrameStyles = isOpen ? prevFrameStyles : prevFrameStyles;
 
 			let nextFrameTargetStyles =  prevFrameStyles.map((buttonStyleInPreviousFrame, i) => {
 				//animation always starts from first button
@@ -155,6 +187,7 @@ export default class ButtonMenu extends Component {
 				}
 
 				const prevButtonScale = prevFrameStyles[i - 1].scale;
+				// console.log('prevButtonScale',prevButtonScale);
 				const shouldApplyTargetStyle = () => {
 					if (isOpen) {
 						return prevButtonScale >= scaleMin + OFFSET;
@@ -166,12 +199,13 @@ export default class ButtonMenu extends Component {
 				return shouldApplyTargetStyle() ? targetButtonStyles[i] : buttonStyleInPreviousFrame;
 			});
 
-			return isOpen ? nextFrameTargetStyles : nextFrameTargetStyles.reverse();
+			// return isOpen ? nextFrameTargetStyles : nextFrameTargetStyles.reverse();
+			return isOpen ? nextFrameTargetStyles : nextFrameTargetStyles;
 		};
 
 		return (
 			<StaggeredMotion
-				defaultStyles={targetButtonStyles}
+				defaultStyles={targetButtonStylesInit}
 				styles={calculateStylesForNextFrame}>
 				{interpolatedStyles =>
 					<div>
@@ -205,7 +239,7 @@ export default class ButtonMenu extends Component {
 
 	render() {
 		let {isOpen} = this.state;
-		let mainButtonRotation = isOpen ? {rotate: spring(0, [500, 30])} : {rotate: spring(-135, [500, 30])};
+		let mainButtonRotation = isOpen ? {rotate: spring(0, {stiffness : 500, damping : 30})} : {rotate: spring(-135, {stiffness : 500, damping : 28})};
 		return (
 			<div>
 				{this.renderChildButtons()}

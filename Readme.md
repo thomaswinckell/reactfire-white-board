@@ -2,6 +2,11 @@ A real time white board using ReactJS and Firebase.
 
 
 
+Version 0.0.9-beta1
+============
+
+Smooth D&D and react motion updated to 0.4.3
+
 Version 0.0.8-beta1
 ============
 

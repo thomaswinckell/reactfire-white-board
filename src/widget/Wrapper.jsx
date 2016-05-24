@@ -15,6 +15,8 @@ import Resizer                  from '../component/Resizer';
 import Blur                     from '../component/Blur';
 import ConfirmDialog            from '../component/ConfirmDialog';
 
+import {Motion , spring}                    from 'react-motion';
+
 import Styles       from './Wrapper.scss';
 
 const LoadingStatus = {
@@ -240,24 +242,37 @@ export default class WidgetWrapper extends Component {
             'onEnter'                   : this.state.onEnter,
             'onLeave'                   : this.state.onLeave*/
         } );
-
+        const rigid = { stiffness: 652, damping: 25 };
         return (
-            <div tabIndex="1000"
-                 className={ className }
-                 style={ styleWidget }
-                 onMouseDown={ this.onMouseDown.bind( this ) }>
+            <Motion
+                style={ {left: spring( this.state.position.x , rigid ), top: spring( this.state.position.y , rigid ) } }>
+                {interpolatingStyle =>
+                    <div tabIndex="1000"
+                         className={ className }
+                         style={ {
+                             zIndex  : this.state.index + 1000,
+                             top     : `${interpolatingStyle.top}px`,
+                             left    : `${interpolatingStyle.left}px`,
+                             width   : this.state.size.width,
+                             height  : this.state.size.height,
+                             //transform: `translate3d(${interpolatingStyle.x}px, ${interpolatingStyle.y}px, 0)`,
+                             //WebkitTransform: `translate3d(${interpolatingStyle.x}px, ${interpolatingStyle.y}px, 0)`
+                         } }
+                         onMouseDown={ this.onMouseDown.bind( this ) }>
 
-                 <Blur/>
+                         <Blur/>
 
-                { isEditingByCurrentUser ? this.renderWidgetEditor() : this.renderWidgetView() }
+                        { isEditingByCurrentUser ? this.renderWidgetEditor() : this.renderWidgetView() }
 
-                <Resizer valueLink={this.link('size')}
-                         index={this.state.index + 2000}
-                         onResizeStart={this.onResizeStart.bind( this ) } onResizeEnd={this.onResizeEnd.bind( this ) }
-                         canResize={ () => !this.isLockedByAnotherUser() }/>
+                        <Resizer valueLink={this.link('size')}
+                                 index={this.state.index + 2000}
+                                 onResizeStart={this.onResizeStart.bind( this ) } onResizeEnd={this.onResizeEnd.bind( this ) }
+                                 canResize={ () => !this.isLockedByAnotherUser() }/>
 
-                 { this.renderConfirmDialog() }
-            </div>
+                         { this.renderConfirmDialog() }
+                    </div>
+                }
+            </Motion>
         );
     }
 }
