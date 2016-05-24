@@ -32,10 +32,12 @@ export default class DrawingNavBar extends Component {
             displayColorPicker              : false,
             displayBackgroundColorPicker    : false,
             displayLineWidthPicker          : false,
+            displayFontSizePicker           : false,
             displayText                     : false,
             text                            : '',
             lineWidth                       : 10,
             tool                            : Pencil,
+            fontSize                        : 12,
             bold                            : false,
             italic                          : false,
             underline                       : false,
@@ -93,6 +95,11 @@ export default class DrawingNavBar extends Component {
         DrawingActions.setStrikeThrough( this.state.strikeThrough );
     }
 
+    onFontSizeChange ( size ) {
+        this.setState({ fontSize : size.target.value });
+        DrawingActions.setFontSize( this.state.fontSize );
+    }
+
     onChangeColor( color ) {
         DrawingActions.setColor( `#${color.hex}` );
     }
@@ -108,6 +115,10 @@ export default class DrawingNavBar extends Component {
 
     hideLinewidthPicker(){
         this.setState({ displayLineWidthPicker : false });
+    }
+
+    hideFontSizePicker(){
+        this.setState({ displayFontSizePicker : false });
     }
 
     onClose() {
@@ -159,7 +170,7 @@ export default class DrawingNavBar extends Component {
 
             new NavBarElement( 'TextTool',          'text_fields', () => this.setText(), this.isActiveTool( TextTool ) ? "active" : "" ),
             new NavBarElement( 'Font',              'text_format' /* TODO */ ),
-            new NavBarElement( 'Font size',         'format_size' /* TODO */ ),
+            new NavBarElement( 'Font size',         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ) ),
             new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), "active" ),
             new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), "active"),
             new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline() ),
@@ -187,6 +198,13 @@ export default class DrawingNavBar extends Component {
             zIndex: 2147483647
         };
 
+        const FontSizePickerPosition = {
+            position: 'fixed',
+            top: '335px',
+            left: '70px',
+            zIndex: 2147483647
+        };
+
         const TextPosition = {
             position: 'fixed',
             top: this.state.y+10 + 'px',
@@ -199,6 +217,7 @@ export default class DrawingNavBar extends Component {
                  { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
                 {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text}style= {TextPosition} onChange={ this.onTextChange.bind(this) } /> : null }
                 {this.state.displayLineWidthPicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideLinewidthPicker() : null}value ={this.state.lineWidth}style= {LinePickerPosition} onChange={ this.onLineWidthChange.bind(this) } /> : null }
+                {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null}value ={this.state.fontSize }style= {FontSizePickerPosition} onChange={ this.onFontSizeChange.bind(this) } /> : null }
                 <ColorPicker type="chrome"
                              display={ this.state.displayColorPicker || this.state.displayBackgroundColorPicker }
                              positionCSS={ this.state.displayColorPicker ? colorPosition : bgColorPosition }

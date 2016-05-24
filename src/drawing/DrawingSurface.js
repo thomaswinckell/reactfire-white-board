@@ -80,6 +80,10 @@ export default class DrawingSurface {
         this.fontParams.bold = bold;
     }
 
+    setFontSize( fontSize ){
+        this.fontParams.fontSize = fontSize + 'px';
+    }
+
     setItalic( italic ) {
         this.fontParams.italic = italic;
     }
@@ -107,7 +111,7 @@ export default class DrawingSurface {
     setText( text ) {
         this.text = text;
         if ( this.tool && this.tool.__proto__.hasOwnProperty( 'onNewText' ) ) {
-            this.tool.onNewText( text , this.color, this.fontParams );
+            this.tool.onNewText( text , this.color, this.fontParams, this.lineWidth );
         }
     }
 

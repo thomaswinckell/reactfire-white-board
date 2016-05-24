@@ -25,6 +25,7 @@ export default class BackgroundDrawing extends Component {
         Actions.setLineWidth.listen( this.setLineWidth.bind( this ) );
         Actions.setText.listen( this.setText.bind( this) );
         Actions.setBold.listen( this.setBold.bind( this) );
+        Actions.setFontSize.listen( this.setFontSize.bind( this) );
         Actions.setItalic.listen( this.setItalic.bind( this) );
         Actions.setUnderline.listen( this.setUnderline.bind( this) );
         Actions.setStrikeThrough.listen( this.setStrikeThrough.bind( this) );
@@ -80,6 +81,10 @@ export default class BackgroundDrawing extends Component {
 
     setBold( bold ){
         this.drawingSurface.setBold( bold );
+    }
+
+    setFontSize( fontSize ){
+        this.drawingSurface.setFontSize( fontSize );
     }
 
     setUnderline( underline ){
