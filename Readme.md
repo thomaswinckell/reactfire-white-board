@@ -2,6 +2,12 @@ A real time white board using ReactJS and Firebase.
 
 
 
+
+Version 0.0.10-beta1
+============
+
+Store the user presence on a board
+
 Version 0.0.9-beta1
 ============
 

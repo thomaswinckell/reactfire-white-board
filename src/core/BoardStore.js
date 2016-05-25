@@ -56,10 +56,23 @@ class BoardStore extends Store {
         this.boardSizeRef.off();
         this.state.widgets = [];
 
-
         this.widgetsRef.on( 'child_added', this._onAddWidget.bind( this ) );
         this.widgetsRef.on( 'child_removed', this._onRemoveWidget.bind( this ) );
         this.boardSizeRef.on( 'value', this._onNewSize.bind( this ) );
+
+        //Counter for ppl on
+        this.presenceRef = new Firebase( `https://${firebaseUrl}/presence/${boardKey}` );
+        this.userRef = this.presenceRef.push();
+        this.connectedRef = new Firebase( `${firebaseUrl}/.info/connected` );
+        this.connectedRef.on("value", ( snap ) => {
+            if( snap.val() ){
+                //remove ourselves when we disconnect
+                this.userRef.onDisconnect().remove();
+
+                this.userRef.set(true);
+            }
+        });
+
     }
 
     _onAddWidget( dataSnapshot ) {
