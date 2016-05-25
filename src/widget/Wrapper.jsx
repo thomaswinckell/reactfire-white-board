@@ -153,6 +153,7 @@ export default class WidgetWrapper extends Component {
             onClose : confirm => {
                 if ( confirm ) {
                     this.isRemoved = true;
+                    //FIXME warning calling setState after unmounted component
                     this.setState( { confirmDialog : false, onLeave : true }, () => setTimeout( () => {
                         this.setState( { onLeave : false } );
                     }, 500 ) );

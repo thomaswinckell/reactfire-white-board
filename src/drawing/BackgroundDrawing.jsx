@@ -64,12 +64,15 @@ export default class BackgroundDrawing extends Component {
 
     clear() {
         if ( this.drawingSurface ) {
-            // TODO : confirm
             const oldTool = this.drawingSurface.toolType;
             const oldColor = this.drawingSurface.toolColor;
             this.drawingSurface.clear();
             this.drawingSurface.destroy();
             this.drawingSurface = new DrawingSurface( 'canvas-drawingSurface-background', BoardStore.size, false, oldTool, oldColor );
+            NotificationActions.pushNotif({
+                type        : 'success',
+                message     : 'drawing cleared !'
+            });
         }
     }
 
