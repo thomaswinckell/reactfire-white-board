@@ -169,12 +169,15 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( 'Background image',  'image',             this.updateBackgroundImage.bind( this ) ),
 
             new NavBarElement( 'TextTool',          'text_fields', () => this.setText(), this.isActiveTool( TextTool ) ? "active" : "" ),
-            new NavBarElement( 'Font',              'text_format' /* TODO */ ),
-            new NavBarElement( 'Font size',         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ) ),
-            new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), "active" ),
-            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), "active"),
-            new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline() ),
-            new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic() )
+        ];
+
+        const textElements = [
+            new NavBarElement( 'Font',              'text_format' /* TODO */, null , "", "bottom" ),
+            new NavBarElement( 'Font size',         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ), "", "bottom" ),
+            new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), "", "bottom"),
+            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), "", "bottom"),
+            new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline(), "", "bottom" ),
+            new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic(), "", "bottom" )
         ];
 
         const colorPosition = {
@@ -212,6 +215,13 @@ export default class DrawingNavBar extends Component {
             zIndex: 2147483647
         }
 
+        const TextElementsPosition = {
+            position: 'fixed',
+            top: this.state.y+50 + 'px',
+            left: this.state.x + 'px',
+            zIndex: 2147483647
+        }
+
         return (
             <div>
                  { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
@@ -225,6 +235,7 @@ export default class DrawingNavBar extends Component {
                              onChange={ this.state.displayColorPicker ? this.onChangeColor.bind( this ) : this.onChangeBackgroundColor.bind( this ) }/>
                          <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload.bind( this ) } accept="image/*"/>
                  <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
+                 {this.state.displayText ?  <NavBar elements={ textElements } position={ TextElementsPosition } horizontal={ false } /> : null}
             </div>
         );
     }
