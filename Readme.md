@@ -3,6 +3,11 @@ A real time white board using ReactJS and Firebase.
 
 
 
+Version 0.0.11-beta1
+============
+
+Fix FontLoader
+
 Version 0.0.10-beta1
 ============
 
