@@ -77,7 +77,8 @@ export default class ButtonMenu extends Component {
 
 	updateDimensions() {
         //this.setState({M_X: $(window).width() - 190, M_Y: $(window).height() - 150});
-        this.setState({M_X: $(window).width() - 290, M_Y: $(window).height() - 150});
+        ////TODO percentage + middle
+        this.setState({M_X: $(window).width()/2, M_Y: $(window).height() - 100});
 	}
 
 	componentDidMount() {
@@ -96,8 +97,8 @@ export default class ButtonMenu extends Component {
 
 	mainButtonStyles() {
 		return {
-			width: MAIN_BUTTON_DIAM,
-			height: MAIN_BUTTON_DIAM,
+			// width: MAIN_BUTTON_DIAM,
+			// height: MAIN_BUTTON_DIAM,
 			top: this.state.M_Y - (MAIN_BUTTON_DIAM/2),
 			left: this.state.M_X - (MAIN_BUTTON_DIAM/2)
 		};
@@ -153,7 +154,17 @@ export default class ButtonMenu extends Component {
 		e.stopPropagation();
 		let{isOpen} = this.state;
 		this.setState({
-			isOpen: !isOpen
+			isOpen: !isOpen,
+			type : 'drawing'
+		});
+	}
+
+	toggleMenuWidget(e){
+		e.stopPropagation();
+		let{isOpen} = this.state;
+		this.setState({
+			isOpen: !isOpen,
+			type : 'widget'
 		});
 	}
 
@@ -237,20 +248,25 @@ export default class ButtonMenu extends Component {
 		);
 	}
 
+	// <i className={ classNames( 'icon', `icon-add` ) }/>
 	render() {
-		let {isOpen} = this.state;
-		let mainButtonRotation = isOpen ? {rotate: spring(0, {stiffness : 500, damping : 30})} : {rotate: spring(-135, {stiffness : 500, damping : 28})};
+		const {isOpen} = this.state;
+		const mainButtonRotation = isOpen ? {rotate: spring(0, {stiffness : 500, damping : 30})} : {rotate: spring(90, {stiffness : 500, damping : 28})};
 		return (
 			<div>
 				{this.renderChildButtons()}
 				<Motion style={mainButtonRotation}>
 					{({rotate}) =>
+					<div>
 						<div
 							className= { Styles.mainButton }
-							style={{...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`}}
-							onClick={this.toggleMenu.bind(this)}>
-							<i className={ classNames( 'icon', `icon-add` ) }/>
+							style={{...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`}}>
+								<div className={ Styles.goldHalf }
+									 onClick={this.toggleMenuWidget.bind(this)}/>
+								 <div className={ Styles.blackHalf }
+									  onClick={this.toggleMenu.bind(this)}/>
 						</div>
+					</div>
 					}
 				</Motion>
 			</div>
