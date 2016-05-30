@@ -67,32 +67,27 @@ export default class ButtonMenu extends Component {
 			M_X : 200,
 			M_Y : 200
 		};
-		//M_X = this.props.position.x;
-		//M_Y = this.props.position.y;
-		// Bind this to the functions
-		//this.toggleMenu = this.toggleMenu.bind(this);
-		//this.closeMenu = this.closeMenu.bind(this);
 
 	}
 
-	updateDimensions() {
+	updateDimensions = () => {
         //this.setState({M_X: $(window).width() - 190, M_Y: $(window).height() - 150});
         ////TODO percentage + middle
         this.setState({M_X: $(window).width()/2, M_Y: $(window).height() - 100});
 	}
 
 	componentDidMount() {
-		this.closeMenuBinded = this.closeMenu.bind(this);
-		window.addEventListener('click', this.closeMenuBinded);
+		window.addEventListener('click', this.closeMenu);
 		let childButtons = [];
 		//this.setState({childButtons: childButtons.slice(0)});
 		this.setState({childButtons: this.props.elements});
 		this.updateDimensions()
-		 window.addEventListener("resize", this.updateDimensions.bind(this));
+		 window.addEventListener("resize", this.updateDimensions);
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener('click', this.closeMenuBinded, false);
+		window.removeEventListener('click', this.closeMenu, false);
+        window.removeEventListener("resize", this.updateDimensions);
 	}
 
 	mainButtonStyles() {
@@ -168,9 +163,9 @@ export default class ButtonMenu extends Component {
 		});
 	}
 
-	closeMenu() {
+	closeMenu = () => {
 		this.setState({ isOpen: false});
-	}
+	};
 
 	renderChildButtons() {
 		const {isOpen} = this.state;
