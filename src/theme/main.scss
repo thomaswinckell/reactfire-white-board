@@ -24,6 +24,7 @@ p, div {
 
 $fonts-path : '../fonts';
 
+// See issue : https://github.com/webpack/css-loader/issues/233
 @import 'icon/main.scss';
 
 :global {
