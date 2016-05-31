@@ -58,9 +58,12 @@ export default class WidgetWrapper extends Component {
 
         //this.setState( { status : LoadingStatus.loading } );
 
+        //Removed this setState which caused a lot of performance issues
+        /*
         setTimeout( () => {
             this.setState( { onEnter : false } );
         }, 500 );
+        */
 
         this.base.on( "value", dataSnapshot => {
 
