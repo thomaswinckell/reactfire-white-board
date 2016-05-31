@@ -13,6 +13,7 @@ export default class Notification extends Component {
         };
     }
 
+    //FIXME resize
     componentWillMount() {
         setTimeout( () => {
             this.setState( { onEnter : false } );

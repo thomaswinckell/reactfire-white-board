@@ -29,6 +29,9 @@ class NotificationStore extends Store {
 
         this.notifRef.off();
 
+        this.state.notifs = [];
+        this.publishState();
+
         this.notifRef.on( 'child_added', this._onAddNotif.bind( this ) );
         this.notifRef.on( 'child_removed', this._onRemoveNotif.bind( this ) );
 
