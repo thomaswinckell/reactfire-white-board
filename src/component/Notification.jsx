@@ -1,6 +1,5 @@
 import React, { Component, PropTypes }  from 'react';
 import classNames                       from 'classnames';
-import ReactCSSTransitionGroup          from 'react-addons-css-transition-group';
 
 import Styles   from './Notification.scss';
 
@@ -49,9 +48,7 @@ export default class Notification extends Component {
 
         return (
             <div className={ rootClassName }>
-                <ReactCSSTransitionGroup transitionName="notif" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
                     { notifs }
-                </ReactCSSTransitionGroup>
             </div>
         );
     }

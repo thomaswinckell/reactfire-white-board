@@ -1,7 +1,7 @@
 import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 import ReactDOM                         from 'react-dom';
-import ColorPicker                      from 'react-color';
+import { ChromePicker }                 from 'react-color';
 
 import * as DrawingActions              from './BackgroundDrawingActions';
 import * as TextToolActions             from './tool/TextToolActions';
@@ -47,7 +47,6 @@ export default class DrawingNavBar extends Component {
         };
 
         TextToolActions.onMouseDown.listen( this._onMouseDown.bind( this ) );
-
     }
 
     componentWillUnmount() {
@@ -101,11 +100,11 @@ export default class DrawingNavBar extends Component {
     }
 
     onChangeColor( color ) {
-        DrawingActions.setColor( `#${color.hex}` );
+        DrawingActions.setColor( `${color.hex}` );
     }
 
     onChangeBackgroundColor( color ) {
-        DrawingActions.setBackgroundColor( `#${color.hex}` );
+        DrawingActions.setBackgroundColor( `${color.hex}` );
     }
 
     onLineWidthChange ( width ) {
@@ -121,16 +120,9 @@ export default class DrawingNavBar extends Component {
         this.setState({ displayFontSizePicker : false });
     }
 
-    onClose() {
+    onClose = () => {
+        console.log('close');
         this.setState( { displayColorPicker : false, displayBackgroundColorPicker : false, displayLineWidthPicker : false } );
-    }
-
-    toggleColor() {
-        this.setState( { displayColorPicker : !this.state.displayColorPicker, displayBackgroundColorPicker : false } );
-    }
-
-    toggleBackgroundColor() {
-        this.setState( { displayColorPicker : false, displayBackgroundColorPicker : !this.state.displayBackgroundColorPicker } );
     }
 
     updateBackgroundImage() {
@@ -164,7 +156,7 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( 'Line width',        'line_weight', () => this.setState( { displayLineWidthPicker : !this.state.displayLineWidthPicker } ) ),
             new NavBarElement( 'Color',             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ) ),
 
-            new NavBarElement( 'Background color',  'format_color_fill', this.toggleBackgroundColor.bind( this ) ),
+            new NavBarElement( 'Background color',  'format_color_fill',  () => this.setState( { displayBackgroundColorPicker : !this.state.displayBackgroundColorPicker } )  ),
 
             new NavBarElement( 'Background image',  'image',             this.updateBackgroundImage.bind( this ) ),
 
@@ -222,18 +214,21 @@ export default class DrawingNavBar extends Component {
             zIndex: 2147483647
         }
 
+        const popover = {
+         position: 'absolute',
+         zIndex: 200,
+       }
+
         return (
             <div>
                  { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
                 {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text}style= {TextPosition} onChange={ this.onTextChange.bind(this) } /> : null }
                 {this.state.displayLineWidthPicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideLinewidthPicker() : null}value ={this.state.lineWidth}style= {LinePickerPosition} onChange={ this.onLineWidthChange.bind(this) } /> : null }
                 {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null}value ={this.state.fontSize }style= {FontSizePickerPosition} onChange={ this.onFontSizeChange.bind(this) } /> : null }
-                <ColorPicker type="chrome"
-                             display={ this.state.displayColorPicker || this.state.displayBackgroundColorPicker }
-                             positionCSS={ this.state.displayColorPicker ? colorPosition : bgColorPosition }
-                             onClose={ this.onClose.bind( this ) }
-                             onChange={ this.state.displayColorPicker ? this.onChangeColor.bind( this ) : this.onChangeBackgroundColor.bind( this ) }/>
-                         <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload.bind( this ) } accept="image/*"/>
+                {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={ this.state.displayColorPicker ? colorPosition : bgColorPosition}>
+                  <ChromePicker display={false} onChange={ this.state.displayColorPicker ? this.onChangeColor.bind( this ) : this.onChangeBackgroundColor.bind( this ) } onClose={this.onClose} style={ this.state.displayColorPicker ? colorPosition : bgColorPosition }/>
+                </div> : null }
+                 <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload.bind( this ) } accept="image/*"/>
                  <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
                  {this.state.displayText ?  <NavBar elements={ textElements } position={ TextElementsPosition } horizontal={ false } /> : null}
             </div>
