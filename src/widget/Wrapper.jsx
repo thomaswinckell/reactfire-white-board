@@ -15,6 +15,8 @@ import Resizer                  from '../component/Resizer';
 import Blur                     from '../component/Blur';
 import ConfirmDialog            from '../component/ConfirmDialog';
 
+import {Motion , spring}                    from 'react-motion';
+
 import Styles       from './Wrapper.scss';
 
 const LoadingStatus = {
@@ -50,13 +52,18 @@ export default class WidgetWrapper extends Component {
 
     componentDidMount() {
 
+        this.isRemoved = false;
+
         document.addEventListener( 'focusin', this.onFocusIn );
 
         //this.setState( { status : LoadingStatus.loading } );
 
+        //Removed this setState which caused a lot of performance issues
+        /*
         setTimeout( () => {
             this.setState( { onEnter : false } );
         }, 500 );
+        */
 
         this.base.on( "value", dataSnapshot => {
 
@@ -77,6 +84,7 @@ export default class WidgetWrapper extends Component {
 
         // TODO : remove lock
         //this.setViewMode();
+        this.unselect();
         document.removeEventListener( 'focusin', this.onFocusIn );
         this.base.off();
     }
@@ -88,7 +96,7 @@ export default class WidgetWrapper extends Component {
     }
 
     updateData( data ) {
-        if ( !this.isRemoved ) {
+        if ( this.hasOwnProperty('isRemoved') &&  !this.isRemoved ) {
             this.base.set( _.merge( {}, this.state, data, { status : null, onEnter : null, onLeave : null, confirmDialog : null } ) );
         }
     }
@@ -106,8 +114,9 @@ export default class WidgetWrapper extends Component {
         return AuthStore.isCurrentUser( this.state.isLockedBy );
     }
 
+    //FIX this.state.isEditingBy.uid and not .id
     isLockedByAnotherUser() {
-        return this.state.isEditingBy && this.state.isEditingBy.id && !this.isLockedByCurrentUser();
+        return this.state.isEditingBy && this.state.isEditingBy.uid && !this.isLockedByCurrentUser();
     }
 
     isEditingByCurrentUser() {
@@ -125,10 +134,12 @@ export default class WidgetWrapper extends Component {
         this.updateData( { isEditingBy : false, isLockedBy : false } );
     }
 
+    // FIX with 2 updates to prevent the lock to be fired after the unlock
     select() {
+        this.updateData( { isLockedBy: AuthStore.currentUser } );
         BoardStore.getLatestIndex( ( error, committed, snapshot ) => {
             if ( !error && committed ) {
-                this.updateData( { isLockedBy: AuthStore.currentUser, index: snapshot.val() } );
+                this.updateData( { index: snapshot.val() } );
             } else {
                 // TODO : how to handle error ?
             }
@@ -144,11 +155,12 @@ export default class WidgetWrapper extends Component {
             message   : 'Are you sure you want to delete this widget ?',
             onClose : confirm => {
                 if ( confirm ) {
-                    BoardActions.removeWidget( this.props.baseKey );
                     this.isRemoved = true;
+                    //FIXME warning calling setState after unmounted component
                     this.setState( { confirmDialog : false, onLeave : true }, () => setTimeout( () => {
                         this.setState( { onLeave : false } );
                     }, 500 ) );
+                    BoardActions.removeWidget( this.props.baseKey );
                 } else {
                     this.setState( { confirmDialog : false } );
                 }
@@ -180,7 +192,8 @@ export default class WidgetWrapper extends Component {
     renderWidgetView() {
         const props = _.extend( {}, this.state, {
             valueLink   : this.updateData.bind( this ),
-            actions     : this.actions
+            actions     : this.actions,
+            isLockedByAnotherUser : this.isLockedByAnotherUser()
         } );
         return WidgetFactory.createWidgetView( this.props.widgetType, props );
     }
@@ -188,7 +201,8 @@ export default class WidgetWrapper extends Component {
     renderWidgetEditor() {
         const props = _.extend( {}, this.state, {
             valueLink   : this.updateData.bind( this ),
-            actions     : this.actions
+            actions     : this.actions,
+            isLockedByAnotherUser : this.isLockedByAnotherUser()
         } );
         return WidgetFactory.createWidgetEditor( this.props.widgetType, props );
     }
@@ -232,24 +246,37 @@ export default class WidgetWrapper extends Component {
             'onEnter'                   : this.state.onEnter,
             'onLeave'                   : this.state.onLeave*/
         } );
-
+        const rigid = { stiffness: 652, damping: 25 };
         return (
-            <div tabIndex="1000"
-                 className={ className }
-                 style={ styleWidget }
-                 onMouseDown={ this.onMouseDown.bind( this ) }>
+            <Motion
+                style={ {left: spring( this.state.position.x , rigid ), top: spring( this.state.position.y , rigid ) } }>
+                {interpolatingStyle =>
+                    <div tabIndex="1000"
+                         className={ className }
+                         style={ {
+                             zIndex  : this.state.index + 1000,
+                             top     : `${interpolatingStyle.top}px`,
+                             left    : `${interpolatingStyle.left}px`,
+                             width   : this.state.size.width,
+                             height  : this.state.size.height,
+                             //transform: `translate3d(${interpolatingStyle.x}px, ${interpolatingStyle.y}px, 0)`,
+                             //WebkitTransform: `translate3d(${interpolatingStyle.x}px, ${interpolatingStyle.y}px, 0)`
+                         } }
+                         onMouseDown={ this.onMouseDown.bind( this ) }>
 
-                 <Blur/>
+                         <Blur/>
 
-                { isEditingByCurrentUser ? this.renderWidgetEditor() : this.renderWidgetView() }
+                        { isEditingByCurrentUser ? this.renderWidgetEditor() : this.renderWidgetView() }
 
-                <Resizer valueLink={this.link('size')}
-                         index={this.state.index + 2000}
-                         onResizeStart={this.onResizeStart.bind( this ) } onResizeEnd={this.onResizeEnd.bind( this ) }
-                         canResize={ () => !this.isLockedByAnotherUser() }/>
+                        <Resizer valueLink={this.link('size')}
+                                 index={this.state.index + 2000}
+                                 onResizeStart={this.onResizeStart.bind( this ) } onResizeEnd={this.onResizeEnd.bind( this ) }
+                                 canResize={ () => !this.isLockedByAnotherUser() }/>
 
-                 { this.renderConfirmDialog() }
-            </div>
+                         { this.renderConfirmDialog() }
+                    </div>
+                }
+            </Motion>
         );
     }
 }

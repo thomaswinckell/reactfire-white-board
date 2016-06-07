@@ -1,10 +1,10 @@
-import { Store }        from 'airflux';
-import Firebase         from 'firebase';
+import { Store }                from 'airflux';
+import Firebase                 from 'firebase';
 
-import AuthStore        from '../core/AuthStore';
+import AuthStore                from '../core/AuthStore';
 
-import * as Actions     from './BackgroundDrawingActions';
-
+import * as Actions             from './BackgroundDrawingActions';
+import * as NotificationActions from '../core/NotificationActions';
 
 class BackgroundDrawingStore extends Store {
 
@@ -25,10 +25,13 @@ class BackgroundDrawingStore extends Store {
     }
 
     _onAuthSuccess( authStoreState ) {
-        const { firebaseUrl } = authStoreState.appConfig;
+        const { firebaseUrl, boardKey } = authStoreState.appConfig;
 
-        this.backgroundDrawingRef = new Firebase( `${firebaseUrl}/board/backgroundDrawing` );
-        this.backgroundImageRef = new Firebase( `${firebaseUrl}/board/backgroundImage` );
+        //this.backgroundDrawingRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/backgroundDrawing` );
+        //this.backgroundImageRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/backgroundImage` );
+
+        this.backgroundDrawingRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/backgroundDrawing` );
+        this.backgroundImageRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/backgroundImage` );
 
         this.backgroundDrawingRef.on( 'value', dataSnapshot => {
             const backgroundDrawing = dataSnapshot.val();
@@ -52,7 +55,17 @@ class BackgroundDrawingStore extends Store {
     }
 
     _setBackgroundImage( data ) {
-        this.backgroundImageRef.set( data );
+        NotificationActions.pushNotif({
+            type        : 'info',
+            message     : 'Background Image is saving ...'
+        });
+        this.backgroundImageRef.set( data )
+        .then( (error) => {
+            NotificationActions.pushNotif({
+                type        : 'success',
+                message     : 'Background Image saved ! '
+            });
+        });
     }
 }
 

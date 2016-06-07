@@ -1,27 +1,34 @@
 export default class Tool {
 
-    constructor( context ) {
+    constructor( context , name) {
         this.context = context;
+        if( !name ) throw new ReferenceError('Missing Tool name parameter');
+        this.name = name;
     }
 
+    /*
+    get name() {
+        return this.name;
+    }
+*/
     /**
      * @abstract
      */
     onMouseDown( event ) {
-        throw `The component ${this.constructor.name} should implement the method onMouseDown !`;
+        throw `The component ${this.name} should implement the method onMouseDown !`;
     }
 
     /**
      * @abstract
      */
     onMouseMove( event ) {
-        throw `The component ${this.constructor.name} should implement the method onMouseMove !`;
+        throw `The component ${this.name} should implement the method onMouseMove !`;
     }
 
     /**
      * @abstract
      */
     onMouseUp( event ) {
-        throw `The component ${this.constructor.name} should implement the method onMouseUp !`;
+        throw `The component ${this.name} should implement the method onMouseUp !`;
     }
 }

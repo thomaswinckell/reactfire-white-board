@@ -1,15 +1,17 @@
 import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 import ReactDOM                         from 'react-dom';
-import ColorPicker                      from 'react-color';
+import { ChromePicker }                 from 'react-color';
 
 import * as DrawingActions              from './BackgroundDrawingActions';
+import * as TextToolActions             from './tool/TextToolActions';
 import NavBar, { NavBarElement }        from '../component/NavBar';
 import Pencil                           from './tool/Pencil';
 import Rectangle                        from './tool/Rectangle';
 import Line                             from './tool/Line';
 import Circle                           from './tool/Circle';
-
+import TextTool                         from './tool/TextTool';
+import Eraser                           from './tool/Eraser';
 
 export default class DrawingNavBar extends Component {
 
@@ -29,8 +31,22 @@ export default class DrawingNavBar extends Component {
         this.state = {
             displayColorPicker              : false,
             displayBackgroundColorPicker    : false,
-            tool                            : Pencil
+            displayLineWidthPicker          : false,
+            displayFontSizePicker           : false,
+            displayText                     : false,
+            text                            : '',
+            lineWidth                       : 10,
+            tool                            : Pencil,
+            fontSize                        : 24,
+            bold                            : false,
+            italic                          : false,
+            underline                       : false,
+            strikeThrough                   : false,
+            x                               : 580,
+            y                               : 85
         };
+
+        TextToolActions.onMouseDown.listen( this._onMouseDown.bind( this ) );
     }
 
     componentWillUnmount() {
@@ -38,32 +54,75 @@ export default class DrawingNavBar extends Component {
     }
 
     setTool( tool ) {
+        this.onClose();
         DrawingActions.setTool( tool );
         this.setState( { tool } );
+    }
+
+    setText() {
+        this.setState({ displayText : !this.state.displayText });
+        DrawingActions.endText();
+        this.setTool( TextTool );
+    }
+
+    onTextChange( event ) {
+        this.setState({ text : event.target.value });
+        DrawingActions.setText( event.target.value );
     }
 
     isActiveTool( tool ) {
         return tool === this.state.tool;
     }
 
+    setBold(){
+        this.state.bold = !this.state.bold;
+        DrawingActions.setBold( this.state.bold );
+    }
+
+    setItalic(){
+        this.state.italic =!this.state.italic;
+        DrawingActions.setItalic( this.state.italic );
+    }
+
+    setUnderline(){
+        this.state.underline = !this.state.underline;
+        DrawingActions.setUnderline( this.state.underline );
+    }
+
+    setStrikeThrough(){
+        this.state.strikeThrough = !this.state.strikeThrough;
+        DrawingActions.setStrikeThrough( this.state.strikeThrough );
+    }
+
+    onFontSizeChange ( size ) {
+        this.setState({ fontSize : size.target.value });
+        DrawingActions.setFontSize( size.target.value );
+    }
+
     onChangeColor( color ) {
-        DrawingActions.setColor( `#${color.hex}` );
+        DrawingActions.setColor( `${color.hex}` );
     }
 
     onChangeBackgroundColor( color ) {
-        DrawingActions.setBackgroundColor( `#${color.hex}` );
+        DrawingActions.setBackgroundColor( `${color.hex}` );
     }
 
-    onClose() {
-        this.setState( { displayColorPicker : false, displayBackgroundColorPicker : false } );
+    onLineWidthChange ( width ) {
+        this.setState({ lineWidth : width.target.value });
+        DrawingActions.setLineWidth( width.target.value );
     }
 
-    toggleColor() {
-        this.setState( { displayColorPicker : !this.state.displayColorPicker, displayBackgroundColorPicker : false } );
+    hideLinewidthPicker(){
+        this.setState({ displayLineWidthPicker : false });
     }
 
-    toggleBackgroundColor() {
-        this.setState( { displayColorPicker : false, displayBackgroundColorPicker : !this.state.displayBackgroundColorPicker } );
+    hideFontSizePicker(){
+        this.setState({ displayFontSizePicker : false });
+    }
+
+    onClose = () => {
+        console.log('close');
+        this.setState( { displayColorPicker : false, displayBackgroundColorPicker : false, displayLineWidthPicker : false } );
     }
 
     updateBackgroundImage() {
@@ -79,6 +138,12 @@ export default class DrawingNavBar extends Component {
         }
     }
 
+    _onMouseDown( x, y ){
+        this.setState({
+            x, y
+        });
+    }
+
     render() {
 
         const elements = [
@@ -86,22 +151,25 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( 'Line',              'line',      () => this.setTool( Line ), this.isActiveTool( Line ) ? "active" : "" ),
             new NavBarElement( 'Rectangle',         'check_box_outline_blank',     () => this.setTool( Rectangle ), this.isActiveTool( Rectangle ) ? "active" : "" ),
             new NavBarElement( 'Circle',            'radio_button_unchecked',     () => this.setTool( Circle ), this.isActiveTool( Circle ) ? "active" : "" ),
-            //new NavBarElement( 'Text',              'text_fields' /* TODO */ ),
+            new NavBarElement( 'Eraser',            'phonelink_erase',     () => this.setTool( Eraser ), this.isActiveTool( Eraser ) ? "active" : "" ),
 
-            new NavBarElement( 'Line width',        'line_weight' /* TODO */ ),
+            new NavBarElement( 'Line width',        'line_weight', () => this.setState( { displayLineWidthPicker : !this.state.displayLineWidthPicker } ) ),
             new NavBarElement( 'Color',             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ) ),
 
-            new NavBarElement( 'Background color',  'format_color_fill', this.toggleBackgroundColor.bind( this ) ),
+            new NavBarElement( 'Background color',  'format_color_fill',  () => this.setState( { displayBackgroundColorPicker : !this.state.displayBackgroundColorPicker } )  ),
 
             new NavBarElement( 'Background image',  'image',             this.updateBackgroundImage.bind( this ) ),
 
-            /* Text */
-            //new NavBarElement( 'Font',              'text_format' /* TODO */ ),
-            //new NavBarElement( 'Font size',         'format_size' /* TODO */ ),
-            //new NavBarElement( 'Bold',              'format_bold' /* TODO */ ),
-            //new NavBarElement( 'Underline',         'format_underlined' /* TODO */ ),
-            //new NavBarElement( 'Strike through',    'format_strikethrough' /* TODO */ ),
-            //new NavBarElement( 'Italic',            'format_italic' /* TODO */ )
+            new NavBarElement( 'TextTool',          'text_fields', () => this.setText(), this.isActiveTool( TextTool ) ? "active" : "" ),
+        ];
+
+        const textElements = [
+            new NavBarElement( 'Font',              'text_format' /* TODO */, null , "", "bottom" ),
+            new NavBarElement( 'Font size',         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ), "", "bottom" ),
+            new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), "", "bottom"),
+            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), "", "bottom"),
+            new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline(), "", "bottom" ),
+            new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic(), "", "bottom" )
         ];
 
         const colorPosition = {
@@ -118,16 +186,51 @@ export default class DrawingNavBar extends Component {
             zIndex: 2147483647
         };
 
+        const LinePickerPosition = {
+            position: 'fixed',
+            top: '235px',
+            left: '70px',
+            zIndex: 2147483647
+        };
+
+        const FontSizePickerPosition = {
+            position: 'fixed',
+            top: '335px',
+            left: '70px',
+            zIndex: 2147483647
+        };
+
+        const TextPosition = {
+            position: 'fixed',
+            top: this.state.y+10 + 'px',
+            left: this.state.x + 'px',
+            zIndex: 2147483647
+        }
+
+        const TextElementsPosition = {
+            position: 'fixed',
+            top: this.state.y+50 + 'px',
+            left: this.state.x + 'px',
+            zIndex: 2147483647
+        }
+
+        const popover = {
+         position: 'absolute',
+         zIndex: 200,
+       }
+
         return (
             <div>
                  { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
-                <ColorPicker type="chrome"
-                             display={ this.state.displayColorPicker || this.state.displayBackgroundColorPicker }
-                             positionCSS={ this.state.displayColorPicker ? colorPosition : bgColorPosition }
-                             onClose={ this.onClose.bind( this ) }
-                             onChange={ this.state.displayColorPicker ? this.onChangeColor.bind( this ) : this.onChangeBackgroundColor.bind( this ) }/>
-                         <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload.bind( this ) } accept="image/*"/>
+                {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text}style= {TextPosition} onChange={ this.onTextChange.bind(this) } /> : null }
+                {this.state.displayLineWidthPicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideLinewidthPicker() : null}value ={this.state.lineWidth}style= {LinePickerPosition} onChange={ this.onLineWidthChange.bind(this) } /> : null }
+                {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null}value ={this.state.fontSize }style= {FontSizePickerPosition} onChange={ this.onFontSizeChange.bind(this) } /> : null }
+                {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={ this.state.displayColorPicker ? colorPosition : bgColorPosition}>
+                  <ChromePicker display={false} onChange={ this.state.displayColorPicker ? this.onChangeColor.bind( this ) : this.onChangeBackgroundColor.bind( this ) } onClose={this.onClose} style={ this.state.displayColorPicker ? colorPosition : bgColorPosition }/>
+                </div> : null }
+                 <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload.bind( this ) } accept="image/*"/>
                  <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
+                 {this.state.displayText ?  <NavBar elements={ textElements } position={ TextElementsPosition } horizontal={ false } /> : null}
             </div>
         );
     }

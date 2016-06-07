@@ -64,7 +64,7 @@ export default class NavBar extends Component {
             [ Styles.horizontal ] : this.props.horizontal
         } );
         return (
-            <div className={ className }>
+            <div className={ className } style = {this.props.position}>
                 <ul>
                     { this.props.elements.map( this.renderNavBarElement.bind( this ) ) }
                 </ul>

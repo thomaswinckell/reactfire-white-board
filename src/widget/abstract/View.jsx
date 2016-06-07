@@ -8,6 +8,7 @@ import { timeBeforeHideMenu,
          spaceBetweenBorderToLaunchScroll } from '../../config/WidgetConfig';
 import { gridWidth }                        from '../../config/BoardConfig';
 import Menu                                 from '../Menu';
+import BoardStore                           from '../../core/BoardStore';
 
 import Styles   from './View.scss';
 
@@ -45,24 +46,21 @@ export default class AbstractWidgetView extends Component {
 
     onDoubleClick( event ) {
         event.preventDefault();
-        // FIXME
-        //if ( !this.context.widget.isLockedByAnotherUser() ) {
+        if ( !this.props.isLockedByAnotherUser ) {
             this.props.actions.setEditMode();
-        //}
+        }
     }
 
     onMouseDown( event ) {
-        // FIXME
-        //if ( !this.context.widget.isLockedByAnotherUser() ) {
+        if ( !this.props.isLockedByAnotherUser ) {
             this.onDragStart( event );
-        //}
+        }
     }
 
     getInvertedZoom() {
-        // FIXME
-        //const zoom = BoardStore.getZoom();
-        //return zoom >= 1 ? 1 - ( zoom - 1 ) : 1 + ( 1 - zoom );
-        return 1;
+        const zoom = BoardStore.zoom;
+        return zoom >= 1 ? 1 - ( zoom - 1 ) : 1 + ( 1 - zoom );
+        //return 1;
     }
 
     onDragStart( event ) {
@@ -71,7 +69,6 @@ export default class AbstractWidgetView extends Component {
         }
 
         const invertedZoom = this.getInvertedZoom();
-
         this._startX = ( event.pageX * invertedZoom ) - this.props.position.x;
         this._startY = ( event.pageY * invertedZoom ) - this.props.position.y;
 

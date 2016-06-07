@@ -3,9 +3,12 @@ import React, { Component, PropTypes }  from 'react';
 import * as BoardActions                from '../core/BoardActions';
 import BoardStore                       from '../core/BoardStore';
 import * as Actions                     from './BackgroundDrawingActions';
+import * as NotificationActions         from '../core/NotificationActions';
 import DrawingSurface                   from './DrawingSurface';
 
-
+/**
+ * Manage the drawing Canvas
+ */
 export default class BackgroundDrawing extends Component {
 
     constructor( props ) {
@@ -14,24 +17,49 @@ export default class BackgroundDrawing extends Component {
             enabled      : false
         };
 
-        Actions.save.listen( this.save.bind( this ) );
-        Actions.clear.listen( this.clear.bind( this ) );
-        Actions.enable.listen( this.enable.bind( this ) );
-        Actions.disable.listen( this.disable.bind( this ) );
-        Actions.setTool.listen( this.setTool.bind( this ) );
-        Actions.setColor.listen( this.setColor.bind( this ) );
-        Actions.setBackgroundColor.listen( this.setBackgroundColor.bind( this ) );
+        this.unsub = [];
+
+        this.unsub.push( Actions.save.listen( this.save.bind( this ) ) ) ;
+        this.unsub.push( Actions.clear.listen( this.clear.bind( this ) ) ) ;
+        this.unsub.push( Actions.enable.listen( this.enable.bind( this ) ) ) ;
+        this.unsub.push( Actions.disable.listen( this.disable.bind( this ) ) ) ;
+        this.unsub.push( Actions.setTool.listen( this.setTool.bind( this ) ) ) ;
+        this.unsub.push( Actions.setColor.listen( this.setColor.bind( this ) ) ) ;
+        this.unsub.push( Actions.setBackgroundColor.listen( this.setBackgroundColor.bind( this ) ) ) ;
+        this.unsub.push( Actions.setLineWidth.listen( this.setLineWidth.bind( this ) ) ) ;
+        this.unsub.push( Actions.setText.listen( this.setText.bind( this ) ) ) ;
+        this.unsub.push( Actions.setBold.listen( this.setBold.bind( this ) ) ) ;
+        this.unsub.push( Actions.setFontSize.listen( this.setFontSize.bind( this ) ) ) ;
+        this.unsub.push( Actions.setItalic.listen( this.setItalic.bind( this ) ) ) ;
+        this.unsub.push( Actions.setUnderline.listen( this.setUnderline.bind( this ) ) ) ;
+        this.unsub.push( Actions.setStrikeThrough.listen( this.setStrikeThrough.bind( this ) ) ) ;
+        this.unsub.push( Actions.endText.listen( this.endText.bind( this ) ) ) ;
     }
 
+    /**
+     * Unsubscribe all the actions on Unmount and destroy the canvas is there is one
+     */
     componentWillUnmount() {
-        this.drawingSurface.destroy();
+        this.unsub.forEach( unsub => {
+            unsub();
+        });
+        if ( this.drawingSurface ) {
+            this.drawingSurface.destroy();
+        }
     }
 
+    /**
+     * Create the drawing Canvas
+     * and fire an action to notify we can draw on the canvas
+     */
     enable() {
         this.drawingSurface = new DrawingSurface( 'canvas-drawing-surface', BoardStore.size, this.props.imageContent );
         BoardActions.setIsDrawing( true );
     }
 
+    /**
+     * Remove the canvas and desable drawing
+     */
     disable() {
         if ( this.drawingSurface ) {
             this.drawingSurface.clear();
@@ -41,20 +69,34 @@ export default class BackgroundDrawing extends Component {
         }
     }
 
+    /**
+     * Save drawing and push a notif
+     */
     save() {
         if ( this.drawingSurface ) {
             Actions.setBackgroundDrawing( this.drawingSurface.getResultAsDataUrl() );
+            NotificationActions.pushNotif({
+                type        : 'success',
+                message     : 'Drawing saved !'
+            });
         }
     }
 
+    /**
+     * Clear the drawing surface by removing the old one
+     * and creating a new one with some properties from the old one
+     */
     clear() {
         if ( this.drawingSurface ) {
-            // TODO : confirm
             const oldTool = this.drawingSurface.toolType;
             const oldColor = this.drawingSurface.toolColor;
             this.drawingSurface.clear();
             this.drawingSurface.destroy();
             this.drawingSurface = new DrawingSurface( 'canvas-drawingSurface-background', BoardStore.size, false, oldTool, oldColor );
+            NotificationActions.pushNotif({
+                type        : 'success',
+                message     : 'drawing cleared !'
+            });
         }
     }
 
@@ -62,6 +104,30 @@ export default class BackgroundDrawing extends Component {
         if ( this.drawingSurface ) {
             this.drawingSurface.setTool( tool );
         }
+    }
+
+    setBold( bold ){
+        this.drawingSurface.setBold( bold );
+    }
+
+    setFontSize( fontSize ){
+        this.drawingSurface.setFontSize( fontSize );
+    }
+
+    setUnderline( underline ){
+        this.drawingSurface.setUnderline( underline);
+    }
+
+    setItalic( italic ){
+        this.drawingSurface.setItalic( italic );
+    }
+
+    setStrikeThrough( strikeThrough ){
+        this.drawingSurface.setStrikeThrough( strikeThrough );
+    }
+
+    endText(){
+        this.drawingSurface.endText();
     }
 
     getColor() {
@@ -87,6 +153,18 @@ export default class BackgroundDrawing extends Component {
     setBackgroundColor( backgroundColor ) {
         if ( this.drawingSurface ) {
             this.drawingSurface.setBackgroundColor( backgroundColor );
+        }
+    }
+
+    setLineWidth( width ) {
+        if ( this.drawingSurface ) {
+            this.drawingSurface.setLineWidth( width );
+        }
+    }
+
+    setText( text ) {
+        if ( this.drawingSurface ){
+            this.drawingSurface.setText( text );
         }
     }
 

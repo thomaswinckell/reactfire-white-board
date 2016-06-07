@@ -1,0 +1,54 @@
+.root {
+    width: 15%;
+    position: fixed;
+    z-index: 2100000000;
+    top: 1%;
+    right: 3%;
+    opacity:1;
+    zoom: document;
+
+}
+
+:global .notif-enter {
+  opacity: 0.01;
+}
+
+:global .notif-enter.notif-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+:global .notif-leave {
+  opacity: 1;
+}
+
+:global .notif-leave.notif-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+
+.content {
+    margin-top: 5px;
+    padding:5px;
+    z-index: 2;
+}
+
+.success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+
+.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
+.info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}

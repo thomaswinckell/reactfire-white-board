@@ -2,6 +2,7 @@ import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 
 import NavBar, { NavBarElement }        from '../component/NavBar';
+import ButtonMenu                       from './ButtonMenu';
 
 import * as BoardActions                from '../core/BoardActions';
 
@@ -95,6 +96,19 @@ export default class WidgetNavBar extends Component {
         } );
     }
 
+    addJiraWidget( event ){
+        BoardActions.addWidgetClone( 'JiraWidget', {
+            size: {
+                height: 300,
+                width: 300
+            },
+            position : {
+                x : event.pageX,
+                y : event.pageY
+            }
+        } );
+    }
+
     render() {
 
         const elements = [
@@ -103,10 +117,12 @@ export default class WidgetNavBar extends Component {
             new NavBarElement( 'Youtube',           'video_collection',   this.addYoutubeWidget.bind( this ) ),
             new NavBarElement( 'Google Maps',       'place',              this.addGMapsWidget.bind( this ) ),
             new NavBarElement( 'Video message',     'videocam',           this.addVideoWidget.bind( this ) ),
+            new NavBarElement( 'Jira',              'videocam',           this.addJiraWidget.bind( this ) ),
         ];
 
+        //<NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
         return (
-            <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
+            <ButtonMenu elements={ elements } position={ this.props.position }/>
         );
     }
 }

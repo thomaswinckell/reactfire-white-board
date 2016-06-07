@@ -7,7 +7,6 @@ const loaders = require( './loaders' );
 const plugins = require( './plugins' );
 
 const DEV = process.env.NODE_ENV === 'dev';
-const MODE = process.env.MODE || '';
 
 const jsBundle = path.join( 'js', util.format( '[name].js' ) );
 const entries = {
@@ -26,7 +25,6 @@ if( DEV ) {
 }
 
 const demoContext = path.join( __dirname, '../demo' );
-const context = path.join( __dirname, '../src' );
 
 module.exports = {
     context:   demoContext,

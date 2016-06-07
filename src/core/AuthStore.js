@@ -1,8 +1,8 @@
-import { Store }            from 'airflux';
-import Firebase             from 'firebase';
+import { Store }                from 'airflux';
+import Firebase                 from 'firebase';
 
-import * as ConfigActions   from '../config/ConfigActions';
-
+import * as ConfigActions       from '../config/ConfigActions';
+import * as NotificationActions from './NotificationActions';
 
 class AuthStore extends Store {
 
@@ -37,14 +37,18 @@ class AuthStore extends Store {
     }
 
     onAuthSuccess( authData, appConfig ) {
+        console.log(authData);
         const currentUser = {
             uid             : authData.uid,
-            displayName     : authData.google.displayName || 'Guest',
-            profileImageURL : authData.google.profileImageURL || 'img/default_profile.png', // TODO : A DEFAULT picture image
-            locale          : authData.google.cachedUserProfile && authData.google.cachedUserProfile.locale ? authData.google.cachedUserProfile.locale : 'en'
+            profileImageURL : authData.auth.picture || null,
+            name            : authData.google ? authData.google.displayName  : authData.auth.name
         };
         this.state = { currentUser, appConfig };
         this.publishState();
+        NotificationActions.pushNotif({
+            type        : 'info',
+            message     : authData.google ? authData.google.displayName + ' logged in!' : authData.auth.name + ' logged in!'
+        });
     }
 
     onAuthFailure() {

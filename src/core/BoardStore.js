@@ -1,13 +1,16 @@
-import { Store }            from 'airflux';
-import Firebase             from 'firebase';
+import { Store }                        from 'airflux';
+import Firebase                         from 'firebase';
 
-import AuthStore            from './AuthStore';
-import * as Actions         from './BoardActions';
+import AuthStore                        from './AuthStore';
+import * as Actions                     from './BoardActions';
+import * as NotificationActions         from '../core/NotificationActions';
 
 class BoardStore extends Store {
 
     state = {
-        widgets : []
+        widgets : [],
+        authStoreState : '',
+        zoom : 1
     };
 
     constructor() {
@@ -19,14 +22,21 @@ class BoardStore extends Store {
         Actions.addWidget.listen( this._addWidget.bind( this ) );
         Actions.removeWidget.listen( this._removeWidget.bind( this ) );
         Actions.clearBoard.listen( this._clearBoard.bind( this ) );
+        Actions.setZoom.listen( this._setZoom.bind(this ) );
     }
 
     get size() { return this.state.size; }
+
+    get zoom() { return this.state.zoom || 1; }
 
     destroy() {
         this.boardSizeRef.off();
         this.widgetsRef.off();
         this.latestIndexRef.off();
+    }
+
+    _setZoom( zoom ) {
+        this.state.zoom = zoom;
     }
 
     // FIXME : use promise
@@ -35,15 +45,36 @@ class BoardStore extends Store {
     }
 
     _onAuthSuccess( authStoreState ) {
-        const { firebaseUrl } = authStoreState.appConfig;
+        const { firebaseUrl , boardKey } = authStoreState.appConfig;
+        this.authStoreState = authStoreState;
 
-        this.boardSizeRef = new Firebase( `${firebaseUrl}/board/size` );
-        this.widgetsRef = new Firebase( `${firebaseUrl}/board/widget` );
-        this.latestIndexRef = new Firebase( `${firebaseUrl}/board/latestWidgetIndex` );
+        this.boardSizeRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/size` );
+        this.widgetsRef = new Firebase( `${firebaseUrl}/widgets/${boardKey}` );
+        this.latestIndexRef = new Firebase( `${firebaseUrl}/boards/${boardKey}/latestWidgetIndex` );
+
+        this.widgetsRef.off();
+        this.boardSizeRef.off();
+        this.state.widgets = [];
 
         this.widgetsRef.on( 'child_added', this._onAddWidget.bind( this ) );
         this.widgetsRef.on( 'child_removed', this._onRemoveWidget.bind( this ) );
         this.boardSizeRef.on( 'value', this._onNewSize.bind( this ) );
+
+        //Counter for ppl on
+        this.presenceRef = new Firebase( `https://${firebaseUrl}/presence/${boardKey}/${this.authStoreState.currentUser.uid}` );
+        //this.userRef = this.presenceRef.push();
+        this.connectedRef = new Firebase( `${firebaseUrl}/.info/connected` );
+        this.connectedRef.on("value", ( snap ) => {
+            if( snap.val() ){
+                //remove ourselves when we disconnect
+                this.presenceRef.onDisconnect().remove();
+                this.presenceRef.set({
+                    picture : this.authStoreState.currentUser.profileImageURL,
+                    name    : this.authStoreState.currentUser.name
+                });
+            }
+        });
+
     }
 
     _onAddWidget( dataSnapshot ) {
@@ -74,17 +105,40 @@ class BoardStore extends Store {
            if ( !error && committed ) {
                widget.props.index = snapshot.val();
                widget.props.isEditingBy = AuthStore.currentUser;
-               this.widgetsRef.push( widget );
+               this.widgetsRef.push( widget, (error) => {
+                    if (error){
+                        console.log(error);
+                        NotificationActions.pushNotif({
+                            type     : 'error',
+                            message  : error
+                        });
+                    } else {
+                        NotificationActions.pushNotif({
+                            type     : 'success',
+                            message  : 'Widget ' + widget.type + ' added'
+                        });
+                    }
+               });
            } else {
                // TODO : handle error ?
+               console.log(error);
+               NotificationActions.pushNotif({
+                   type     : 'error',
+                   message  : error
+               });
            }
        });
    }
 
     _removeWidget( widgetKey ) {
-        let widgetBase = new Firebase( `${firebaseUrl}/board/widget/${widgetKey}` );
+        const { firebaseUrl , boardKey } = this.authStoreState.appConfig;
+        let widgetBase = new Firebase( `${firebaseUrl}/widgets/${boardKey}/${widgetKey}` );
         widgetBase.remove();
         widgetBase.off();
+        NotificationActions.pushNotif({
+            type     : 'success',
+            message  : 'Widget removed'
+        });
     }
 
     _clearBoard() {

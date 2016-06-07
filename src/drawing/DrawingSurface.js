@@ -40,6 +40,15 @@ export default class DrawingSurface {
         this.backgroundColor = backgroundColor;
         this.tool = new toolType( this.context );
 
+        this.fontParams = {
+            fontSize        : 24,
+            font            : 'arial',
+            italic          : false,
+            bold            : false,
+            underline       : false,
+            strikeThrough   : false
+        }
+
         this.canvas.addEventListener( 'mousedown',  this.onMouseDown );
         this.canvas.addEventListener( 'mousemove',  this.onMouseMove );
         this.canvas.addEventListener( 'mouseup',    this.onMouseUp );
@@ -61,7 +70,30 @@ export default class DrawingSurface {
             this.onDrawEnd();
             this.toolType = toolType;
             this.tool = new toolType( this.context );
+            if( this.tool.name === 'Eraser' ){
+                this.tool = new toolType( this.oldContext );
+            }
         }
+    }
+
+    setBold( bold ) {
+        this.fontParams.bold = bold;
+    }
+
+    setFontSize( fontSize ){
+        this.fontParams.fontSize = fontSize;
+    }
+
+    setItalic( italic ) {
+        this.fontParams.italic = italic;
+    }
+
+    setUnderline( underline ) {
+        this.fontParams.underline = underline;
+    }
+
+    setStrikeThrough( strikeThrough ){
+        this.fontParams.strikeThrough = strikeThrough;
     }
 
     setColor( color ) {
@@ -72,21 +104,36 @@ export default class DrawingSurface {
         this.backgroundColor = backgroundColor;
     }
 
+    setLineWidth ( width ) {
+        this.lineWidth = width;
+    }
+
+    setText( text ) {
+        this.text = text;
+        if ( this.tool && this.tool.__proto__.hasOwnProperty( 'onNewText' ) ) {
+            this.tool.onNewText( text , this.color, this.fontParams, this.lineWidth );
+        }
+    }
+
+    endText(){
+        this.onDrawEnd();
+    }
+
     onMouseDown = ( event ) => {
-        if ( this.tool && this.tool.onMouseDown ) {
-            this.tool.onMouseDown( event, this.color, this.backgroundColor );
+        if ( this.tool && this.tool.__proto__.hasOwnProperty( 'onMouseDown' ) ) {
+            this.tool.onMouseDown( event, this.color, this.backgroundColor, this.lineWidth );
         }
     };
 
     onMouseMove = ( event ) => {
-        if ( this.tool && this.tool.onMouseMove ) {
-            this.tool.onMouseMove( event, this.color, this.backgroundColor );
+        if ( this.tool && this.tool.__proto__.hasOwnProperty( 'onMouseMove' ) ) {
+            this.tool.onMouseMove( event, this.color, this.backgroundColor, this.lineWidth );
         }
     };
 
     onMouseUp = ( event ) => {
-        if ( this.tool && this.tool.onMouseUp ) {
-            this.tool.onMouseUp( event, this.color, this.backgroundColor );
+        if ( this.tool && this.tool.__proto__.hasOwnProperty( 'onMouseUp' ) ) {
+            this.tool.onMouseUp( event, this.color, this.backgroundColor, this.lineWidth );
             this.onDrawEnd();
         }
     };
