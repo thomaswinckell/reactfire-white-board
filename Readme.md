@@ -3,6 +3,16 @@ A real time white board using ReactJS and Firebase.
 
 
 
+Version 0.0.13-beta1
+============
+
+Presence stores name and UrlProfilePic to be displayed in the website
+
+Version 0.0.12-beta1
+============
+
+Upgrade to react 15.1
+
 Version 0.0.11-beta1
 ============
 

@@ -40,6 +40,8 @@ class AuthStore extends Store {
         console.log(authData);
         const currentUser = {
             uid             : authData.uid,
+            profileImageURL : authData.auth.picture || null,
+            name            : authData.google ? authData.google.displayName  : authData.auth.name
         };
         this.state = { currentUser, appConfig };
         this.publishState();
