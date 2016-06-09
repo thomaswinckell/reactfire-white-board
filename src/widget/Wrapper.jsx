@@ -115,8 +115,9 @@ export default class WidgetWrapper extends Component {
     }
 
     //FIX this.state.isEditingBy.uid and not .id
+    //Returned false when locked but not edited -- fixed again
     isLockedByAnotherUser() {
-        return this.state.isEditingBy && this.state.isEditingBy.uid && !this.isLockedByCurrentUser();
+        return this.state.isLockedBy && !this.isLockedByCurrentUser()
     }
 
     isEditingByCurrentUser() {
@@ -124,6 +125,7 @@ export default class WidgetWrapper extends Component {
     }
 
     setEditMode() {
+        if(!this.isLockedByAnotherUser())
         this.updateData( {
             isLockedBy  : AuthStore.currentUser,
             isEditingBy : AuthStore.currentUser
@@ -193,7 +195,8 @@ export default class WidgetWrapper extends Component {
         const props = _.extend( {}, this.state, {
             valueLink   : this.updateData.bind( this ),
             actions     : this.actions,
-            isLockedByAnotherUser : this.isLockedByAnotherUser()
+            isLockedByAnotherUser : this.isLockedByAnotherUser(),
+            lockName    : this.isLockedByAnotherUser() ? this.state.isLockedBy.name : null
         } );
         return WidgetFactory.createWidgetView( this.props.widgetType, props );
     }
@@ -202,7 +205,8 @@ export default class WidgetWrapper extends Component {
         const props = _.extend( {}, this.state, {
             valueLink   : this.updateData.bind( this ),
             actions     : this.actions,
-            isLockedByAnotherUser : this.isLockedByAnotherUser()
+            isLockedByAnotherUser : this.isLockedByAnotherUser(),
+            lockName    : this.isLockedByAnotherUser() ? this.state.isLockedBy.name : null
         } );
         return WidgetFactory.createWidgetEditor( this.props.widgetType, props );
     }
@@ -264,7 +268,7 @@ export default class WidgetWrapper extends Component {
                          } }
                          onMouseDown={ this.onMouseDown.bind( this ) }>
 
-                         <Blur/>
+                         <Blur isLockedByAnotherUser = { this.isLockedByAnotherUser()} />
 
                         { isEditingByCurrentUser ? this.renderWidgetEditor() : this.renderWidgetView() }
 

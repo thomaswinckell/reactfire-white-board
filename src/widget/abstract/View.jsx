@@ -216,6 +216,22 @@ export default class AbstractWidgetView extends Component {
             );
         }
 
+        if( this.props.isLockedByAnotherUser ){
+            return (
+                <div tabIndex="1000"
+                     style={ style }
+                     className={ className } >
+                   { this.renderView() }
+
+                   <Menu ref="menu"
+                     position = { this.props.position }
+                     lock     = { true }
+                     display  = { true }
+                     lockName   = { this.props.lockName }/>
+               </div>
+            );
+        }
+
         return (
             <div tabIndex="1000"
                  style={ style }

@@ -6,9 +6,18 @@ import Styles   from './Blur.scss';
 
 export default class Blur extends Component {
 
+    getBlur(){
+        const hasBlur   = DetectCss.feature( 'backdrop-filter' );
+
+        if ( this.props.isLockedByAnotherUser ) {
+            return hasBlur ? Styles.blurLock : Styles.blurPolyfillLock;
+        } else {
+            return hasBlur ? Styles.blur : Styles.blurPolyfill;
+        }
+    }
+
     render() {
-        const hasBlur = DetectCss.feature( 'backdrop-filter' );
-        const className = hasBlur ? Styles.blur : Styles.blurPolyfill;
+        const className = this.getBlur();
 
         return (
             <div className={ className }>
