@@ -215,18 +215,25 @@ export default class DrawingNavBar extends Component {
         }
 
         const popover = {
-         position: 'absolute',
-         zIndex: 200,
-       }
-
+            position: 'absolute',
+            zIndex: 200,
+        }
+        const cover = {
+            position: 'fixed',
+            top: '0px',
+            right: '0px',
+            bottom: '0px',
+            left: '0px',
+        }
         return (
             <div>
                  { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
                 {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text}style= {TextPosition} onChange={ this.onTextChange.bind(this) } /> : null }
                 {this.state.displayLineWidthPicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideLinewidthPicker() : null}value ={this.state.lineWidth}style= {LinePickerPosition} onChange={ this.onLineWidthChange.bind(this) } /> : null }
                 {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null}value ={this.state.fontSize }style= {FontSizePickerPosition} onChange={ this.onFontSizeChange.bind(this) } /> : null }
-                {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={ this.state.displayColorPicker ? colorPosition : bgColorPosition}>
-                  <ChromePicker display={false} onChange={ this.state.displayColorPicker ? this.onChangeColor.bind( this ) : this.onChangeBackgroundColor.bind( this ) } onClose={this.onClose} style={ this.state.displayColorPicker ? colorPosition : bgColorPosition }/>
+                {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={  this.state.displayColorPicker ? colorPosition : bgColorPosition }>
+                 <div style={ cover } onClick={ this.onClose }/>
+                  <ChromePicker onChange={ this.state.displayColorPicker ? this.onChangeColor.bind( this ) : this.onChangeBackgroundColor.bind( this ) }/>
                 </div> : null }
                  <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload.bind( this ) } accept="image/*"/>
                  <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />

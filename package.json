@@ -19,7 +19,7 @@
     "lodash.range": "^3.1.4",
     "moment": "^2.11.2",
     "react": "^15.1",
-    "react-color": "^2.1.0",
+    "react-color": "^2.2.0",
     "react-dom": "^15.1",
     "react-motion": "^0.4.3",
     "react-tooltip": "^1.1.2",
