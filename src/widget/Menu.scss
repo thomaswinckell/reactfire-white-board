@@ -51,15 +51,14 @@
 
 .listLock {
     background:none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
     li {
         animation : box-flyin 0s 1.5s;
         display : inline-block;
-        cursor  : pointer;
         padding:5px;
-        overflow: hidden;
-        position: relative;
-        float:left;
-        left:50%;
         transition : all 200ms ease-in-out;
         opacity:0.8;
         background:none;
