@@ -56,7 +56,11 @@ export default class WidgetMenu extends Component {
 
         const style = {
             height  : `${height}px`,
-            top     : '5px'
+            top     : '5px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            textAlign: 'center',
         };
 
         const className = classNames( Styles.root, {
