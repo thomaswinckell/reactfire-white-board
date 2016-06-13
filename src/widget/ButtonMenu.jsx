@@ -63,7 +63,6 @@ export default class ButtonMenu extends Component {
 
 		this.state = {
 			isOpen: false,
-			childButtons: [],
 			M_X : 200,
 			M_Y : 200
 		};
@@ -78,9 +77,6 @@ export default class ButtonMenu extends Component {
 
 	componentDidMount() {
 		window.addEventListener('click', this.closeMenu);
-		let childButtons = [];
-		//this.setState({childButtons: childButtons.slice(0)});
-		this.setState({childButtons: this.props.elements});
 		this.updateDimensions()
 		 window.addEventListener("resize", this.updateDimensions);
 	}
@@ -217,10 +213,10 @@ export default class ButtonMenu extends Component {
 					<div>
 						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
 							<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 130}" key={index}>
-								{this.state.childButtons.length !== 0  ?
+								{this.props.elements.length !== 0  ?
 								<div className= { Styles.childButton }
 									 key={index}
-									 onClick={ this.state.childButtons[index].action }
+									 onClick={ this.props.elements[index].action }
 									 style={{
 										left,
 										height,
@@ -228,9 +224,9 @@ export default class ButtonMenu extends Component {
 										transform: `rotate(${rotate}deg) scale(${scale})`,
 										width
 									}}>
-									<i className={ classNames('icon' , `icon-${this.state.childButtons[index].icon}` ) } >
-										<ReactTooltip id={index.toString()} place={this.state.childButtons[index].tooltipPosition} type="light" effect="solid" >
-											{ this.state.childButtons[index].text }
+									<i className={ classNames('icon' , `icon-${this.props.elements[index].icon}` ) } >
+										<ReactTooltip id={index.toString()} place={this.props.elements[index].tooltipPosition} type="light" effect="solid" >
+											{ this.props.elements[index].text }
 										</ReactTooltip>
 									</i>
 								</div>
