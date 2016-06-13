@@ -212,31 +212,20 @@ export default class ButtonMenu extends Component {
 		};
 
 		return (
-			<StaggeredMotion
-				defaultStyles={targetButtonStylesInit}
-				styles={calculateStylesForNextFrame}>
+			<StaggeredMotion defaultStyles={targetButtonStylesInit} styles={calculateStylesForNextFrame}>
 				{interpolatedStyles =>
 					<div>
 						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
 							<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 110}" key={index}>
 								{this.props.elements.length !== 0  ?
-								<div className= { Styles.childButton }
-									 key={index}
-									 onClick={ this.props.elements[index].action }
-									 style={{
-										left,
-										height,
-										top,
-										transform: `rotate(${rotate}deg) scale(${scale})`,
-										width
-									}}>
+								<div className= { Styles.childButton } key={index} onClick={ this.props.elements[index].action }
+									 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>
 									<i className={ classNames('icon' , `icon-${this.props.elements[index].icon}` ) } >
 										<ReactTooltip id={index.toString()} place={this.props.elements[index].tooltipPosition} type="light" effect="solid" >
 											{ this.props.elements[index].text }
 										</ReactTooltip>
 									</i>
-								</div>
-								: null }
+								</div> : null }
 							</div>
 						)}
 					</div>
@@ -244,6 +233,33 @@ export default class ButtonMenu extends Component {
 			</StaggeredMotion>
 		);
 	}
+
+	renderWidgetHalf(){
+		return(
+			<div className={ Styles.widgetHalf }
+				data-for='widget' data-tip
+				onClick={this.toggleMenuWidget.bind(this)}>
+				<i className={ classNames( 'icon', 'icon-dashboard',`${Styles.iconButton}` ) }></i>
+				<ReactTooltip id='widget' place={'top'} type="light" effect="solid">
+					{'Widgets'}
+				</ReactTooltip>
+			</div>
+		)
+	}
+
+	renderDrawingHalf(){
+		return(
+			<div className={ Styles.drawingHalf }
+				 data-for='paint' data-tip data-multiline={false}
+				 onClick={this.toggleMenuDrawing.bind(this)}>
+				 <i className={ classNames( 'icon', 'icon-format_paint',`${Styles.iconButton}` ) }></i>
+			   <ReactTooltip id={'paint'} place={'top'} type="light" effect="solid">
+				   {'Paint'}
+			   </ReactTooltip>
+			</div>
+		)
+	}
+
 
 	// <i className={ classNames( 'icon', `icon-add` ) }/>
 	render() {
@@ -255,25 +271,9 @@ export default class ButtonMenu extends Component {
 				<Motion style={mainButtonRotation}>
 					{({rotate}) =>
 					<div>
-						<div
-							className= { Styles.mainButton }
-							style={{...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`}}>
-								 <div className={ Styles.drawingHalf }
-									  data-for='paint' data-tip
-									  onClick={this.toggleMenuDrawing.bind(this)}>
-									  <i className={ classNames( 'icon', 'icon-format_paint',`${Styles.iconButton}` ) }></i>
-  					                <ReactTooltip id={'paint'} place={'top'} type="light" effect="solid">
-  					                    lol
-  					                </ReactTooltip>
-								 </div>
-								 <div className={ Styles.widgetHalf }
-									 data-for='widget' data-tip
-									 onClick={this.toggleMenuWidget.bind(this)}>
-									 <i className={ classNames( 'icon', 'icon-dashboard',`${Styles.iconButton}` ) }></i>
-									 <ReactTooltip id='widget' place={'top'} type="light" effect="solid">
-										 lol
-									 </ReactTooltip>
-								 </div>
+						<div className= { Styles.mainButton } style={ {...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`} }>
+							{this.renderDrawingHalf()}
+							{this.renderWidgetHalf()}
 						</div>
 					</div>
 					}
