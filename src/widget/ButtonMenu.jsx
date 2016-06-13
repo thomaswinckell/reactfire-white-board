@@ -17,7 +17,7 @@ import Styles from './ButtonMenu.scss';
 const MAIN_BUTTON_DIAM = 90;
 const CHILD_BUTTON_DIAM = 48;
 // The number of child buttons that fly out from the main button
-const NUM_CHILDREN = 6;
+// const NUM_CHILDREN = 6;
 // Hard code the position values of the mainButton
 //let M_X = $(window).width() - 180;
 //let M_Y = $(window).height()  - 150;
@@ -33,9 +33,9 @@ const SPRING_CONFIG = {stiffness : 400, damping : 28};
 
 // How far away from the main button does the child buttons go
 const FLY_OUT_RADIUS = 130,
-	SEPARATION_ANGLE = 40, //degrees
-	FAN_ANGLE = (NUM_CHILDREN - 1) * SEPARATION_ANGLE, //degrees
-	BASE_ANGLE = ((180 - FAN_ANGLE)/2); // degrees
+	SEPARATION_ANGLE = 40; //degrees
+	// FAN_ANGLE = (NUM_CHILDREN - 1) * SEPARATION_ANGLE, //degrees
+	// BASE_ANGLE = ((180 - FAN_ANGLE)/2); // degrees
 
 // Names of icons for each button retreived from fontAwesome, we'll add a little extra just in case
 // the NUM_CHILDREN is changed to a bigger value
@@ -48,13 +48,6 @@ function toRadians(degrees) {
 	return degrees * 0.0174533;
 }
 
-function finalChildDeltaPositions(index) {
-	let angle = BASE_ANGLE + (index* SEPARATION_ANGLE);
-	return {
-		deltaX: FLY_OUT_RADIUS * Math.cos(toRadians(angle)) - (CHILD_BUTTON_DIAM/2),
-		deltaY: FLY_OUT_RADIUS * Math.sin(toRadians(angle)) + (CHILD_BUTTON_DIAM/2)
-	};
-}
 
 
 export default class ButtonMenu extends Component {
@@ -72,7 +65,7 @@ export default class ButtonMenu extends Component {
 	updateDimensions = () => {
         //this.setState({M_X: $(window).width() - 190, M_Y: $(window).height() - 150});
         ////TODO percentage + middle
-        this.setState({M_X: $(window).width()/2, M_Y: $(window).height() - 100});
+        this.setState({M_X: $(window).width()/2, M_Y: $(window).height() - 120});
 	}
 
 	componentDidMount() {
@@ -94,6 +87,15 @@ export default class ButtonMenu extends Component {
 			left: this.state.M_X - (MAIN_BUTTON_DIAM/2)
 		};
 	}
+
+	finalChildDeltaPositions(index) {
+		let angle = ((180 - (this.props.elements.length - 1) * SEPARATION_ANGLE)/2) + (index* SEPARATION_ANGLE);
+		return {
+			deltaX: FLY_OUT_RADIUS * Math.cos(toRadians(angle)) - (CHILD_BUTTON_DIAM/2),
+			deltaY: FLY_OUT_RADIUS * Math.sin(toRadians(angle)) + (CHILD_BUTTON_DIAM/2)
+		};
+	}
+
 
 	initialChildButtonStylesInit() {
 		return {
@@ -118,7 +120,7 @@ export default class ButtonMenu extends Component {
 	}
 
 	finalChildButtonStylesInit(childIndex) {
-		let {deltaX, deltaY} = finalChildDeltaPositions(childIndex);
+		let {deltaX, deltaY} = this.finalChildDeltaPositions(childIndex);
 		return {
 			width: CHILD_BUTTON_DIAM,
 			height: CHILD_BUTTON_DIAM,
@@ -130,7 +132,7 @@ export default class ButtonMenu extends Component {
 	}
 
 	finalChildButtonStyles(childIndex) {
-		let {deltaX, deltaY} = finalChildDeltaPositions(childIndex);
+		let {deltaX, deltaY} = this.finalChildDeltaPositions(childIndex);
 		return {
 			width: CHILD_BUTTON_DIAM,
 			height: CHILD_BUTTON_DIAM,
@@ -165,13 +167,13 @@ export default class ButtonMenu extends Component {
 
 	renderChildButtons() {
 		const {isOpen} = this.state;
-		const targetButtonStylesInitObject = range(NUM_CHILDREN).map(i => {
+		const targetButtonStylesInitObject = range(this.props.elements.length).map(i => {
 			return isOpen ? this.finalChildButtonStylesInit(i) : this.initialChildButtonStylesInit();
 		});
 
 		const targetButtonStylesInit = Object.keys(targetButtonStylesInitObject).map(key => targetButtonStylesInitObject[key]);
 
-		const targetButtonStyles = range(NUM_CHILDREN).map(i => {
+		const targetButtonStyles = range(this.props.elements.length).map(i => {
 			return isOpen ? this.finalChildButtonStyles(i) : this.initialChildButtonStyles();
 		});
 		const scaleMin = this.initialChildButtonStyles().scale.val;
