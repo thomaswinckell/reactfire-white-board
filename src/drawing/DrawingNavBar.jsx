@@ -225,6 +225,9 @@ export default class DrawingNavBar extends Component {
             bottom: '0px',
             left: '0px',
         }
+
+        console.log(this.props.horizontal);
+
         return (
             <div>
                  { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
@@ -236,7 +239,7 @@ export default class DrawingNavBar extends Component {
                   <ChromePicker onChange={ this.state.displayColorPicker ? this.onChangeColor.bind( this ) : this.onChangeBackgroundColor.bind( this ) }/>
                 </div> : null }
                  <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload.bind( this ) } accept="image/*"/>
-                 <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
+                 <NavBar elements={ elements } position={ this.props.position } horizontal={ false } />
                  {this.state.displayText ?  <NavBar elements={ textElements } position={ TextElementsPosition } horizontal={ false } /> : null}
             </div>
         );

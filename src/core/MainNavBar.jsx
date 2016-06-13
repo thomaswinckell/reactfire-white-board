@@ -28,7 +28,7 @@ export default class MainNavBar extends Component {
         };
     }
 
-    setDrawingMode() {
+    setDrawingMode = () => {
         if ( this.state.mode === Mode.widgets ) {
             DrawingActions.enable();
             this.setState( { mode : Mode.drawing } );
@@ -56,7 +56,7 @@ export default class MainNavBar extends Component {
         DrawingActions.save();
     }
 
-    setWidgetMode(){
+    setWidgetMode = () => {
         if ( this.state.mode === Mode.drawing ) {
             DrawingActions.disable();
             this.setState( { mode : Mode.widgets  } );
@@ -100,8 +100,8 @@ export default class MainNavBar extends Component {
 
         let elements = [
         //new NavBarElement( 'Logout', 'sign-out', AuthActions.logout.bind( this ) ),
-            new NavBarElement( 'Paint mode',    'format_paint',        this.setDrawingMode.bind( this ),    this.state.mode === Mode.drawing ? 'active' : '', 'bottom' ),
-            new NavBarElement( 'Widgets mode',  'dashboard',           this.setWidgetMode.bind( this ),      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
+            new NavBarElement( 'Paint mode',    'format_paint',        this.setDrawingMode,    this.state.mode === Mode.drawing ? 'active' : '', 'bottom' ),
+            new NavBarElement( 'Widgets mode',  'dashboard',           this.setWidgetMode,      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
         ];
 
         let zoomElements = [
@@ -124,11 +124,12 @@ export default class MainNavBar extends Component {
             );
         }
 
+        //<NavBar elements={ elements } className={ Styles.navbar } />
         return (
             <div className={ Styles.root }>
-                <NavBar elements={ elements } className={ Styles.navbar } />
-            { this.state.mode === Mode.widgets ? <ButtonMenu elements={widgetsElements}/> : null }
-                { this.state.mode === Mode.drawing ? <DrawingNavBar/> : null }
+                <ButtonMenu elements={ widgetsElements } setDrawing={ this.setDrawingMode } setWidget={ this.setWidgetMode }/>
+                {/* this.state.mode === Mode.widgets ? <ButtonMenu elements={widgetsElements}/> : null */}
+                {/* this.state.mode === Mode.drawing ? <DrawingNavBar/> : null */}
                 <div className={ Styles.zoomNavbar }>
                     { zoomElements.map( ( e, key ) => e.render( key ) ) }
                 </div>

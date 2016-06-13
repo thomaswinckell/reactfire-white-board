@@ -8,6 +8,8 @@ import classNames                       	from 'classnames';
 import ReactTooltip                     	from 'react-tooltip';
 import Guid                             	from '../utils/Guid';
 
+import DrawingNavBar						from '../drawing/DrawingNavBar'
+
 import Styles from './ButtonMenu.scss';
 // Components
 
@@ -59,6 +61,7 @@ export default class ButtonMenu extends Component {
 			isOpen: false,
 			M_X : 200,
 			M_Y : 200,
+			type : 'widget',
 			BASE_ANGLE : ((180 - (this.props.elements.length - 1) * SEPARATION_ANGLE)/2)
 		};
 
@@ -146,92 +149,111 @@ export default class ButtonMenu extends Component {
 	}
 
 	toggleMenuDrawing(e) {
-		console.log('dr');
 		e.stopPropagation();
-		let{isOpen} = this.state;
-		this.setState({
-			isOpen: !isOpen,
-			type : 'drawing'
-		});
+		const { isOpen } = this.state;
+		if( isOpen ){
+			this.setState({
+				isOpen : false,
+				type : 'widget'
+			})
+			this.props.setWidget();
+		} else {
+			this.setState({
+				isOpen: !isOpen,
+				type : 'drawing'
+			});
+			this.props.setDrawing();
+		}
 	}
 
 	toggleMenuWidget(e){
-		console.log('wt');
 		e.stopPropagation();
-		let{isOpen} = this.state;
+		const { isOpen } = this.state;
 		this.setState({
 			isOpen: !isOpen,
 			type : 'widget'
 		});
+		this.props.setWidget();
 	}
 
 	closeMenu = () => {
-		this.setState({ isOpen: false});
+		if(this.state.type === 'widget')
+			this.setState({ isOpen: false});
 	};
 
 	renderChildButtons() {
-		const {isOpen} = this.state;
-		const targetButtonStylesInitObject = range(this.props.elements.length).map(i => {
-			return isOpen ? this.finalChildButtonStylesInit(i) : this.initialChildButtonStylesInit();
-		});
-
-		const targetButtonStylesInit = Object.keys(targetButtonStylesInitObject).map(key => targetButtonStylesInitObject[key]);
-
-		const targetButtonStyles = range(this.props.elements.length).map(i => {
-			return isOpen ? this.finalChildButtonStyles(i) : this.initialChildButtonStyles();
-		});
-		const scaleMin = this.initialChildButtonStyles().scale.val;
-		const scaleMax = this.finalChildButtonStyles(0).scale.val;
-		//console.log('scaleMin', scaleMin, 'scaleMax', scaleMax);
-
-		let calculateStylesForNextFrame = prevFrameStyles => {
-			// prevFrameStyles = isOpen ? prevFrameStyles : prevFrameStyles.reverse();
-			prevFrameStyles = isOpen ? prevFrameStyles : prevFrameStyles;
-
-			let nextFrameTargetStyles =  prevFrameStyles.map((buttonStyleInPreviousFrame, i) => {
-				//animation always starts from first button
-				if (i === 0) {
-					return targetButtonStyles[i];
-				}
-
-				const prevButtonScale = prevFrameStyles[i - 1].scale;
-				// console.log('prevButtonScale',prevButtonScale);
-				const shouldApplyTargetStyle = () => {
-					if (isOpen) {
-						return prevButtonScale >= scaleMin + OFFSET;
-					} else {
-						return prevButtonScale <= scaleMax - OFFSET;
-					}
-				};
-
-				return shouldApplyTargetStyle() ? targetButtonStyles[i] : buttonStyleInPreviousFrame;
+		const {isOpen, type} = this.state;
+		if(type === 'widget'){
+			const targetButtonStylesInitObject = range(this.props.elements.length).map(i => {
+				return isOpen ? this.finalChildButtonStylesInit(i) : this.initialChildButtonStylesInit();
 			});
 
-			// return isOpen ? nextFrameTargetStyles : nextFrameTargetStyles.reverse();
-			return isOpen ? nextFrameTargetStyles : nextFrameTargetStyles;
-		};
+			const targetButtonStylesInit = Object.keys(targetButtonStylesInitObject).map(key => targetButtonStylesInitObject[key]);
 
-		return (
-			<StaggeredMotion defaultStyles={targetButtonStylesInit} styles={calculateStylesForNextFrame}>
-				{interpolatedStyles =>
-					<div>
-						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
-							<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 110}" key={index}>
-								{this.props.elements.length !== 0  ?
-								<div className= { Styles.childButton } key={index} onClick={ this.props.elements[index].action }
-									 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>
-									<i className={ classNames('icon' , `icon-${this.props.elements[index].icon}` ) } >
-										<ReactTooltip id={index.toString()} place={this.props.elements[index].tooltipPosition} type="light" effect="solid" >
-											{ this.props.elements[index].text }
-										</ReactTooltip>
-									</i>
-								</div> : null }
-							</div>
-						)}
-					</div>
-				}
-			</StaggeredMotion>
-		);
+			const targetButtonStyles = range(this.props.elements.length).map(i => {
+				return isOpen ? this.finalChildButtonStyles(i) : this.initialChildButtonStyles();
+			});
+			const scaleMin = this.initialChildButtonStyles().scale.val;
+			const scaleMax = this.finalChildButtonStyles(0).scale.val;
+			//console.log('scaleMin', scaleMin, 'scaleMax', scaleMax);
+
+			let calculateStylesForNextFrame = prevFrameStyles => {
+				// prevFrameStyles = isOpen ? prevFrameStyles : prevFrameStyles.reverse();
+				prevFrameStyles = isOpen ? prevFrameStyles : prevFrameStyles;
+
+				let nextFrameTargetStyles =  prevFrameStyles.map((buttonStyleInPreviousFrame, i) => {
+					//animation always starts from first button
+					if (i === 0) {
+						return targetButtonStyles[i];
+					}
+
+					const prevButtonScale = prevFrameStyles[i - 1].scale;
+					// console.log('prevButtonScale',prevButtonScale);
+					const shouldApplyTargetStyle = () => {
+						if (isOpen) {
+							return prevButtonScale >= scaleMin + OFFSET;
+						} else {
+							return prevButtonScale <= scaleMax - OFFSET;
+						}
+					};
+
+					return shouldApplyTargetStyle() ? targetButtonStyles[i] : buttonStyleInPreviousFrame;
+				});
+
+				// return isOpen ? nextFrameTargetStyles : nextFrameTargetStyles.reverse();
+				return isOpen ? nextFrameTargetStyles : nextFrameTargetStyles;
+			};
+
+			return (
+				<StaggeredMotion defaultStyles={targetButtonStylesInit} styles={calculateStylesForNextFrame}>
+					{interpolatedStyles =>
+						<div>
+							{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
+								<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 110}" key={index}>
+									{this.props.elements.length !== 0  ?
+									<div className= { Styles.childButton } key={index} onClick={ this.props.elements[index].action }
+										 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>
+										<i className={ classNames('icon' , `icon-${this.props.elements[index].icon}` ) } >
+											<ReactTooltip id={index.toString()} place={this.props.elements[index].tooltipPosition} type="light" effect="solid" >
+												{ this.props.elements[index].text }
+											</ReactTooltip>
+										</i>
+									</div> : null }
+								</div>
+							)}
+						</div>
+					}
+				</StaggeredMotion>
+			);
+		} else {
+			return(
+				<DrawingNavBar horizontal={ false } position={{
+						bottom : '50px',
+						left   : this.state.M_X+120,
+						position : 'fixed'
+					}}/>
+			)
+		}
 	}
 
 	renderWidgetHalf(){

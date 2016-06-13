@@ -59,6 +59,7 @@ export default class NavBar extends Component {
         return element.render( key );
     }
 
+
     render() {
         const className = classNames( Styles.root, this.props.className, {
             [ Styles.horizontal ] : this.props.horizontal
