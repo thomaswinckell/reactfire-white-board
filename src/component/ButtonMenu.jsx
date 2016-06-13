@@ -54,10 +54,12 @@ export default class ButtonMenu extends Component {
 	constructor(props) {
 		super(props);
 
+
 		this.state = {
 			isOpen: false,
 			M_X : 200,
-			M_Y : 200
+			M_Y : 200,
+			BASE_ANGLE : ((180 - (this.props.elements.length - 1) * SEPARATION_ANGLE)/2)
 		};
 
 	}
@@ -89,7 +91,7 @@ export default class ButtonMenu extends Component {
 	}
 
 	finalChildDeltaPositions(index) {
-		let angle = ((180 - (this.props.elements.length - 1) * SEPARATION_ANGLE)/2) + (index* SEPARATION_ANGLE);
+		const angle = this.state.BASE_ANGLE + (index* SEPARATION_ANGLE);
 		return {
 			deltaX: FLY_OUT_RADIUS * Math.cos(toRadians(angle)) - (CHILD_BUTTON_DIAM/2),
 			deltaY: FLY_OUT_RADIUS * Math.sin(toRadians(angle)) + (CHILD_BUTTON_DIAM/2)
@@ -143,7 +145,8 @@ export default class ButtonMenu extends Component {
 		};
 	}
 
-	toggleMenu(e) {
+	toggleMenuDrawing(e) {
+		console.log('dr');
 		e.stopPropagation();
 		let{isOpen} = this.state;
 		this.setState({
@@ -153,6 +156,7 @@ export default class ButtonMenu extends Component {
 	}
 
 	toggleMenuWidget(e){
+		console.log('wt');
 		e.stopPropagation();
 		let{isOpen} = this.state;
 		this.setState({
@@ -214,7 +218,7 @@ export default class ButtonMenu extends Component {
 				{interpolatedStyles =>
 					<div>
 						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
-							<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 130}" key={index}>
+							<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 110}" key={index}>
 								{this.props.elements.length !== 0  ?
 								<div className= { Styles.childButton }
 									 key={index}
@@ -244,7 +248,7 @@ export default class ButtonMenu extends Component {
 	// <i className={ classNames( 'icon', `icon-add` ) }/>
 	render() {
 		const {isOpen} = this.state;
-		const mainButtonRotation = isOpen ? {rotate: spring(0, {stiffness : 500, damping : 30})} : {rotate: spring(90, {stiffness : 500, damping : 28})};
+		const mainButtonRotation = isOpen ? {rotate: spring(0, {stiffness : 500, damping : 30})} : {rotate: spring(120, {stiffness : 500, damping : 28})};
 		return (
 			<div>
 				{this.renderChildButtons()}
@@ -254,10 +258,22 @@ export default class ButtonMenu extends Component {
 						<div
 							className= { Styles.mainButton }
 							style={{...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`}}>
-								<div className={ Styles.goldHalf }
-									 onClick={this.toggleMenuWidget.bind(this)}/>
-								 <div className={ Styles.blackHalf }
-									  onClick={this.toggleMenu.bind(this)}/>
+								 <div className={ Styles.drawingHalf }
+									  data-for='paint' data-tip
+									  onClick={this.toggleMenuDrawing.bind(this)}>
+									  <i className={ classNames( 'icon', 'icon-format_paint',`${Styles.iconButton}` ) }></i>
+  					                <ReactTooltip id={'paint'} place={'top'} type="light" effect="solid">
+  					                    lol
+  					                </ReactTooltip>
+								 </div>
+								 <div className={ Styles.widgetHalf }
+									 data-for='widget' data-tip
+									 onClick={this.toggleMenuWidget.bind(this)}>
+									 <i className={ classNames( 'icon', 'icon-dashboard',`${Styles.iconButton}` ) }></i>
+									 <ReactTooltip id='widget' place={'top'} type="light" effect="solid">
+										 lol
+									 </ReactTooltip>
+								 </div>
 						</div>
 					</div>
 					}

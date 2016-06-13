@@ -18,6 +18,8 @@
 	color: #ffffff;
 	font-weight: lighter;
 	border: 1px solid rgba(0, 0, 0, 0.1);
+	line-height: 45px;
+	text-align: center;
 
 	transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
@@ -25,21 +27,25 @@
 	-moz-transform: rotate(45deg);
 	-webkit-transform: rotate(45deg);
 
-	.blackHalf, .goldHalf{
+	.widgetHalf, .drawingHalf{
 		@include half-circle(90px);
 	}
 
-	.blackHalf{
-		background: blue;
+	.drawingHalf{
+		background: cyan;
+	}
+	.widgetHalf{
+		background: cyan;
 		transform: rotate(180deg);
 		-ms-transform: rotate(180deg);
 		-o-transform: rotate(180deg);
 		-moz-transform: rotate(180deg);
 		-webkit-transform: rotate(180deg);
 	}
-	.goldHalf{
-		background: red;
-	}
+}
+
+.iconButton{
+	font-size: 1.5em;
 }
 
 .childButton {

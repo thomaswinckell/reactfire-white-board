@@ -2,7 +2,7 @@ import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 
 import NavBar, { NavBarElement }        from '../component/NavBar';
-import ButtonMenu                       from './ButtonMenu';
+import ButtonMenu                       from '../component/ButtonMenu';
 
 import * as BoardActions                from '../core/BoardActions';
 
