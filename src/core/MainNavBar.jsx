@@ -5,7 +5,7 @@ import * as DrawingActions              from '../drawing/BackgroundDrawingAction
 import * as BoardActions                from './BoardActions';
 import NavBar, { NavBarElement }        from '../component/NavBar';
 import ConfirmDialog                    from '../component/ConfirmDialog';
-import DrawingNavBar                    from '../drawing/DrawingNavBar';
+import { drawingElements }              from '../drawing/DrawingNavBar';
 
 import ButtonMenu                       from '../component/ButtonMenu';
 import { widgetsElements }              from '../widget/Elements';
@@ -127,8 +127,8 @@ export default class MainNavBar extends Component {
         return (
             <div className={ Styles.root }>
                 <NavBar elements={ elements } className={ Styles.navbar } />
-            { this.state.mode === Mode.widgets ? <ButtonMenu elements={widgetsElements}/> : null }
-                { this.state.mode === Mode.drawing ? <DrawingNavBar/> : null }
+            { this.state.mode === Mode.widgets ? <ButtonMenu elements={ widgetsElements }/> : null }
+                { this.state.mode === Mode.drawing ? <ButtonMenu elements={ drawingElements }/> : null }
                 <div className={ Styles.zoomNavbar }>
                     { zoomElements.map( ( e, key ) => e.render( key ) ) }
                 </div>
