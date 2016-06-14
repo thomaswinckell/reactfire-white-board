@@ -95,8 +95,21 @@ export default class WidgetWrapper extends Component {
         }
     }
 
+    /**
+     * Update props of the widget
+     * Add a onDisconnect event to remove the lock in case of not clean disconnect
+     * @param  data -> the new data to modify
+     */
     updateData( data ) {
         if ( this.hasOwnProperty('isRemoved') &&  !this.isRemoved ) {
+            if( data.isLockedBy !== false ){
+                this.isLockedByRef = new Firebase( this.props.baseUrl + '/isLockedBy' );
+                this.isLockedByRef.onDisconnect().set(false);
+            }
+            if( data.isEditingBy !== false ){
+                this.isEditingByRef = new Firebase( this.props.baseUrl + '/isEditingBy' );
+                this.isEditingByRef.onDisconnect().set(false);
+            }
             this.base.set( _.merge( {}, this.state, data, { status : null, onEnter : null, onLeave : null, confirmDialog : null } ) );
         }
     }
@@ -132,8 +145,19 @@ export default class WidgetWrapper extends Component {
         } );
     }
 
+    /**
+     * Remove the onDisconnect event that set lockedBy and editingBy to false
+     */
+    removeOnDisconnectHandler(){
+        this.isEditingByRef.onDisconnect().cancel();
+        this.isLockedByRef.onDisconnect().cancel();
+        this.isEditingByRef = null;
+        this.isLockedByRef = null;
+    }
+
     setViewMode() {
         this.updateData( { isEditingBy : false, isLockedBy : false } );
+        this.removeOnDisconnectHandler();
     }
 
     // FIX with 2 updates to prevent the lock to be fired after the unlock
@@ -150,6 +174,7 @@ export default class WidgetWrapper extends Component {
 
     unselect() {
         this.updateData( { isLockedBy: false } );
+        this.removeOnDisconnectHandler();
     }
 
     deleteWidget() {
@@ -185,6 +210,7 @@ export default class WidgetWrapper extends Component {
     onResizeEnd( event ) {
         this.isResizing = false;
         this.updateData( { isLockedBy: false } );
+        this.removeOnDisconnectHandler();
     }
 
     onMouseDown( event ) {
