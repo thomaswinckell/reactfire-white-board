@@ -5,6 +5,7 @@ import BoardStore                       from '../core/BoardStore';
 import * as Actions                     from './BackgroundDrawingActions';
 import * as NotificationActions         from '../core/NotificationActions';
 import DrawingSurface                   from './DrawingSurface';
+import { ChromePicker }                 from 'react-color';
 
 /**
  * Manage the drawing Canvas
@@ -14,7 +15,8 @@ export default class BackgroundDrawing extends Component {
     constructor( props ) {
         super( props );
         this.state = {
-            enabled      : false
+            enabled      : false,
+            displayColorPicker : false
         };
 
         this.unsub = [];
@@ -137,10 +139,46 @@ export default class BackgroundDrawing extends Component {
         return null;
     }
 
-    setColor( color ) {
-        if ( this.drawingSurface ) {
-            this.drawingSurface.setColor( color );
+    setColor() {
+        this.setState({ displayColorPicker : !this.state.displayColorPicker})
+    }
+
+    displayColorPicker(){
+        const colorPosition = {
+            position: 'fixed',
+            top: '160px',
+            left: '60px',
+            zIndex: 2147483647
+        };
+
+        const popover = {
+            position: 'absolute',
+            zIndex: 200,
         }
+        const cover = {
+            position: 'fixed',
+            top: '0px',
+            right: '0px',
+            bottom: '0px',
+            left: '0px',
+        }
+
+        if ( this.drawingSurface && this.state.displayColorPicker ) {
+            return(
+                <div style={ colorPosition }>
+                    <div style={ cover } onClick={ this.onClose }/>
+                    <ChromePicker onChange={ this.handleColorChange }/>
+                </div>
+            )
+        }
+    }
+
+    handleColorChange = ( color ) => {
+        this.drawingSurface.setColor( `${color.hex}` )
+    }
+
+    onClose = () => {
+        this.setState( { displayColorPicker : false } )
     }
 
     getBackgroundColor() {
@@ -171,7 +209,7 @@ export default class BackgroundDrawing extends Component {
     render() {
         return (
             <div>
-                { this.props.children }
+                { this.displayColorPicker() }
             </div>
         );
     }
