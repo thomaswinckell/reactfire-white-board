@@ -98,12 +98,6 @@ export default class MainNavBar extends Component {
 
     render() {
 
-        let elements = [
-        //new NavBarElement( 'Logout', 'sign-out', AuthActions.logout.bind( this ) ),
-            new NavBarElement( 'Paint mode',    'format_paint',        this.setDrawingMode,    this.state.mode === Mode.drawing ? 'active' : '', 'bottom' ),
-            new NavBarElement( 'Widgets mode',  'dashboard',           this.setWidgetMode,      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
-        ];
-
         let zoomElements = [
             new NavBarElement( 'Zoom in', 'zoom_in', BoardActions.zoomIn,       '', 'left' ),
             new NavBarElement( 'Zoom out', 'zoom_out', BoardActions.zoomOut,    '', 'left' )
