@@ -95,8 +95,21 @@ export default class WidgetWrapper extends Component {
         }
     }
 
+    /**
+     * Update props of the widget
+     * Add a onDisconnect event to remove the lock in case of not clean disconnect
+     * @param  data -> the new data to modify
+     */
     updateData( data ) {
         if ( this.hasOwnProperty('isRemoved') &&  !this.isRemoved ) {
+            if( data.isLockedBy !== false ){
+                this.isLockedByRef = new Firebase( this.props.baseUrl + '/isLockedBy' );
+                this.isLockedByRef.onDisconnect().set(false);
+            }
+            if( data.isEditingBy !== false ){
+                this.isEditingByRef = new Firebase( this.props.baseUrl + '/isEditingBy' );
+                this.isEditingByRef.onDisconnect().set(false);
+            }
             this.base.set( _.merge( {}, this.state, data, { status : null, onEnter : null, onLeave : null, confirmDialog : null } ) );
         }
     }
@@ -115,8 +128,9 @@ export default class WidgetWrapper extends Component {
     }
 
     //FIX this.state.isEditingBy.uid and not .id
+    //Returned false when locked but not edited -- fixed again
     isLockedByAnotherUser() {
-        return this.state.isEditingBy && this.state.isEditingBy.uid && !this.isLockedByCurrentUser();
+        return this.state.isLockedBy && !this.isLockedByCurrentUser()
     }
 
     isEditingByCurrentUser() {
@@ -124,14 +138,26 @@ export default class WidgetWrapper extends Component {
     }
 
     setEditMode() {
+        if(!this.isLockedByAnotherUser())
         this.updateData( {
             isLockedBy  : AuthStore.currentUser,
             isEditingBy : AuthStore.currentUser
         } );
     }
 
+    /**
+     * Remove the onDisconnect event that set lockedBy and editingBy to false
+     */
+    removeOnDisconnectHandler(){
+        this.isEditingByRef.onDisconnect().cancel();
+        this.isLockedByRef.onDisconnect().cancel();
+        this.isEditingByRef = null;
+        this.isLockedByRef = null;
+    }
+
     setViewMode() {
         this.updateData( { isEditingBy : false, isLockedBy : false } );
+        this.removeOnDisconnectHandler();
     }
 
     // FIX with 2 updates to prevent the lock to be fired after the unlock
@@ -148,6 +174,7 @@ export default class WidgetWrapper extends Component {
 
     unselect() {
         this.updateData( { isLockedBy: false } );
+        this.removeOnDisconnectHandler();
     }
 
     deleteWidget() {
@@ -183,6 +210,7 @@ export default class WidgetWrapper extends Component {
     onResizeEnd( event ) {
         this.isResizing = false;
         this.updateData( { isLockedBy: false } );
+        this.removeOnDisconnectHandler();
     }
 
     onMouseDown( event ) {
@@ -193,7 +221,8 @@ export default class WidgetWrapper extends Component {
         const props = _.extend( {}, this.state, {
             valueLink   : this.updateData.bind( this ),
             actions     : this.actions,
-            isLockedByAnotherUser : this.isLockedByAnotherUser()
+            isLockedByAnotherUser : this.isLockedByAnotherUser(),
+            lockName    : this.isLockedByAnotherUser() ? this.state.isLockedBy.name : null
         } );
         return WidgetFactory.createWidgetView( this.props.widgetType, props );
     }
@@ -202,7 +231,8 @@ export default class WidgetWrapper extends Component {
         const props = _.extend( {}, this.state, {
             valueLink   : this.updateData.bind( this ),
             actions     : this.actions,
-            isLockedByAnotherUser : this.isLockedByAnotherUser()
+            isLockedByAnotherUser : this.isLockedByAnotherUser(),
+            lockName    : this.isLockedByAnotherUser() ? this.state.isLockedBy.name : null
         } );
         return WidgetFactory.createWidgetEditor( this.props.widgetType, props );
     }
@@ -264,7 +294,7 @@ export default class WidgetWrapper extends Component {
                          } }
                          onMouseDown={ this.onMouseDown.bind( this ) }>
 
-                         <Blur/>
+                         <Blur isLockedByAnotherUser = { this.isLockedByAnotherUser()} />
 
                         { isEditingByCurrentUser ? this.renderWidgetEditor() : this.renderWidgetView() }
 

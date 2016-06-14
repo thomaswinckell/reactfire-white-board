@@ -48,3 +48,30 @@
         @include clearfix();
     }
 }
+
+.listLock {
+    background:none;
+    display : inline;
+
+    li {
+        animation : box-flyin 0s 1.5s;
+        display : inline;
+        transition : all 200ms ease-in-out;
+        opacity:0.8;
+        background:none;
+        box-sizing : border-box;
+
+        &:hover {
+            opacity:1;
+        }
+        i {
+            padding:5px;
+            background:none;
+            font-size: 1.5em;
+            color:white;
+        }
+    }
+    &:after {
+        @include clearfix();
+    }
+}

@@ -17,7 +17,7 @@ import Styles from './ButtonMenu.scss';
 const MAIN_BUTTON_DIAM = 90;
 const CHILD_BUTTON_DIAM = 48;
 // The number of child buttons that fly out from the main button
-const NUM_CHILDREN = 6;
+// const NUM_CHILDREN = 6;
 // Hard code the position values of the mainButton
 //let M_X = $(window).width() - 180;
 //let M_Y = $(window).height()  - 150;
@@ -33,9 +33,9 @@ const SPRING_CONFIG = {stiffness : 400, damping : 28};
 
 // How far away from the main button does the child buttons go
 const FLY_OUT_RADIUS = 130,
-	SEPARATION_ANGLE = 40, //degrees
-	FAN_ANGLE = (NUM_CHILDREN - 1) * SEPARATION_ANGLE, //degrees
-	BASE_ANGLE = ((180 - FAN_ANGLE)/2); // degrees
+	SEPARATION_ANGLE = 40; //degrees
+	// FAN_ANGLE = (NUM_CHILDREN - 1) * SEPARATION_ANGLE, //degrees
+	// BASE_ANGLE = ((180 - FAN_ANGLE)/2); // degrees
 
 // Names of icons for each button retreived from fontAwesome, we'll add a little extra just in case
 // the NUM_CHILDREN is changed to a bigger value
@@ -48,24 +48,18 @@ function toRadians(degrees) {
 	return degrees * 0.0174533;
 }
 
-function finalChildDeltaPositions(index) {
-	let angle = BASE_ANGLE + (index* SEPARATION_ANGLE);
-	return {
-		deltaX: FLY_OUT_RADIUS * Math.cos(toRadians(angle)) - (CHILD_BUTTON_DIAM/2),
-		deltaY: FLY_OUT_RADIUS * Math.sin(toRadians(angle)) + (CHILD_BUTTON_DIAM/2)
-	};
-}
 
 
 export default class ButtonMenu extends Component {
 	constructor(props) {
 		super(props);
 
+
 		this.state = {
 			isOpen: false,
-			childButtons: [],
 			M_X : 200,
-			M_Y : 200
+			M_Y : 200,
+			BASE_ANGLE : ((180 - (this.props.elements.length - 1) * SEPARATION_ANGLE)/2)
 		};
 
 	}
@@ -73,14 +67,11 @@ export default class ButtonMenu extends Component {
 	updateDimensions = () => {
         //this.setState({M_X: $(window).width() - 190, M_Y: $(window).height() - 150});
         ////TODO percentage + middle
-        this.setState({M_X: $(window).width()/2, M_Y: $(window).height() - 100});
+        this.setState({M_X: $(window).width()/2, M_Y: $(window).height() - 120});
 	}
 
 	componentDidMount() {
 		window.addEventListener('click', this.closeMenu);
-		let childButtons = [];
-		//this.setState({childButtons: childButtons.slice(0)});
-		this.setState({childButtons: this.props.elements});
 		this.updateDimensions()
 		 window.addEventListener("resize", this.updateDimensions);
 	}
@@ -98,6 +89,15 @@ export default class ButtonMenu extends Component {
 			left: this.state.M_X - (MAIN_BUTTON_DIAM/2)
 		};
 	}
+
+	finalChildDeltaPositions(index) {
+		const angle = this.state.BASE_ANGLE + (index* SEPARATION_ANGLE);
+		return {
+			deltaX: FLY_OUT_RADIUS * Math.cos(toRadians(angle)) - (CHILD_BUTTON_DIAM/2),
+			deltaY: FLY_OUT_RADIUS * Math.sin(toRadians(angle)) + (CHILD_BUTTON_DIAM/2)
+		};
+	}
+
 
 	initialChildButtonStylesInit() {
 		return {
@@ -122,7 +122,7 @@ export default class ButtonMenu extends Component {
 	}
 
 	finalChildButtonStylesInit(childIndex) {
-		let {deltaX, deltaY} = finalChildDeltaPositions(childIndex);
+		let {deltaX, deltaY} = this.finalChildDeltaPositions(childIndex);
 		return {
 			width: CHILD_BUTTON_DIAM,
 			height: CHILD_BUTTON_DIAM,
@@ -134,7 +134,7 @@ export default class ButtonMenu extends Component {
 	}
 
 	finalChildButtonStyles(childIndex) {
-		let {deltaX, deltaY} = finalChildDeltaPositions(childIndex);
+		let {deltaX, deltaY} = this.finalChildDeltaPositions(childIndex);
 		return {
 			width: CHILD_BUTTON_DIAM,
 			height: CHILD_BUTTON_DIAM,
@@ -145,7 +145,8 @@ export default class ButtonMenu extends Component {
 		};
 	}
 
-	toggleMenu(e) {
+	toggleMenuDrawing(e) {
+		console.log('dr');
 		e.stopPropagation();
 		let{isOpen} = this.state;
 		this.setState({
@@ -155,6 +156,7 @@ export default class ButtonMenu extends Component {
 	}
 
 	toggleMenuWidget(e){
+		console.log('wt');
 		e.stopPropagation();
 		let{isOpen} = this.state;
 		this.setState({
@@ -169,13 +171,13 @@ export default class ButtonMenu extends Component {
 
 	renderChildButtons() {
 		const {isOpen} = this.state;
-		const targetButtonStylesInitObject = range(NUM_CHILDREN).map(i => {
+		const targetButtonStylesInitObject = range(this.props.elements.length).map(i => {
 			return isOpen ? this.finalChildButtonStylesInit(i) : this.initialChildButtonStylesInit();
 		});
 
 		const targetButtonStylesInit = Object.keys(targetButtonStylesInitObject).map(key => targetButtonStylesInitObject[key]);
 
-		const targetButtonStyles = range(NUM_CHILDREN).map(i => {
+		const targetButtonStyles = range(this.props.elements.length).map(i => {
 			return isOpen ? this.finalChildButtonStyles(i) : this.initialChildButtonStyles();
 		});
 		const scaleMin = this.initialChildButtonStyles().scale.val;
@@ -210,31 +212,20 @@ export default class ButtonMenu extends Component {
 		};
 
 		return (
-			<StaggeredMotion
-				defaultStyles={targetButtonStylesInit}
-				styles={calculateStylesForNextFrame}>
+			<StaggeredMotion defaultStyles={targetButtonStylesInit} styles={calculateStylesForNextFrame}>
 				{interpolatedStyles =>
 					<div>
 						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
-							<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 130}" key={index}>
-								{this.state.childButtons.length !== 0  ?
-								<div className= { Styles.childButton }
-									 key={index}
-									 onClick={ this.state.childButtons[index].action }
-									 style={{
-										left,
-										height,
-										top,
-										transform: `rotate(${rotate}deg) scale(${scale})`,
-										width
-									}}>
-									<i className={ classNames('icon' , `icon-${this.state.childButtons[index].icon}` ) } >
-										<ReactTooltip id={index.toString()} place={this.state.childButtons[index].tooltipPosition} type="light" effect="solid" >
-											{ this.state.childButtons[index].text }
+							<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 110}" key={index}>
+								{this.props.elements.length !== 0  ?
+								<div className= { Styles.childButton } key={index} onClick={ this.props.elements[index].action }
+									 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>
+									<i className={ classNames('icon' , `icon-${this.props.elements[index].icon}` ) } >
+										<ReactTooltip id={index.toString()} place={this.props.elements[index].tooltipPosition} type="light" effect="solid" >
+											{ this.props.elements[index].text }
 										</ReactTooltip>
 									</i>
-								</div>
-								: null }
+								</div> : null }
 							</div>
 						)}
 					</div>
@@ -243,23 +234,46 @@ export default class ButtonMenu extends Component {
 		);
 	}
 
+	renderWidgetHalf(){
+		return(
+			<div className={ Styles.widgetHalf }
+				data-for='widget' data-tip
+				onClick={this.toggleMenuWidget.bind(this)}>
+				<i className={ classNames( 'icon', 'icon-dashboard',`${Styles.iconButton}` ) }></i>
+				<ReactTooltip id='widget' place={'top'} type="light" effect="solid">
+					{'Widgets'}
+				</ReactTooltip>
+			</div>
+		)
+	}
+
+	renderDrawingHalf(){
+		return(
+			<div className={ Styles.drawingHalf }
+				 data-for='paint' data-tip data-multiline={false}
+				 onClick={this.toggleMenuDrawing.bind(this)}>
+				 <i className={ classNames( 'icon', 'icon-format_paint',`${Styles.iconButton}` ) }></i>
+			   <ReactTooltip id={'paint'} place={'top'} type="light" effect="solid">
+				   {'Paint'}
+			   </ReactTooltip>
+			</div>
+		)
+	}
+
+
 	// <i className={ classNames( 'icon', `icon-add` ) }/>
 	render() {
 		const {isOpen} = this.state;
-		const mainButtonRotation = isOpen ? {rotate: spring(0, {stiffness : 500, damping : 30})} : {rotate: spring(90, {stiffness : 500, damping : 28})};
+		const mainButtonRotation = isOpen ? {rotate: spring(0, {stiffness : 500, damping : 30})} : {rotate: spring(120, {stiffness : 500, damping : 28})};
 		return (
 			<div>
 				{this.renderChildButtons()}
 				<Motion style={mainButtonRotation}>
 					{({rotate}) =>
 					<div>
-						<div
-							className= { Styles.mainButton }
-							style={{...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`}}>
-								<div className={ Styles.goldHalf }
-									 onClick={this.toggleMenuWidget.bind(this)}/>
-								 <div className={ Styles.blackHalf }
-									  onClick={this.toggleMenu.bind(this)}/>
+						<div className= { Styles.mainButton } style={ {...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`} }>
+							{this.renderDrawingHalf()}
+							{this.renderWidgetHalf()}
 						</div>
 					</div>
 					}

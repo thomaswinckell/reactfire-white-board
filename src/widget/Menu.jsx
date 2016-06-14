@@ -56,12 +56,30 @@ export default class WidgetMenu extends Component {
 
         const style = {
             height  : `${height}px`,
-            top     : '5px'
+            top     : '5px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            textAlign: 'center',
         };
 
         const className = classNames( Styles.root, {
             [ Styles.hidden ] : !this.props.display
         } );
+
+        if( this.props.lock ){
+            return(
+                <div className={ className } style={ style }>
+                    <ul className={ Styles.listLock }>
+                        <li>
+                            <i className={ classNames( 'icon', `icon-lock` ) }></i>
+                        </li>
+                        <li> This widget is locked by { this.props.lockName }</li>
+                    </ul>
+                    <hr/>
+                </div>
+            );
+        }
 
         return (
             <div className={ className } style={ style }>
