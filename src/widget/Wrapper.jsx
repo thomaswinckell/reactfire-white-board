@@ -173,6 +173,7 @@ export default class WidgetWrapper extends Component {
                     this.setState( { confirmDialog : false, onLeave : true }, () => setTimeout( () => {
                         this.setState( { onLeave : false } );
                     }, 500 ) );
+                    this.removeOnDisconnectHandler();
                     BoardActions.removeWidget( this.props.baseKey );
                 } else {
                     this.setState( { confirmDialog : false } );
