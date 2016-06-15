@@ -196,8 +196,10 @@ export default class WidgetWrapper extends Component {
 
     onResizeEnd( event ) {
         this.isResizing = false;
-        this.updateData( { isLockedBy: false } );
-        this.removeOnDisconnectHandler();
+        if( !this.isEditingByCurrentUser() ) {
+            this.updateData( { isLockedBy: false } );
+            this.removeOnDisconnectHandler();
+        }
     }
 
     onMouseDown( event ) {
