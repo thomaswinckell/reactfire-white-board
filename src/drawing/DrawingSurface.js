@@ -70,7 +70,9 @@ export default class DrawingSurface {
             this.onDrawEnd();
             this.toolType = toolType;
             this.tool = new toolType( this.context );
+            this.canvas.className = Styles.canvas;
             if( this.tool.name === 'Eraser' ){
+                this.canvas.className = Styles.cursorEraser;
                 this.tool = new toolType( this.oldContext );
             }
         }
