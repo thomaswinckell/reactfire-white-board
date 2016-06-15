@@ -57,6 +57,14 @@ export default class ButtonMenu extends Component {
 		this.updateDimensions()
 	}
 
+	componentWillReceiveProps( props ){
+		console.log(props);
+		if( !props.initialRender )
+		this.setState({
+			isOpen : true
+		})
+	}
+
 	componentWillUnmount() {
 		window.removeEventListener('click', this.closeMenu, false);
         window.removeEventListener("resize", this.updateDimensions);
@@ -126,20 +134,20 @@ export default class ButtonMenu extends Component {
 
 	toggleMenuDrawing(e) {
 		e.stopPropagation();
-		let{isOpen} = this.state;
+		const { isOpen } = this.state;
 		this.setState({
 			isOpen: !isOpen,
-			type : 'drawing'
 		});
+		!isOpen ? this.props.setDrawing() : null;
 	}
 
 	toggleMenuWidget(e){
 		e.stopPropagation();
-		let{isOpen} = this.state;
+		const { isOpen } = this.state;
 		this.setState({
 			isOpen: !isOpen,
-			type : 'widget'
 		});
+		!isOpen ? this.props.setWidget() : null;
 	}
 
 	closeMenu = () => {
@@ -161,8 +169,11 @@ export default class ButtonMenu extends Component {
 		const scaleMax = this.finalChildButtonStyles(0).scale.val;
 
 		let calculateStylesForNextFrame = prevFrameStyles => {
-			// prevFrameStyles = isOpen ? prevFrameStyles : prevFrameStyles.reverse();
-			prevFrameStyles = isOpen ? prevFrameStyles : prevFrameStyles;
+
+			if( prevFrameStyles.length !== this.props.elements.length ){
+				console.log(prevFrameStyles.slice(0, this.props.elements.length));
+				return prevFrameStyles.slice(0, this.props.elements.length)
+			}
 
 			let nextFrameTargetStyles =  prevFrameStyles.map((buttonStyleInPreviousFrame, i) => {
 				if (i === 0) {
@@ -181,15 +192,14 @@ export default class ButtonMenu extends Component {
 				return shouldApplyTargetStyle() ? targetButtonStyles[i] : buttonStyleInPreviousFrame;
 			});
 
-			// return isOpen ? nextFrameTargetStyles : nextFrameTargetStyles.reverse();
-			return isOpen ? nextFrameTargetStyles : nextFrameTargetStyles;
+			return nextFrameTargetStyles;
 		};
 
 		return (
 			<StaggeredMotion defaultStyles={targetButtonStylesInit} styles={calculateStylesForNextFrame}>
 				{interpolatedStyles =>
 					<div>
-						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
+						{ interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
 							<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 110}" key={index}>
 								{this.props.elements.length !== 0  ?
 								<div className= { Styles.childButton } key={index} onClick={ this.props.elements[index].action }
