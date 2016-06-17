@@ -26,6 +26,10 @@ const CHILD_BUTTON_DIAM = 48;
 // nd initialChildButtonStyles)
 const OFFSET = 0.4;
 
+//Tooltip offset jsut magic numbers ....
+const TOOLTIP_DATA_OFFSET = "{ 'top' : 70, 'left' : 67}";
+
+
 //Version 3.1 with array
 //const SPRING_CONFIG = [400, 28];
 // version 4.X uses object instead
@@ -216,7 +220,7 @@ export default class ButtonMenu extends Component {
 				{interpolatedStyles =>
 					<div>
 						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
-							<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 110}" key={index}>
+							<div data-for={index.toString()} data-tip data-offset={ TOOLTIP_DATA_OFFSET } key={index}>
 								{this.props.elements.length !== 0  ?
 								<div className= { Styles.childButton } key={index} onClick={ this.props.elements[index].action }
 									 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>

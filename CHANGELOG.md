@@ -1,3 +1,12 @@
+Version 0.0.14-beta1
+============
+
+  * Eraser cursor for eraser tool #8
+  * Widgets now displayed when they're locked #15
+  * Locked Widgets prevent user action #16
+  * Widget are unlocked when user disconnect properly or not #12
+
+
 Version 0.0.13-beta1
 ============
 
