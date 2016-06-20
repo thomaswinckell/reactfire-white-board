@@ -25,9 +25,9 @@ export class NavBarElement {
     render( key ) {
         const id = Guid.generate();
         return (
-            <li key={ key } className={ this.className } onClick={ this.action } data-for={id} data-tip>
+            <li key={ key } className={ this.className } onClick={ this.action } data-for={ 'id' + id } data-tip>
                 <i className={ classNames( 'icon', `icon-${this.icon}` ) }></i>
-                <ReactTooltip id={id} place={this.tooltipPosition} type="light" effect="solid">
+                <ReactTooltip id={ 'id' + id } place={this.tooltipPosition} type="light" effect="solid">
                     { this.text }
                 </ReactTooltip>
             </li>

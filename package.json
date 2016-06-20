@@ -1,6 +1,6 @@
 {
   "name": "whiteboard",
-  "version": "0.0.14-beta1",
+  "version": "0.0.15-beta1",
   "author": "Thomas Winckell",
   "license": "MIT",
   "repository": {
@@ -23,7 +23,7 @@
     "react-dom": "^15.1",
     "react-motion": "^0.4.3",
     "react-rangeslider": "^1.0.3",
-    "react-tooltip": "^2.0.3",
+    "react-tooltip": "^3.0.0",
     "react-webcam": "^0.0.9",
     "recordrtc": "^5.2.7"
   },

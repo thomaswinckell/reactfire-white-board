@@ -150,7 +150,6 @@ export default class ButtonMenu extends Component {
 	}
 
 	toggleMenuDrawing(e) {
-		console.log('dr');
 		e.stopPropagation();
 		let{isOpen} = this.state;
 		this.setState({
@@ -160,7 +159,6 @@ export default class ButtonMenu extends Component {
 	}
 
 	toggleMenuWidget(e){
-		console.log('wt');
 		e.stopPropagation();
 		let{isOpen} = this.state;
 		this.setState({
@@ -220,12 +218,12 @@ export default class ButtonMenu extends Component {
 				{interpolatedStyles =>
 					<div>
 						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
-							<div data-for={index.toString()} data-tip data-offset={ TOOLTIP_DATA_OFFSET } key={index}>
+							<div data-for={ 'id' + index.toString() } data-tip data-offset={ TOOLTIP_DATA_OFFSET } key={ index }>
 								{this.props.elements.length !== 0  ?
 								<div className= { Styles.childButton } key={index} onClick={ this.props.elements[index].action }
 									 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>
 									<i className={ classNames('icon' , `icon-${this.props.elements[index].icon}` ) } >
-										<ReactTooltip id={index.toString()} place={this.props.elements[index].tooltipPosition} type="light" effect="solid" >
+										<ReactTooltip id={'id' + index.toString() } place={ this.props.elements[index].tooltipPosition } type="light" effect="solid" >
 											{ this.props.elements[index].text }
 										</ReactTooltip>
 									</i>

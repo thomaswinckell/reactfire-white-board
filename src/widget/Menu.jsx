@@ -41,9 +41,9 @@ export default class WidgetMenu extends Component {
     renderMenuElement( e, key ) {
         const id = Guid.generate();
         return (
-            <li key={ key } className={ e.className } onClick={ e.action } data-for={id} data-tip>
+            <li key={ key } className={ e.className } onClick={ e.action } data-for={ 'id' + id } data-tip>
                 <i className={ classNames( 'icon', `icon-${e.icon}` ) }></i>
-                <ReactTooltip id={id} place="top" type="light" effect="solid">
+                <ReactTooltip id={ 'id' + id } place="top" type="light" effect="solid">
                     { e.text }
                 </ReactTooltip>
             </li>

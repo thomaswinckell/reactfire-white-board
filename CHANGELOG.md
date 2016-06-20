@@ -1,3 +1,8 @@
+Version 0.0.15-beta1
+============
+
+ * Update [react-tooltip 3.0.4](https://github.com/wwayne/react-tooltip/pull/106) to get transformed elements fix
+
 Version 0.0.14-beta1
 ============
 
