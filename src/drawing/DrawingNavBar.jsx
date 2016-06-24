@@ -70,27 +70,35 @@ export default class DrawingNavBar extends Component {
         DrawingActions.setText( event.target.value );
     }
 
+    /**
+     * return value of state propertie
+     * @param  {String} prop the field of state to test
+     */
+    isActiveState = ( prop ) => {
+        return this.state[prop];
+    }
+
     isActiveTool( tool ) {
         return tool === this.state.tool;
     }
 
     setBold(){
-        this.state.bold = !this.state.bold;
+        this.setState( { bold : !this.state.bold } );
         DrawingActions.setBold( this.state.bold );
     }
 
     setItalic(){
-        this.state.italic =!this.state.italic;
+        this.setState( { italic : !this.state.italic } )
         DrawingActions.setItalic( this.state.italic );
     }
 
     setUnderline(){
-        this.state.underline = !this.state.underline;
+        this.setState( { underline : !this.state.underline } )
         DrawingActions.setUnderline( this.state.underline );
     }
 
     setStrikeThrough(){
-        this.state.strikeThrough = !this.state.strikeThrough;
+        this.setState( { strikeThrough : !this.state.strikeThrough } )
         DrawingActions.setStrikeThrough( this.state.strikeThrough );
     }
 
@@ -166,10 +174,10 @@ export default class DrawingNavBar extends Component {
         const textElements = [
             new NavBarElement( 'Font',              'text_format' /* TODO */, null , "", "bottom" ),
             new NavBarElement( 'Font size',         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ), "", "bottom" ),
-            new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), "", "bottom"),
-            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), "", "bottom"),
-            new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline(), "", "bottom" ),
-            new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic(), "", "bottom" )
+            new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), this.isActiveState( 'bold' ) ? "active" : "", "bottom"),
+            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), this.isActiveState( 'strikeThrough' ) ? "active" : "", "bottom"),
+            new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline(), this.isActiveState( 'underline' ) ? "active" : "", "bottom" ),
+            new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic(), this.isActiveState( 'italic' ) ? "active" : "", "bottom" )
         ];
 
         const colorPosition = {
