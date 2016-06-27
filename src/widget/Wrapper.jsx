@@ -125,6 +125,11 @@ export default class WidgetWrapper extends Component {
         return AuthStore.isCurrentUser( this.state.isEditingBy );
     }
 
+    isEditingByAnotherUser() {
+        return this.state.isEditingBy && !this.isEditingByCurrentUser()
+    }
+
+
     setEditMode() {
         if(!this.isLockedByAnotherUser())
         this.updateData( {
@@ -211,7 +216,9 @@ export default class WidgetWrapper extends Component {
             valueLink   : this.updateData.bind( this ),
             actions     : this.actions,
             isLockedByAnotherUser : this.isLockedByAnotherUser(),
-            lockName    : this.isLockedByAnotherUser() ? this.state.isLockedBy.name : null
+            isEditingByAnotherUser : this.isEditingByAnotherUser(),
+            lockName               : this.isLockedByAnotherUser() ? this.state.isLockedBy.name : null,
+            isEditingBy            : this.isEditingByAnotherUser() ? this.state.isEditingBy.name : null
         } );
         return WidgetFactory.createWidgetView( this.props.widgetType, props );
     }
@@ -269,7 +276,7 @@ export default class WidgetWrapper extends Component {
         const rigid = { stiffness: 652, damping: 25 };
         return (
             <Motion
-                style={ {left: spring( this.state.position.x , rigid ), top: spring( this.state.position.y , rigid ) } }>
+                style={ { left: spring( this.state.position.x , rigid ), top: spring( this.state.position.y , rigid ) } }>
                 {interpolatingStyle =>
                     <div tabIndex="1000"
                          className={ className }
@@ -282,7 +289,7 @@ export default class WidgetWrapper extends Component {
                          } }
                          onMouseDown={ this.onMouseDown.bind( this ) }>
 
-                         <Blur isLockedByAnotherUser = { this.isLockedByAnotherUser()} />
+                         <Blur isLockedByAnotherUser = { this.isLockedByAnotherUser() } />
 
                         { isEditingByCurrentUser ? this.renderWidgetEditor() : this.renderWidgetView() }
 

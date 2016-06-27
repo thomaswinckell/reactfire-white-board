@@ -216,6 +216,24 @@ export default class AbstractWidgetView extends Component {
             );
         }
 
+        if( this.props.isEditingByAnotherUser ){
+            return (
+                <div tabIndex="1000"
+                     style={ style }
+                     className={ className } >
+                  <div style={ { textAlign : 'center' } }>
+                        { this.props.isEditingBy } is editing...
+                  </div>
+
+                   <Menu ref="menu"
+                     position = { this.props.position }
+                     lock     = { true }
+                     display  = { true }
+                     lockName = { this.props.lockName }/>
+               </div>
+            );
+        }
+
         if( this.props.isLockedByAnotherUser ){
             return (
                 <div tabIndex="1000"
@@ -231,6 +249,7 @@ export default class AbstractWidgetView extends Component {
                </div>
             );
         }
+
 
         return (
             <div tabIndex="1000"
