@@ -2,6 +2,7 @@ import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 import ReactDOM                         from 'react-dom';
 import { ChromePicker }                 from 'react-color';
+import Rcslider                         from 'rc-slider';
 
 import * as DrawingActions              from './BackgroundDrawingActions';
 import * as TextToolActions             from './tool/TextToolActions';
@@ -235,9 +236,13 @@ export default class DrawingNavBar extends Component {
         }
         return (
             <div>
-                 { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
+                 { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } value ={this.state.lineWidth} */ }
                 {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text}style= {TextPosition} onChange={ this.onTextChange.bind(this) } /> : null }
-                {this.state.displayLineWidthPicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideLinewidthPicker() : null}value ={this.state.lineWidth}style= {LinePickerPosition} onChange={ this.onLineWidthChange.bind(this) } /> : null }
+                {this.state.displayLineWidthPicker ?
+                    <div style= {LinePickerPosition}>
+                        <Rcslider min={0} max={20} defaultValue={10} onChange={ this.onLineWidthChange.bind(this) } />
+                    </div>
+                 : null }
                 {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null}value ={this.state.fontSize }style= {FontSizePickerPosition} onChange={ this.onFontSizeChange.bind(this) } /> : null }
                 {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={  this.state.displayColorPicker ? colorPosition : bgColorPosition }>
                  <div style={ cover } onClick={ this.onClose }/>
