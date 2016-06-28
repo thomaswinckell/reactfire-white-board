@@ -21,6 +21,13 @@ const CHILD_BUTTON_DIAM = 48;
 // nd initialChildButtonStyles)
 const OFFSET = 0.4;
 
+//Tooltip offset jsut magic numbers ....
+const TOOLTIP_DATA_OFFSET = "{ 'top' : 70, 'left' : 67}";
+
+
+//Version 3.1 with array
+//const SPRING_CONFIG = [400, 28];
+// version 4.X uses object instead
 const SPRING_CONFIG = {stiffness : 400, damping : 28};
 
 // How far away from the main button does the child buttons go
@@ -199,13 +206,13 @@ export default class ButtonMenu extends Component {
 			<StaggeredMotion defaultStyles={targetButtonStylesInit} styles={calculateStylesForNextFrame}>
 				{interpolatedStyles =>
 					<div>
-						{ interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
-							<div data-for={index.toString()} data-tip data-offset= "{ 'top' : 60, 'left' : 110}" key={index}>
+						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
+							<div data-for={ 'id' + index.toString() } data-tip data-offset={ TOOLTIP_DATA_OFFSET } key={ index }>
 								{this.props.elements.length !== 0  ?
 								<div className= { Styles.childButton } key={index} onClick={ this.props.elements[index].action }
 									 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>
 									<i className={ classNames('icon' , `icon-${this.props.elements[index].icon}` ) } >
-										<ReactTooltip id={index.toString()} place={this.props.elements[index].tooltipPosition} type="light" effect="solid" >
+										<ReactTooltip id={'id' + index.toString() } place={ this.props.elements[index].tooltipPosition } type="light" effect="solid" >
 											{ this.props.elements[index].text }
 										</ReactTooltip>
 									</i>

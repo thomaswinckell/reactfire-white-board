@@ -1,3 +1,17 @@
+Version 0.0.15-beta1
+============
+
+ * Update [react-tooltip 3.0.4](https://github.com/wwayne/react-tooltip/pull/106) to get transformed elements fix
+
+Version 0.0.14-beta1
+============
+
+  * Eraser cursor for eraser tool [\#8](https://github.com/thomaswinckell/reactfire-white-board/issues/8)
+  * Widgets now displayed when they're locked [\#15](https://github.com/thomaswinckell/reactfire-white-board/issues/15)
+  * Locked Widgets prevent user action [\#16](https://github.com/thomaswinckell/reactfire-white-board/issues/16)
+  * Widget are unlocked when user disconnect properly or not [\#12](https://github.com/thomaswinckell/reactfire-white-board/issues/12)
+
+
 Version 0.0.13-beta1
 ============
 
