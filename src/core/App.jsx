@@ -12,7 +12,7 @@ import BackgroundDrawingStore   from '../drawing/BackgroundDrawingStore';
 import NotificationStore        from './NotificationStore';
 import Notification             from '../component/Notification';
 
-import '../theme/main.scss';
+
 
 @FluxComponent
 export default class App extends Component {

@@ -18,7 +18,7 @@ export class NavBarElement {
         this.icon = icon;
         this.text = text;
         this.action = action;
-        this.className = classNames( className );
+        this.className = classNames( Styles[className] );
         this.tooltipPosition = tooltipPosition;
     }
 
