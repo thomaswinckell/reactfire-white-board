@@ -57,20 +57,16 @@ export default class AbstractWidgetView extends Component {
         }
     }
 
-    getInvertedZoom() {
-        const zoom = BoardStore.zoom;
-        return zoom >= 1 ? 1 - ( zoom - 1 ) : 1 + ( 1 - zoom );
-        //return 1;
-    }
-
     onDragStart( event ) {
         if ( !this.state.canDrag ) {
             return;
         }
 
-        const invertedZoom = this.getInvertedZoom();
-        this._startX = ( event.pageX * invertedZoom ) - this.props.position.x;
-        this._startY = ( event.pageY * invertedZoom ) - this.props.position.y;
+        this.initialEventX = event.pageX;
+        this.initialEventY = event.pageY;
+
+        this.initialPropsX = this.props.position.x
+        this.initialPropsY = this.props.position.y
 
         this.isDragging = true;
 
@@ -83,6 +79,8 @@ export default class AbstractWidgetView extends Component {
     }
 
     onDrag = ( event ) => {
+
+        const zoom = BoardStore.zoom;
 
         this.clearScrollTimeouts();
 
@@ -98,17 +96,16 @@ export default class AbstractWidgetView extends Component {
             this.scrollTop( true );
         }
 
-        var y = event.pageY - this._startY;
-        var x = event.pageX - this._startX;
+        var x = this.initialPropsX + ((event.pageX - this.initialEventX) / zoom);
+        var y = this.initialPropsY + ((event.pageY - this.initialEventY) / zoom);
 
         x = x > 0 ? x : 0;
         y = y > 0 ? y : 0;
 
-        const inversedZoom = this.getInvertedZoom();
-
-        x = x * inversedZoom;
-        y = y * inversedZoom;
-
+        /*
+            round up values of x & y
+            example x: 478.5 y : 201 ==> x : 470 y : 200
+         */
         if ( ( Math.abs( this.props.position.x - x ) >= gridWidth ) ||
              ( Math.abs( this.props.position.y - y ) >= gridWidth ) ) {
 
@@ -263,7 +260,9 @@ export default class AbstractWidgetView extends Component {
                  <Menu ref="menu" menuElements={ this.getMenuElements() }
                    position={ this.props.position }
                    display={ !!this.state.displayMenu } />
-
+               <div style={{postion: 'fixed', top:'1%', right:'1%'}}>
+                   {this.state.event ? this.state.event.pageX : null }
+               </div>
                { this.renderView() }
            </div>
         );
