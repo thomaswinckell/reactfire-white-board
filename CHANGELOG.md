@@ -1,7 +1,15 @@
+Version 0.0.16-beta1
+============
+
+ * Widget shows when it is edited [\#15](https://github.com/thomaswinckell/reactfire-white-board/issues/15)
+ * moved import main.scss to demo folder to prevent override css [\#18](https://github.com/thomaswinckell/reactfire-white-board/issues/18)
+ * When a navigation item is selected it is now highlighted [\#9](https://github.com/thomaswinckell/reactfire-white-board/issues/9)
+ * using react-notification-system to display notifications [\#4](https://github.com/thomaswinckell/reactfire-white-board/issues/4)
+
 Version 0.0.15-beta1
 ============
 
- * Update [react-tooltip 3.0.4](https://github.com/wwayne/react-tooltip/pull/106) to get transformed elements fix
+ * Update [react-tooltip 3.0.0](https://github.com/wwayne/react-tooltip/pull/106) to get transformed elements fix
 
 Version 0.0.14-beta1
 ============
