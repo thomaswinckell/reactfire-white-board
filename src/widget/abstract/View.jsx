@@ -60,7 +60,8 @@ export default class AbstractWidgetView extends Component {
     getInvertedZoom() {
         const zoom = BoardStore.zoom;
         console.log('zoom : ',  zoom , '  invertedZoom :', zoom >= 1 ? 1 - ( zoom - 1 ) : 1 + ( 1 - zoom ) );
-        return zoom >= 1 ? Math.pow( 1 - ( zoom - 1 ), 0.42) : Math.pow( 1 + ( 1 - zoom ), 0.42);
+        // return zoom >= 1 ? Math.pow( 1 - ( zoom - 1 ), 0.42) : Math.pow( 1 + ( 1 - zoom ), 0.42);
+        return zoom >= 1 ? 1 - ( zoom - 1 ) : 1 + ( 1 - zoom );
         //return 1;
     }
 
@@ -69,10 +70,22 @@ export default class AbstractWidgetView extends Component {
             return;
         }
 
-        const invertedZoom = this.getInvertedZoom();
-        this._startX = ( event.pageX * invertedZoom ) - this.props.position.x;
-        this._startY = ( event.pageY * invertedZoom ) - this.props.position.y;
+        const zoom = BoardStore.zoom;
 
+        const invertedZoom = this.getInvertedZoom();
+        this._startX = ( event.pageX  ) - this.props.position.x * zoom;
+        this._startY = ( event.pageY  ) - this.props.position.y * zoom;
+
+        this.feX = event.pageX;
+        this.feY = event.pageY;
+
+        this.propsx = this.props.position.x
+        this.propsy = this.props.position.y
+
+        console.log('event', event.pageX, event.pageY);
+        console.log('event * IZ', event.pageX * invertedZoom , event.pageY * invertedZoom );
+        console.log('start x&y', this._startX, this._startY);
+        console.log('---------------------------------------');
         this.isDragging = true;
 
         document.addEventListener( 'mousemove', this.onDrag );
@@ -103,8 +116,8 @@ export default class AbstractWidgetView extends Component {
 
         const inversedZoom = this.getInvertedZoom();
 
-        var x = event.pageX - this._startX;
-        var y = event.pageY - this._startY;
+        var x = this.propsx + ((event.pageX - this.feX) * inversedZoom);
+        var y = this.propsy + ((event.pageY - this.feY) * inversedZoom);
 
         /**
         this.setState({
@@ -112,8 +125,8 @@ export default class AbstractWidgetView extends Component {
         })
         */
 
-       console.log('event client, page', event.clientX, event.pageX);
-       console.log('start x&y', this._startX, this._startY);
+        console.log('start x&y', this._startX, this._startY);
+        console.log('event', event.pageX, event.pageY);
         console.log('props x&y' , this.props.position.x, this.props.position.y );
         console.log('On drag x&y' , x, y );
 
@@ -122,8 +135,8 @@ export default class AbstractWidgetView extends Component {
 
 
 
-        x = x * inversedZoom;
-        y = y * inversedZoom;
+        //x = x * inversedZoom;
+        //y = y * inversedZoom;
 
         console.log('On drag x&y inverted' , x, y );
 
@@ -133,11 +146,11 @@ export default class AbstractWidgetView extends Component {
          */
          console.log('--------------------------------------');
 
-        if ( ( Math.abs( this.props.position.x - x ) >= gridWidth ) ||
-             ( Math.abs( this.props.position.y - y ) >= gridWidth ) ) {
+        if ( ( Math.abs( this.props.position.x - x ) >= 1 ) ||
+             ( Math.abs( this.props.position.y - y ) >= 1 ) ) {
 
-            x = x - x % gridWidth;
-            y = y - y % gridWidth;
+            x = x - x % 1;
+            y = y - y % 1;
 
             this.link( 'position' ).requestChange( { x, y } );
         }
