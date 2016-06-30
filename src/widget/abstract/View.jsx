@@ -12,7 +12,9 @@ import BoardStore                           from '../../core/BoardStore';
 
 import Styles   from './View.scss';
 
-
+/**
+ * Manage drag & drop and all others actions common to all widgets in view mode
+ */
 export default class AbstractWidgetView extends Component {
 
     constructor( props ) {
@@ -44,6 +46,9 @@ export default class AbstractWidgetView extends Component {
         ];
     }
 
+    /**
+     * If widgets is not locked set edit mode
+     */
     onDoubleClick( event ) {
         event.preventDefault();
         if ( !this.props.isLockedByAnotherUser ) {
@@ -51,12 +56,20 @@ export default class AbstractWidgetView extends Component {
         }
     }
 
+    /**
+     * start drag & drop on Mouse Down if is not locked
+     */
     onMouseDown( event ) {
         if ( !this.props.isLockedByAnotherUser ) {
             this.onDragStart( event );
         }
     }
 
+    /**
+     * Init D&D
+     * stores initial position of mouse cursor and widget
+     * @param  {event} event mouseClick event
+     */
     onDragStart( event ) {
         if ( !this.state.canDrag ) {
             return;
@@ -78,6 +91,10 @@ export default class AbstractWidgetView extends Component {
         this.props.actions.select();
     }
 
+    /**
+     * Manage D&D
+     * @param  {event} event New position of the cursor
+     */
     onDrag = ( event ) => {
 
         const zoom = BoardStore.zoom;
@@ -96,6 +113,7 @@ export default class AbstractWidgetView extends Component {
             this.scrollTop( true );
         }
 
+        //Formula to compute position of the widgets and consider the zoom
         var x = this.initialPropsX + ((event.pageX - this.initialEventX) / zoom);
         var y = this.initialPropsY + ((event.pageY - this.initialEventY) / zoom);
 
@@ -116,6 +134,9 @@ export default class AbstractWidgetView extends Component {
         }
     };
 
+    /**
+     * Remove listener and unlock widget
+     */
     onDragEnd = ( event ) => {
         this.isDragging = false;
         document.removeEventListener( 'mousemove', this.onDrag );
@@ -218,7 +239,7 @@ export default class AbstractWidgetView extends Component {
                 <div tabIndex="1000"
                      style={ style }
                      className={ className } >
-                  <div style={ { textAlign : 'center' } }>
+                  <div className={ Styles.isEditingByAnotherUser }>
                         { this.props.isEditingBy } is editing...
                   </div>
 
