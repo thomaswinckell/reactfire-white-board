@@ -1,55 +1,51 @@
 import React, { Component, PropTypes }  from 'react';
-import classNames                       from 'classnames';
+import NotificationSystem               from 'react-notification-system';
 
-import Styles   from './Notification.scss';
-
+/**
+ * Wrapper of NotificationSystem to display Notification
+ */
 export default class Notification extends Component {
 
     constructor( props ) {
         super( props );
         this.state = {
-            onEnter : true
+            _notificationSystem : null
         };
     }
 
-    //FIXME resize
-    componentWillMount() {
-        setTimeout( () => {
-            this.setState( { onEnter : false } );
-        }, 200 );
+    /**
+     * Initialise the ref to the component to call his Method
+     */
+    componentDidMount () {
+        this._notificationSystem = this.refs.notificationSystem;
     }
 
-    close( result ) {
-        this.setState( { onLeave : true }, () => setTimeout( () => {
-            this.props.onClose( result );
-        }, 500 ) );
-    }
+    /**
+     * Method of NotificationSystem to add a notif to the component
+     * @param { notif with message and type ( level ) } notif
+     */
+    _addNotification ( notif ) {
+        this._notificationSystem.addNotification({
+          message : notif.val.message,
+          level   : notif.val.type,
+          uid     : notif.key
+        });
+  }
+
+  /**
+   * Add our notifs to react-notification-system
+   * @param  {Array of notifs} nextProps
+   */
+  componentWillReceiveProps( nextProps ){
+      var notifs = nextProps.notifs.map( ( notif ) => {
+          this._addNotification( notif );
+      });
+  }
+
 
     render() {
-
-        const rootClassName = classNames( Styles.root, {
-            [ Styles.onEnter ] : this.state.onEnter,
-            [ Styles.onLeave ] : this.state.onLeave
-        } );
-
-        var notifs = this.props.notifs.map( (notif) => {
-            const notifClassName = classNames ( Styles.content, {
-                [ Styles.success ] : notif.val.type === 'success',
-                [ Styles.info    ] : notif.val.type === 'info',
-                [ Styles.warning ] : notif.val.type === 'warning',
-                [ Styles.error   ] : notif.val.type === 'error'
-            } );
-            return(
-                    <div className={ notifClassName } key={notif.key} >
-                        { notif.val.message }
-                    </div>
-            );
-        })
-
         return (
-            <div className={ rootClassName }>
-                    { notifs }
-            </div>
+            <NotificationSystem ref='notificationSystem' />
         );
     }
 }

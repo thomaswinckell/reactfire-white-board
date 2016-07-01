@@ -2,6 +2,7 @@ import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 import ReactDOM                         from 'react-dom';
 import { ChromePicker }                 from 'react-color';
+import Rcslider                         from 'rc-slider';
 
 import * as DrawingActions              from './BackgroundDrawingActions';
 import * as TextToolActions             from './tool/TextToolActions';
@@ -70,27 +71,35 @@ export default class DrawingNavBar extends Component {
         DrawingActions.setText( event.target.value );
     }
 
+    /**
+     * return value of state propertie
+     * @param  {String} prop the field of state to test
+     */
+    isActiveState = ( prop ) => {
+        return this.state[prop];
+    }
+
     isActiveTool( tool ) {
         return tool === this.state.tool;
     }
 
     setBold(){
-        this.state.bold = !this.state.bold;
+        this.setState( { bold : !this.state.bold } );
         DrawingActions.setBold( this.state.bold );
     }
 
     setItalic(){
-        this.state.italic =!this.state.italic;
+        this.setState( { italic : !this.state.italic } )
         DrawingActions.setItalic( this.state.italic );
     }
 
     setUnderline(){
-        this.state.underline = !this.state.underline;
+        this.setState( { underline : !this.state.underline } )
         DrawingActions.setUnderline( this.state.underline );
     }
 
     setStrikeThrough(){
-        this.state.strikeThrough = !this.state.strikeThrough;
+        this.setState( { strikeThrough : !this.state.strikeThrough } )
         DrawingActions.setStrikeThrough( this.state.strikeThrough );
     }
 
@@ -166,10 +175,10 @@ export default class DrawingNavBar extends Component {
         const textElements = [
             new NavBarElement( 'Font',              'text_format' /* TODO */, null , "", "bottom" ),
             new NavBarElement( 'Font size',         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ), "", "bottom" ),
-            new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), "", "bottom"),
-            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), "", "bottom"),
-            new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline(), "", "bottom" ),
-            new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic(), "", "bottom" )
+            new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), this.isActiveState( 'bold' ) ? "active" : "", "bottom"),
+            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), this.isActiveState( 'strikeThrough' ) ? "active" : "", "bottom"),
+            new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline(), this.isActiveState( 'underline' ) ? "active" : "", "bottom" ),
+            new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic(), this.isActiveState( 'italic' ) ? "active" : "", "bottom" )
         ];
 
         const colorPosition = {
@@ -227,9 +236,13 @@ export default class DrawingNavBar extends Component {
         }
         return (
             <div>
-                 { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } */ }
+                 { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } value ={this.state.lineWidth} */ }
                 {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text}style= {TextPosition} onChange={ this.onTextChange.bind(this) } /> : null }
-                {this.state.displayLineWidthPicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideLinewidthPicker() : null}value ={this.state.lineWidth}style= {LinePickerPosition} onChange={ this.onLineWidthChange.bind(this) } /> : null }
+                {this.state.displayLineWidthPicker ?
+                    <div style= {LinePickerPosition}>
+                        <Rcslider min={0} max={20} defaultValue={10} onChange={ this.onLineWidthChange.bind(this) } />
+                    </div>
+                 : null }
                 {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null}value ={this.state.fontSize }style= {FontSizePickerPosition} onChange={ this.onFontSizeChange.bind(this) } /> : null }
                 {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={  this.state.displayColorPicker ? colorPosition : bgColorPosition }>
                  <div style={ cover } onClick={ this.onClose }/>

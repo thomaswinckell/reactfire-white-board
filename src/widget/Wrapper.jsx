@@ -15,7 +15,7 @@ import Resizer                  from '../component/Resizer';
 import Blur                     from '../component/Blur';
 import ConfirmDialog            from '../component/ConfirmDialog';
 
-import {Motion , spring}                    from 'react-motion';
+import {Motion , spring}        from 'react-motion';
 
 import Styles       from './Wrapper.scss';
 
@@ -26,7 +26,9 @@ const LoadingStatus = {
     error       : 3
 };
 
-
+/**
+ * Wrapper for widget contains utility method used by all widgets
+ */
 export default class WidgetWrapper extends Component {
 
     constructor( props ) {
@@ -48,6 +50,8 @@ export default class WidgetWrapper extends Component {
 
     componentWillMount() {
         this.base = new Firebase( this.props.baseUrl );
+        this.isLockedByRef = new Firebase( this.props.baseUrl + '/isLockedBy' );
+        this.isEditingByRef = new Firebase( this.props.baseUrl + '/isEditingBy' );
     }
 
     componentDidMount() {
@@ -55,15 +59,6 @@ export default class WidgetWrapper extends Component {
         this.isRemoved = false;
 
         document.addEventListener( 'focusin', this.onFocusIn );
-
-        //this.setState( { status : LoadingStatus.loading } );
-
-        //Removed this setState which caused a lot of performance issues
-        /*
-        setTimeout( () => {
-            this.setState( { onEnter : false } );
-        }, 500 );
-        */
 
         this.base.on( "value", dataSnapshot => {
 
@@ -80,11 +75,6 @@ export default class WidgetWrapper extends Component {
     }
 
     componentWillUnmount() {
-        // WARNING : do not trigger updateData here !!!
-
-        // TODO : remove lock
-        //this.setViewMode();
-        this.unselect();
         document.removeEventListener( 'focusin', this.onFocusIn );
         this.base.off();
     }
@@ -101,13 +91,11 @@ export default class WidgetWrapper extends Component {
      * @param  data -> the new data to modify
      */
     updateData( data ) {
-        if ( this.hasOwnProperty('isRemoved') &&  !this.isRemoved ) {
+        if ( !this.isRemoved ) {
             if( data.isLockedBy !== false ){
-                this.isLockedByRef = new Firebase( this.props.baseUrl + '/isLockedBy' );
                 this.isLockedByRef.onDisconnect().set(false);
             }
             if( data.isEditingBy !== false ){
-                this.isEditingByRef = new Firebase( this.props.baseUrl + '/isEditingBy' );
                 this.isEditingByRef.onDisconnect().set(false);
             }
             this.base.set( _.merge( {}, this.state, data, { status : null, onEnter : null, onLeave : null, confirmDialog : null } ) );
@@ -137,6 +125,11 @@ export default class WidgetWrapper extends Component {
         return AuthStore.isCurrentUser( this.state.isEditingBy );
     }
 
+    isEditingByAnotherUser() {
+        return this.state.isEditingBy && !this.isEditingByCurrentUser()
+    }
+
+
     setEditMode() {
         if(!this.isLockedByAnotherUser())
         this.updateData( {
@@ -151,8 +144,6 @@ export default class WidgetWrapper extends Component {
     removeOnDisconnectHandler(){
         this.isEditingByRef.onDisconnect().cancel();
         this.isLockedByRef.onDisconnect().cancel();
-        this.isEditingByRef = null;
-        this.isLockedByRef = null;
     }
 
     setViewMode() {
@@ -187,6 +178,7 @@ export default class WidgetWrapper extends Component {
                     this.setState( { confirmDialog : false, onLeave : true }, () => setTimeout( () => {
                         this.setState( { onLeave : false } );
                     }, 500 ) );
+                    this.removeOnDisconnectHandler();
                     BoardActions.removeWidget( this.props.baseKey );
                 } else {
                     this.setState( { confirmDialog : false } );
@@ -209,8 +201,10 @@ export default class WidgetWrapper extends Component {
 
     onResizeEnd( event ) {
         this.isResizing = false;
-        this.updateData( { isLockedBy: false } );
-        this.removeOnDisconnectHandler();
+        if( !this.isEditingByCurrentUser() ) {
+            this.updateData( { isLockedBy: false } );
+            this.removeOnDisconnectHandler();
+        }
     }
 
     onMouseDown( event ) {
@@ -222,7 +216,9 @@ export default class WidgetWrapper extends Component {
             valueLink   : this.updateData.bind( this ),
             actions     : this.actions,
             isLockedByAnotherUser : this.isLockedByAnotherUser(),
-            lockName    : this.isLockedByAnotherUser() ? this.state.isLockedBy.name : null
+            isEditingByAnotherUser : this.isEditingByAnotherUser(),
+            lockName               : this.isLockedByAnotherUser() ? this.state.isLockedBy.name : null,
+            isEditingBy            : this.isEditingByAnotherUser() ? this.state.isEditingBy.name : null
         } );
         return WidgetFactory.createWidgetView( this.props.widgetType, props );
     }
@@ -276,10 +272,11 @@ export default class WidgetWrapper extends Component {
             'onEnter'                   : this.state.onEnter,
             'onLeave'                   : this.state.onLeave*/
         } );
+
         const rigid = { stiffness: 652, damping: 25 };
         return (
             <Motion
-                style={ {left: spring( this.state.position.x , rigid ), top: spring( this.state.position.y , rigid ) } }>
+                style={ { left: spring( this.state.position.x , rigid ), top: spring( this.state.position.y , rigid ) } }>
                 {interpolatingStyle =>
                     <div tabIndex="1000"
                          className={ className }
@@ -288,13 +285,11 @@ export default class WidgetWrapper extends Component {
                              top     : `${interpolatingStyle.top}px`,
                              left    : `${interpolatingStyle.left}px`,
                              width   : this.state.size.width,
-                             height  : this.state.size.height,
-                             //transform: `translate3d(${interpolatingStyle.x}px, ${interpolatingStyle.y}px, 0)`,
-                             //WebkitTransform: `translate3d(${interpolatingStyle.x}px, ${interpolatingStyle.y}px, 0)`
+                             height  : this.state.size.height
                          } }
                          onMouseDown={ this.onMouseDown.bind( this ) }>
 
-                         <Blur isLockedByAnotherUser = { this.isLockedByAnotherUser()} />
+                         <Blur isLockedByAnotherUser = { this.isLockedByAnotherUser() } />
 
                         { isEditingByCurrentUser ? this.renderWidgetEditor() : this.renderWidgetView() }
 
