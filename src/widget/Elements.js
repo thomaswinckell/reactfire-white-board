@@ -2,6 +2,8 @@
 
 import * as BoardActions                from '../core/BoardActions';
 
+// TODO : translations
+
 const addTextWidget = ( event ) => {
     BoardActions.addWidgetClone( 'TextWidget', {
         size: {
@@ -14,7 +16,7 @@ const addTextWidget = ( event ) => {
         },
         value : 'A simple text box'
     } );
-}
+};
 
 const addYoutubeWidget = ( event ) => {
     BoardActions.addWidgetClone( 'YoutubeWidget', {
@@ -30,7 +32,7 @@ const addYoutubeWidget = ( event ) => {
             id : '5HZdyUUhzXU'
         }
     } );
-}
+};
 
 const addGMapsWidget = ( event ) => {
     BoardActions.addWidgetClone( 'GMapsWidget', {
@@ -47,7 +49,7 @@ const addGMapsWidget = ( event ) => {
             lng: 6.129583000000025
         }
     } );
-}
+};
 
 const addVideoWidget = ( event ) => {
     BoardActions.addWidgetClone( 'VideoWidget', {
@@ -60,7 +62,7 @@ const addVideoWidget = ( event ) => {
             y : event.pageY
         }
     } );
-}
+};
 
 const addTodoListWidget = ( event ) => {
     BoardActions.addWidgetClone( 'TodoListWidget', {
@@ -76,7 +78,7 @@ const addTodoListWidget = ( event ) => {
             items : []
         }
     } );
-}
+};
 
 const addJiraWidget = ( event ) => {
     BoardActions.addWidgetClone( 'JiraWidget', {
@@ -89,13 +91,13 @@ const addJiraWidget = ( event ) => {
             y : event.pageY
         }
     } );
-}
+};
 
 export const widgetsElements = [
-    { text:'Text',             icon: 'textsms',             action: addTextWidget.bind( this ) },
-    { text:'Todo List',        icon: 'list',                action: addTodoListWidget.bind( this ) },
-    { text: 'Youtube',         icon: 'video_collection',    action: addYoutubeWidget.bind( this ) },
-    { text: 'Google Maps',     icon: 'place',               action: addGMapsWidget.bind( this ) },
-    { text: 'Video message',   icon: 'videocam',            action: addVideoWidget.bind( this ) },
-    { text: 'Jira',            icon: 'videocam',            action: addJiraWidget.bind( this ) },
+    { text:'Text',             icon: 'textsms',             action: addTextWidget },
+    { text:'Todo List',        icon: 'list',                action: addTodoListWidget },
+    { text: 'Youtube',         icon: 'video_collection',    action: addYoutubeWidget },
+    { text: 'Google Maps',     icon: 'place',               action: addGMapsWidget },
+    { text: 'Video message',   icon: 'videocam',            action: addVideoWidget },
+    { text: 'Jira',            icon: 'videocam',            action: addJiraWidget }
 ];
