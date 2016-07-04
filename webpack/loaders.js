@@ -21,8 +21,7 @@ const htmlLoader = [
     ].join( '&' )
 ].join( '!' );
 
-var sassLoader;
-var cssLoader;
+var sassLoader, cssLoader, depSassLoader, depCssLoader;
 const sassParams = [
     'outputStyle=expanded'
 ];
@@ -40,6 +39,17 @@ if( DEV ) {
         'css-loader?modules=true&localIdentName=[path][name]---[local]---[hash:base64:5]',
         'postcss-loader'
     ].join( '!' );
+    depSassLoader = [
+        'style-loader',
+        'css-loader',
+        'postcss-loader',
+        'sass-loader?' + sassParams.join( '&' )
+    ].join( '!' );
+    depCssLoader = [
+        'style-loader',
+        'css-loader',
+        'postcss-loader'
+    ].join( '!' );
 } else {
     sassLoader = ExtractTextPlugin.extract( 'style-loader', [
         'css-loader?modules=true&localIdentName=[hash:base64]',
@@ -48,6 +58,15 @@ if( DEV ) {
     ].join( '!' ) );
     cssLoader = ExtractTextPlugin.extract( 'style-loader', [
         'css-loader?modules=true&localIdentName=[hash:base64]',
+        'postcss-loader'
+    ].join( '!' ) );
+    depSassLoader = ExtractTextPlugin.extract( 'style-loader', [
+        'css-loader',
+        'postcss-loader',
+        'sass-loader?' + sassParams.join( '&' )
+    ].join( '!' ) );
+    depCssLoader = ExtractTextPlugin.extract( 'style-loader', [
+        'css-loader',
         'postcss-loader'
     ].join( '!' ) );
 }
@@ -69,11 +88,21 @@ module.exports = [
     },
     {
         test:    /\.css$/,
+        exclude: /node_modules/,
         loader:  cssLoader
     },
     {
+        test:    /node_modules.*\.css$/,
+        loader:  depCssLoader
+    },
+    {
         test:    /\.scss$/,
+        exclude: /node_modules/,
         loader:  sassLoader
+    },
+    {
+        test:    /node_modules.*\.scss$/,
+        loader:  depSassLoader
     },
     {
         test: /\.(jpe?g|gif|png)$/,

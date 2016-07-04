@@ -31,8 +31,6 @@ $fonts-path : '../fonts';
 
     @import 'atom/main.scss';
 
-    @import 'rc-slider/assets/index.css';
-
     em, i, .i       { font-style: italic; }
     strong, b, .b   { font-weight: 800; }
     .smaller 		{ font-size: 75%; }
