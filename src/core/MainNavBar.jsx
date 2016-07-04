@@ -1,4 +1,3 @@
-import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 
 import * as DrawingActions              from '../drawing/BackgroundDrawingActions';

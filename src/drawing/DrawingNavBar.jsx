@@ -117,8 +117,8 @@ export default class DrawingNavBar extends Component {
     }
 
     onLineWidthChange ( width ) {
-        this.setState({ lineWidth : width.target.value });
-        DrawingActions.setLineWidth( width.target.value );
+        this.setState({ lineWidth : width });
+        DrawingActions.setLineWidth( width );
     }
 
     hideLinewidthPicker(){
@@ -199,7 +199,8 @@ export default class DrawingNavBar extends Component {
             position: 'fixed',
             top: '235px',
             left: '70px',
-            zIndex: 2147483647
+            zIndex: 2147483647,
+            width: '100px'
         };
 
         const FontSizePickerPosition = {
@@ -240,7 +241,7 @@ export default class DrawingNavBar extends Component {
                 {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text}style= {TextPosition} onChange={ this.onTextChange.bind(this) } /> : null }
                 {this.state.displayLineWidthPicker ?
                     <div style= {LinePickerPosition}>
-                        <Rcslider min={0} max={20} defaultValue={10} onChange={ this.onLineWidthChange.bind(this) } />
+                        <Rcslider min={14} max={75} defaultValue={20} onChange={ this.onLineWidthChange.bind(this) } />
                     </div>
                  : null }
                 {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null}value ={this.state.fontSize }style= {FontSizePickerPosition} onChange={ this.onFontSizeChange.bind(this) } /> : null }
