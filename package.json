@@ -1,5 +1,7 @@
 {
-  "name": "whiteboard",
+  "name": "reactfire-white-board",
+  "title": "White Board",
+  "description": "An awesome white board",
   "version": "0.0.16-beta1",
   "author": "Thomas Winckell",
   "license": "MIT",

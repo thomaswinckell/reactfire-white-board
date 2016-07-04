@@ -11,7 +11,7 @@ const cssBundle = path.join( 'css', '[name].css' );
 const plugins = [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin( {
-        names:    ['vendors', 'polyfills'],
+        names:    ['polyfills'],
         filename: path.join( 'js', util.format( '[name].js' ) )
     } )
 ];

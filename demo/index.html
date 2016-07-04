@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title><%= title %></title>
-    <meta name="description" content="An awesome whiteboard">
-    <link rel="stylesheet" href="css/app.css?v=<%= buildTime %>">
+    <meta name="description" content="<%= description %>">
+    <%= !dev ? '<link rel="stylesheet" href="css/app.css?v='+ version + '">' : '' %>
 </head>
 <body>
-    <!-- App version : <%= version %>, build time : <%= ( new Date( +buildTime ) ).toString() %> -->
+    <!-- <%= name %> v<%= version %> -->
     <div id="app-container"></div>
-    <script src="js/polyfills.js?v=<%= buildTime %>"></script>
-    <script src="js/vendors.js?v=<%= buildTime %>"></script>
-    <script src="js/app.js?v=<%= buildTime %>"></script>
+    <script src="js/polyfills.js?v=<%= version %>"></script>
+    <script src="js/app.js?v=<%= version %>"></script>
 </body>
 </html>
