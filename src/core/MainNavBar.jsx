@@ -7,7 +7,6 @@ import ConfirmDialog                    from '../component/ConfirmDialog';
 import DrawingNavBar                    from '../drawing/DrawingNavBar';
 
 import ButtonMenu                       from '../component/ButtonMenu';
-import { widgetsElements }              from '../widget/Elements';
 
 
 import Styles from './MainNavBar.scss';
@@ -126,7 +125,7 @@ export default class MainNavBar extends Component {
         return (
             <div className={ Styles.root }>
                 <NavBar elements={ elements } className={ Styles.navbar } />
-            { this.state.mode === Mode.widgets ? <ButtonMenu elements={widgetsElements}/> : null }
+            { this.state.mode === Mode.widgets ? <ButtonMenu elements={this.props.elements}/> : null }
                 { this.state.mode === Mode.drawing ? <DrawingNavBar/> : null }
                 <div className={ Styles.zoomNavbar }>
                     { zoomElements.map( ( e, key ) => e.render( key ) ) }

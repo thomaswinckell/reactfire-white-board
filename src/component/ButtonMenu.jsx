@@ -1,3 +1,4 @@
+import _                                    from 'lodash';
 import $                                	from 'jquery';
 import React, { Component, PropTypes }      from 'react';
 
@@ -6,7 +7,7 @@ import range                                from 'lodash.range';
 
 import classNames                       	from 'classnames';
 import ReactTooltip                     	from 'react-tooltip';
-import Guid                             	from '../utils/Guid';
+import * as BoardActions                    from '../core/BoardActions';
 
 import Styles from './ButtonMenu.scss';
 // Components
@@ -171,6 +172,16 @@ export default class ButtonMenu extends Component {
 		this.setState({ isOpen: false});
 	};
 
+    addWidget = ( event, element ) => {
+        const props = _.merge( {}, element.defaultProps, {
+            position : {
+                x : event.pageX,
+                y : event.pageY
+            }
+        } );
+        return BoardActions.addWidgetClone( element.type, props );
+    };
+
 	renderChildButtons() {
 		const {isOpen} = this.state;
 		const targetButtonStylesInitObject = range(this.props.elements.length).map(i => {
@@ -213,6 +224,8 @@ export default class ButtonMenu extends Component {
 			return isOpen ? nextFrameTargetStyles : nextFrameTargetStyles;
 		};
 
+
+
 		return (
 			<StaggeredMotion defaultStyles={targetButtonStylesInit} styles={calculateStylesForNextFrame}>
 				{interpolatedStyles =>
@@ -220,7 +233,7 @@ export default class ButtonMenu extends Component {
 						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
 							<div data-for={ 'id' + index.toString() } data-tip data-offset={ TOOLTIP_DATA_OFFSET } key={ index }>
 								{this.props.elements.length !== 0  ?
-								<div className= { Styles.childButton } key={index} onClick={ this.props.elements[index].action }
+								<div className= { Styles.childButton } key={index} onClick={ ( event ) => this.addWidget( event, this.props.elements[index] ) }
 									 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>
 									<i className={ classNames('icon' , `icon-${this.props.elements[index].icon}` ) } >
 										<ReactTooltip id={'id' + index.toString() } place={ this.props.elements[index].tooltipPosition } type="light" effect="solid" >
