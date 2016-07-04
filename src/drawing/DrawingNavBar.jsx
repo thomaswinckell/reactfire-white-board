@@ -130,7 +130,6 @@ export default class DrawingNavBar extends Component {
     }
 
     onClose = () => {
-        console.log('close');
         this.setState( { displayColorPicker : false, displayBackgroundColorPicker : false, displayLineWidthPicker : false } );
     }
 
@@ -241,7 +240,7 @@ export default class DrawingNavBar extends Component {
                 {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text}style= {TextPosition} onChange={ this.onTextChange.bind(this) } /> : null }
                 {this.state.displayLineWidthPicker ?
                     <div style= {LinePickerPosition}>
-                        <Rcslider min={14} max={75} defaultValue={20} onChange={ this.onLineWidthChange.bind(this) } />
+                        <Rcslider min={1} max={40} defaultValue={this.state.lineWidth} onChange={ this.onLineWidthChange.bind(this) } />
                     </div>
                  : null }
                 {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null}value ={this.state.fontSize }style= {FontSizePickerPosition} onChange={ this.onFontSizeChange.bind(this) } /> : null }

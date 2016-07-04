@@ -24,10 +24,10 @@ const CHILD_BUTTON_DIAM = 48;
 //let M_Y = $(window).height()  - 150;
 
 //should be between 0 and 0.5 (its maximum value is difference between scale in finalChildButtonStyles a
-// nd initialChildButtonStyles)
+// nd initialChildButtonStyles
 const OFFSET = 0.4;
 
-//Tooltip offset jsut magic numbers ....
+//Tooltip offset just magic numbers ....
 const TOOLTIP_DATA_OFFSET = "{ 'top' : 70, 'left' : 67}";
 
 
@@ -42,11 +42,6 @@ const FLY_OUT_RADIUS = 130,
 	// FAN_ANGLE = (NUM_CHILDREN - 1) * SEPARATION_ANGLE, //degrees
 	// BASE_ANGLE = ((180 - FAN_ANGLE)/2); // degrees
 
-// Names of icons for each button retreived from fontAwesome, we'll add a little extra just in case
-// the NUM_CHILDREN is changed to a bigger value
-let childButtonIcons = ['pencil', 'at', 'camera', 'bell', 'comment', 'bolt', 'ban', 'code'];
-
-
 // Utility functions
 
 function toRadians(degrees) {
@@ -58,7 +53,6 @@ function toRadians(degrees) {
 export default class ButtonMenu extends Component {
 	constructor(props) {
 		super(props);
-
 
 		this.state = {
 			isOpen: false,
@@ -150,21 +144,12 @@ export default class ButtonMenu extends Component {
 		};
 	}
 
-	toggleMenuDrawing(e) {
+	toggleMenu(e) {
 		e.stopPropagation();
+        this.props.onClick();
 		let{isOpen} = this.state;
 		this.setState({
-			isOpen: !isOpen,
-			type : 'drawing'
-		});
-	}
-
-	toggleMenuWidget(e){
-		e.stopPropagation();
-		let{isOpen} = this.state;
-		this.setState({
-			isOpen: !isOpen,
-			type : 'widget'
+			isOpen: !isOpen
 		});
 	}
 
@@ -184,13 +169,16 @@ export default class ButtonMenu extends Component {
 
 	renderChildButtons() {
 		const {isOpen} = this.state;
-		const targetButtonStylesInitObject = range(this.props.elements.length).map(i => {
+
+        const elements = this.props.elements;
+
+		const targetButtonStylesInitObject = range(elements.length).map(i => {
 			return isOpen ? this.finalChildButtonStylesInit(i) : this.initialChildButtonStylesInit();
 		});
 
 		const targetButtonStylesInit = Object.keys(targetButtonStylesInitObject).map(key => targetButtonStylesInitObject[key]);
 
-		const targetButtonStyles = range(this.props.elements.length).map(i => {
+		const targetButtonStyles = range(elements.length).map(i => {
 			return isOpen ? this.finalChildButtonStyles(i) : this.initialChildButtonStyles();
 		});
 		const scaleMin = this.initialChildButtonStyles().scale.val;
@@ -232,12 +220,12 @@ export default class ButtonMenu extends Component {
 					<div>
 						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
 							<div data-for={ 'id' + index.toString() } data-tip data-offset={ TOOLTIP_DATA_OFFSET } key={ index }>
-								{this.props.elements.length !== 0  ?
-								<div className= { Styles.childButton } key={index} onClick={ ( event ) => this.addWidget( event, this.props.elements[index] ) }
+								{elements.length !== 0  ?
+								<div className= { Styles.childButton } key={index} onClick={ ( event ) => this.addWidget( event, elements[index] ) }
 									 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>
-									<i className={ classNames('icon' , `icon-${this.props.elements[index].icon}` ) } >
-										<ReactTooltip id={'id' + index.toString() } place={ this.props.elements[index].tooltipPosition } type="light" effect="solid" >
-											{ this.props.elements[index].text }
+									<i className={ classNames('icon' , `icon-${elements[index].icon}` ) } >
+										<ReactTooltip id={'id' + index.toString() } place={ elements[index].tooltipPosition } type="light" effect="solid" >
+											{ elements[index].text }
 										</ReactTooltip>
 									</i>
 								</div> : null }
@@ -249,34 +237,6 @@ export default class ButtonMenu extends Component {
 		);
 	}
 
-	renderWidgetHalf(){
-		return(
-			<div className={ Styles.widgetHalf }
-				data-for='widget' data-tip
-				onClick={this.toggleMenuWidget.bind(this)}>
-				<i className={ classNames( 'icon', 'icon-dashboard',`${Styles.iconButton}` ) }></i>
-				<ReactTooltip id='widget' place={'top'} type="light" effect="solid">
-					{'Widgets'}
-				</ReactTooltip>
-			</div>
-		)
-	}
-
-	renderDrawingHalf(){
-		return(
-			<div className={ Styles.drawingHalf }
-				 data-for='paint' data-tip data-multiline={false}
-				 onClick={this.toggleMenuDrawing.bind(this)}>
-				 <i className={ classNames( 'icon', 'icon-format_paint',`${Styles.iconButton}` ) }></i>
-			   <ReactTooltip id={'paint'} place={'top'} type="light" effect="solid">
-				   {'Paint'}
-			   </ReactTooltip>
-			</div>
-		)
-	}
-
-
-	// <i className={ classNames( 'icon', `icon-add` ) }/>
 	render() {
 		const {isOpen} = this.state;
 		const mainButtonRotation = isOpen ? {rotate: spring(0, {stiffness : 500, damping : 30})} : {rotate: spring(120, {stiffness : 500, damping : 28})};
@@ -286,9 +246,8 @@ export default class ButtonMenu extends Component {
 				<Motion style={mainButtonRotation}>
 					{({rotate}) =>
 					<div>
-						<div className= { Styles.mainButton } style={ {...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`} }>
-							{this.renderDrawingHalf()}
-							{this.renderWidgetHalf()}
+						<div className= { Styles.mainButton } style={ {...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`} } onClick={this.toggleMenu.bind(this)}>
+                            <i className={ classNames( 'icon', `icon-add` ) }/>
 						</div>
 					</div>
 					}

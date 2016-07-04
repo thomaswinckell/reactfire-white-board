@@ -54,7 +54,8 @@ export default class MainNavBar extends Component {
         DrawingActions.save();
     }
 
-    setWidgetMode(){
+    setWidgetMode = () => {
+        console.log('lol')
         if ( this.state.mode === Mode.drawing ) {
             DrawingActions.disable();
             this.setState( { mode : Mode.widgets  } );
@@ -99,7 +100,7 @@ export default class MainNavBar extends Component {
         let elements = [
         //new NavBarElement( 'Logout', 'sign-out', AuthActions.logout.bind( this ) ),
             new NavBarElement( 'Paint mode',    'format_paint',        this.setDrawingMode.bind( this ),    this.state.mode === Mode.drawing ? 'active' : '', 'bottom' ),
-            new NavBarElement( 'Widgets mode',  'dashboard',           this.setWidgetMode.bind( this ),      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
+           // new NavBarElement( 'Widgets mode',  'dashboard',           this.setWidgetMode.bind( this ),      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
         ];
 
         let zoomElements = [
@@ -125,7 +126,7 @@ export default class MainNavBar extends Component {
         return (
             <div className={ Styles.root }>
                 <NavBar elements={ elements } className={ Styles.navbar } />
-            { this.state.mode === Mode.widgets ? <ButtonMenu elements={this.props.elements}/> : null }
+                <ButtonMenu elements={this.props.elements} onClick={ this.setWidgetMode }/>
                 { this.state.mode === Mode.drawing ? <DrawingNavBar/> : null }
                 <div className={ Styles.zoomNavbar }>
                     { zoomElements.map( ( e, key ) => e.render( key ) ) }
