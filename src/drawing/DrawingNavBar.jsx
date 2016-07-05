@@ -59,6 +59,11 @@ export default class DrawingNavBar extends Component {
         this.onClose();
         DrawingActions.setTool( tool );
         this.setState( { tool } );
+        if( tool !== TextTool ){
+            this.setState({
+                displayText : false
+            })
+        }
     }
 
     setText = () => {
