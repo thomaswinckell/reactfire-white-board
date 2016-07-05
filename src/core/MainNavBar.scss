@@ -8,16 +8,15 @@
 
 
 .navbar {
+    ul li {
+        border-radius : 5px 5px 5px 5px !important;
+        width : 30px;
+    }
     ul li i {
         color: white;
         font-size: 2em;
     }
-    ul li:nth-child(1) {
-        border-radius : 5px 0 0 5px;
-    }
-    ul li:nth-child(2) {
-        border-radius : 0 5px 5px 0;
-    }
+
 }
 
 
@@ -45,8 +44,8 @@
 .clearNavbar {
     zoom: document;
     position: fixed;
-    top: 2.4%;
-    left: 11%;
+    top: 3.4%;
+    left: 47%;
     z-index: 2100000;
     padding: 15px;
     opacity: 0.8;
@@ -54,6 +53,7 @@
     ul li {
         float:left;
         margin-right:10px;
+        display : inline;
     }
     &:hover {
         opacity:1;

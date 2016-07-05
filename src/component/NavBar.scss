@@ -25,18 +25,34 @@
 }
 
 .horizontal {
-    margin-top:15px;
-    ul li {
-        padding:5px 7px;
-        display:block;
-        width: 18px;
-        &:nth-child(1) {
-            padding-top:7px;
-            border-radius : 5px 5px 0 0;
+    margin-top: 15px;
+    ul {
+        li {
+            padding: 5px 7px;
+            display: block;
+            width: 18px;
+            &:nth-child(1) {
+                padding-top: 7px;
+                border-radius: 5px 5px 0 0;
+            }
+            &:nth-last-child(1) {
+                padding-bottom: 7px;
+                border-radius: 0 0 5px 5px;
+            }
         }
-        &:nth-last-child(1) {
-            padding-bottom:7px;
-            border-radius : 0 0 5px 5px;
+    }
+}
+
+.vertical {
+    ul {
+        li {
+            width: 18px;
+            &:nth-child(1) {
+                border-radius: 5px 0 0 5px;
+            }
+            &:nth-last-child(1) {
+                border-radius: 0 5px 5px 0;
+            }
         }
     }
 }
