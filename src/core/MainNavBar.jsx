@@ -57,7 +57,6 @@ export default class MainNavBar extends Component {
     }
 
     setWidgetMode = () => {
-        console.log('lol')
         if ( this.state.mode === Mode.drawing ) {
             DrawingActions.disable();
             this.setState( { mode : Mode.widgets  } );
