@@ -37,7 +37,7 @@ export default class DrawingNavBar extends Component {
             displayFontSizePicker           : false,
             displayText                     : false,
             text                            : '',
-            lineWidth                       : 10,
+            lineWidth                       : 5,
             tool                            : Pencil,
             fontSize                        : 24,
             bold                            : false,

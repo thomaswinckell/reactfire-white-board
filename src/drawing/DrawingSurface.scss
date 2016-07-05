@@ -16,5 +16,5 @@
 
 .cursorEraser {
     composes : common;
-    cursor : url(../utils/eraser-cursor.png), auto;
+    cursor : url(../utils/eraser-cursor.png) 0 16, auto;
 }

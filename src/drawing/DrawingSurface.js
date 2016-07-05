@@ -39,6 +39,7 @@ export default class DrawingSurface {
         this.color = color;
         this.backgroundColor = backgroundColor;
         this.tool = new toolType( this.context );
+        this.lineWidth = 5;
 
         this.fontParams = {
             fontSize        : 24,
@@ -74,7 +75,7 @@ export default class DrawingSurface {
             if( this.tool.name === 'Eraser' ){
                 this.canvas.className = Styles.cursorEraser;
                 this.tool = new toolType( this.oldContext );
-            }
+             }
         }
     }
 
