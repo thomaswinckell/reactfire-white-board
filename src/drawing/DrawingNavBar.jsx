@@ -12,6 +12,7 @@ import Line                             from './tool/Line';
 import Circle                           from './tool/Circle';
 import TextTool                         from './tool/TextTool';
 import Eraser                           from './tool/Eraser';
+import * as DrawingConfig               from '../config/DrawingConfig';
 
 import * as Styles                      from './DrawingNavBarStyle';
 
@@ -37,9 +38,9 @@ export default class DrawingNavBar extends Component {
             displayFontSizePicker           : false,
             displayText                     : false,
             text                            : '',
-            lineWidth                       : 5,
+            lineWidth                       : DrawingConfig.DEFAULT_LINE_SIZE,
             tool                            : Pencil,
-            fontSize                        : 24,
+            fontSize                        : DrawingConfig.DEFAULT_FONT_SIZE,
             bold                            : false,
             italic                          : false,
             underline                       : false,
@@ -90,28 +91,32 @@ export default class DrawingNavBar extends Component {
     }
 
     setBold(){
-        this.setState( { bold : !this.state.bold } );
-        DrawingActions.setBold( this.state.bold );
+        this.setState( { bold : !this.state.bold },
+            () => DrawingActions.setBold( this.state.bold )
+        );
     }
 
     setItalic(){
-        this.setState( { italic : !this.state.italic } )
-        DrawingActions.setItalic( this.state.italic );
+        this.setState( { italic : !this.state.italic },
+            () => DrawingActions.setItalic( this.state.italic )
+        );
     }
 
     setUnderline(){
-        this.setState( { underline : !this.state.underline } )
-        DrawingActions.setUnderline( this.state.underline );
+        this.setState( { underline : !this.state.underline },
+            () => DrawingActions.setUnderline( this.state.underline )
+        );
     }
 
     setStrikeThrough(){
-        this.setState( { strikeThrough : !this.state.strikeThrough } )
-        DrawingActions.setStrikeThrough( this.state.strikeThrough );
+        this.setState( { strikeThrough : !this.state.strikeThrough },
+            () => DrawingActions.setStrikeThrough( this.state.strikeThrough )
+        );
     }
 
     onFontSizeChange = ( size ) => {
-        this.setState({ fontSize : size.target.value });
-        DrawingActions.setFontSize( size.target.value );
+        this.setState({ fontSize : size });
+        DrawingActions.setFontSize( size );
     }
 
     onChangeColor( color ) {
@@ -229,9 +234,12 @@ export default class DrawingNavBar extends Component {
 
                 {this.state.displayLineWidthPicker ? <div style={ Styles.LinePickerPosition }>
                     <div style={ Styles.cover } onClick={ this.hideLinewidthPicker }/>
-                        <Rcslider min={1} max={40} defaultValue={this.state.lineWidth} onChange={ this.onLineWidthChange } />
+                        <Rcslider min={DrawingConfig.MIN_LINE_SIZE} max={DrawingConfig.MAX_LINE_SIZE} defaultValue={this.state.lineWidth} onChange={ this.onLineWidthChange } />
                     </div> : null }
-                {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null} value={ this.state.fontSize }style={ Styles.FontSizePickerPosition } onChange={ this.onFontSizeChange } /> : null }
+                {this.state.displayFontSizePicker ? <div style= { Styles.LinePickerPosition }>
+                    <div style={ Styles.cover } onClick={ this.hideFontSizePicker }/>
+                        <Rcslider min={DrawingConfig.MIN_FONT_SIZE} max={DrawingConfig.MAX_FONT_SIZE} defaultValue={ this.state.fontSize } onChange={ this.onFontSizeChange } />
+                    </div>: null }
 
                 {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={ Styles.colorPosition }>
                     <div style={ Styles.cover } onClick={ this.onClose }/>
