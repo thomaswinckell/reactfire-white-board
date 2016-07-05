@@ -7,7 +7,7 @@ export const colorPosition = {
 
 export const LinePickerPosition = {
     position: 'fixed',
-    top: '6em',
+    top: '7em',
     left: '8em',
     zIndex: 2147483647,
     width: '100px'

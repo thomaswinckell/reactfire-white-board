@@ -159,7 +159,7 @@ export default class DrawingNavBar extends Component {
      *
      * @returns {JSX}
      */
-    renderPropsElements = () => {
+    renderMenuPropsElements = () => {
         let propsElements = [
             new NavBarElement( 'Line width',        'line_weight', () => this.setState( { displayLineWidthPicker : !this.state.displayLineWidthPicker } ), this.state.displayLineWidthPicker? "active" : "" ),
             new NavBarElement( 'Color',             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ), this.state.displayColorPicker? "active" : "")
@@ -186,6 +186,30 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( 'Background image',  'image',             this.updateBackgroundImage ),
         ];
 
+       return (
+            <div>
+                <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
+
+                {this.state.displayLineWidthPicker ? <div style={ Styles.LinePickerPosition }>
+                    <div style={ Styles.cover } onClick={ this.hideLinewidthPicker }/>
+                        <Rcslider min={1} max={40} defaultValue={this.state.lineWidth} onChange={ this.onLineWidthChange } />
+                    </div> : null }
+                {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null} value={ this.state.fontSize }style={ Styles.FontSizePickerPosition } onChange={ this.onFontSizeChange } /> : null }
+
+                {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={ Styles.colorPosition }>
+                    <div style={ Styles.cover } onClick={ this.onClose }/>
+                    <ChromePicker onChange={ this.state.displayColorPicker ? this.onChangeColor : this.onChangeBackgroundColor }/>
+                </div> : null }
+
+                <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload } accept="image/*"/>
+                {this.renderMenuPropsElements()}
+                {this.renderTextTool()}
+            </div>
+        );
+    }
+
+    renderTextTool = () => {
+
         const textElements = [
             //new NavBarElement( 'Font',              'text_format' /* TODO */, null , "", "bottom" ),
             new NavBarElement( 'Font size',         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ), "", "bottom" ),
@@ -195,40 +219,28 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic(), this.isActiveState( 'italic' ) ? "active" : "", "bottom" )
         ];
 
-        const TextPosition = {
-            position: 'fixed',
-            top: this.state.y+10 + 'px',
-            left: this.state.x + 'px',
-            zIndex: 2147483647
-        }
-
         const TextElementsPosition = {
             position: 'fixed',
             top: this.state.y+50 + 'px',
             left: this.state.x + 'px',
             zIndex: 2147483647
+        };
+
+        const TextPosition = {
+            position: 'fixed',
+            top: this.state.y+10 + 'px',
+            left: this.state.x + 'px',
+            zIndex: 2147483647
+        };
+
+        if(this.state.displayText){
+            return  (
+                <div>
+                    <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null} value={this.state.text} style= {TextPosition} onChange={ this.onTextChange } />
+                    <NavBar elements={ textElements } position={ TextElementsPosition } horizontal={ false } />
+                </div>)
         }
-
-        return (
-            <div>
-                { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } value ={this.state.lineWidth} */ }
-                {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text} style= {TextPosition} onChange={ this.onTextChange } /> : null }
-                {this.state.displayLineWidthPicker ? <div style={ Styles.LinePickerPosition }>
-                    <div style={ Styles.cover } onClick={ this.hideLinewidthPicker }/>
-                        <Rcslider min={1} max={40} defaultValue={this.state.lineWidth} onChange={ this.onLineWidthChange } />
-                    </div>
-                    : null }
-                {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null} value={ this.state.fontSize }style={ Styles.FontSizePickerPosition } onChange={ this.onFontSizeChange } /> : null }
-                {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={ Styles.colorPosition }>
-                    <div style={ Styles.cover } onClick={ this.onClose }/>
-                    <ChromePicker onChange={ this.state.displayColorPicker ? this.onChangeColor : this.onChangeBackgroundColor }/>
-                </div> : null }
-                <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload } accept="image/*"/>
-                {this.state.displayText ?  <NavBar elements={ textElements } position={ TextElementsPosition } horizontal={ false } /> : null}
-
-                <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
-                {this.renderPropsElements()}
-            </div>
-        );
     }
+
+
 }
