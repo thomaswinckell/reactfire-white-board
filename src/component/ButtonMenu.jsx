@@ -28,7 +28,7 @@ const CHILD_BUTTON_DIAM = 48;
 const OFFSET = 0.4;
 
 //Tooltip offset just magic numbers ....
-const TOOLTIP_DATA_OFFSET = "{ 'top' : 70, 'left' : 67}";
+const TOOLTIP_DATA_OFFSET = "{ 'top' : 720, 'left' : 37}";
 
 
 //Version 3.1 with array
@@ -66,7 +66,7 @@ export default class ButtonMenu extends Component {
 	updateDimensions = () => {
         //this.setState({M_X: $(window).width() - 190, M_Y: $(window).height() - 150});
         ////TODO percentage + middle
-        this.setState({M_X: $(window).width()/2, M_Y: $(window).height()-100 });
+        this.setState({M_X: $(window).width()/2, M_Y: 0 });
 	}
 
 	componentDidMount() {
@@ -247,7 +247,7 @@ export default class ButtonMenu extends Component {
 					{({rotate}) =>
 					<div>
 						<div className= { Styles.mainButton } style={ {...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`} } onClick={this.toggleMenu.bind(this)}>
-                            <i className={ classNames( 'icon', `icon-add` ) }/>
+                            <i className={ classNames( 'icon', `icon-add` ) } style={ { fontSize : '70px'} }/>
 						</div>
 					</div>
 					}
