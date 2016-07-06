@@ -66,7 +66,7 @@ export default class ButtonMenu extends Component {
 	updateDimensions = () => {
         //this.setState({M_X: $(window).width() - 190, M_Y: $(window).height() - 150});
         ////TODO percentage + middle
-        this.setState({M_X: $(window).width()/2, M_Y: $(window).height() - 120});
+        this.setState({M_X: $(window).width()/2, M_Y: $(window).height()-100 });
 	}
 
 	componentDidMount() {

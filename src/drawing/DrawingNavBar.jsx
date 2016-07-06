@@ -230,7 +230,7 @@ export default class DrawingNavBar extends Component {
 
        return (
             <div>
-                <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
+                <NavBar elements={ elements } position={ Styles.DrawingTools } horizontal={ true } />
 
                 {this.state.displayLineWidthPicker ? <div style={ Styles.LinePickerPosition }>
                     <div style={ Styles.cover } onClick={ this.hideLinewidthPicker }/>

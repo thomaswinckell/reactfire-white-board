@@ -28,7 +28,8 @@ export default class Notification extends Component {
         this._notificationSystem.addNotification({
           message : notif.val.message,
           level   : notif.val.type,
-          uid     : notif.key
+          uid     : notif.key,
+          position : 'br'
         });
   }
 

@@ -1,23 +1,16 @@
 export const colorPosition = {
     position: 'fixed',
-    top: '6em',
+    bottom: '6em',
     left: '7em',
     zIndex: 2147483647
 };
 
 export const LinePickerPosition = {
     position: 'fixed',
-    top: '7em',
+    bottom: '7em',
     left: '8em',
     zIndex: 2147483647,
     width: '100px'
-};
-
-export const FontSizePickerPosition = {
-    position: 'fixed',
-    top: '335px',
-    left: '70px',
-    zIndex: 2147483647
 };
 
 export const cover = {
@@ -30,6 +23,12 @@ export const cover = {
 
 export const propsElements = {
     position: 'fixed',
-    top: '2em',
+    bottom: '2em',
     left: '7em'
+}
+
+export const DrawingTools = {
+    position: 'fixed',
+    bottom: '6em',
+    left: '45px'
 }

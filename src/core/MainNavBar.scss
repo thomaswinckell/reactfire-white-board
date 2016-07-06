@@ -2,7 +2,7 @@
     user-select : none;
     position: fixed;
     left: 30px;
-    top:25px;
+    bottom:25px;
     z-index: 2100000;
 }
 
@@ -44,8 +44,8 @@
 .clearNavbar {
     zoom: document;
     position: fixed;
-    top: 3.4%;
-    left: 47%;
+    top: 2.4%;
+    right: 3%;
     z-index: 2100000;
     padding: 15px;
     opacity: 0.8;

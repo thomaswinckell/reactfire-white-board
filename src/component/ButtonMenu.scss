@@ -1,7 +1,7 @@
 
 
 .mainButton {
-    position: absolute;
+    position: fixed;
     width: 90px;
     height: 90px;
     border-radius: 100%;
@@ -16,7 +16,7 @@
 }
 
 .childButton {
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
