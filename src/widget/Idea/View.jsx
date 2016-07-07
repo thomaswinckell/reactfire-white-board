@@ -38,10 +38,10 @@ export default class IdeaWidgetView extends AbstractWidgetView {
             items[ itemIndex ][ currentUser.uid ][ vote ] ? items[ itemIndex ][ vote ]++ : items[ itemIndex ][ vote ]--;
 
             //switch the vote
-            if ( vote === 'up' && items[ itemIndex ][ currentUser.uid ][ vote ] ){
+            if ( vote === 'up' && items[ itemIndex ][ currentUser.uid ].down ){
                 items[ itemIndex ][ currentUser.uid ].down = false;
                 items[ itemIndex ].down--;
-            } else if ( vote === 'down' && items[ itemIndex ][ currentUser.uid ][ vote ] ){
+            } else if ( vote === 'down' && items[ itemIndex ][ currentUser.uid ].up ){
                 items[ itemIndex ][ currentUser.uid ].up = false;
                 items[ itemIndex ].up--;
             }
