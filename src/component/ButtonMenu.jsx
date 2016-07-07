@@ -219,12 +219,12 @@ export default class ButtonMenu extends Component {
 				{interpolatedStyles =>
 					<div>
 						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
-							<div data-for={ 'id' + index.toString() } data-tip data-offset={ TOOLTIP_DATA_OFFSET } key={ index }>
+							<div data-for={ 'id' + index.toString() } data-tip key={ index } >
 								{elements.length !== 0  ?
 								<div className= { Styles.childButton } key={index} onClick={ ( event ) => this.addWidget( event, elements[index] ) }
 									 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>
 									<i className={ classNames('icon' , `icon-${elements[index].icon}` ) } >
-										<ReactTooltip id={'id' + index.toString() } place={ elements[index].tooltipPosition } type="light" effect="solid" >
+										<ReactTooltip class= { Styles.tooltip } id={'id' + index.toString() } place={ elements[index].tooltipPosition } type="light" effect="solid" >
 											{ elements[index].text }
 										</ReactTooltip>
 									</i>
@@ -247,7 +247,7 @@ export default class ButtonMenu extends Component {
 					{({rotate}) =>
 					<div>
 						<div className= { Styles.mainButton } style={ {...this.mainButtonStyles(), transform: `rotate(${rotate}deg)`} } onClick={this.toggleMenu.bind(this)}>
-                            <i className={ classNames( 'icon', `icon-add` ) } style={ { fontSize : '70px'} }/>
+                            <i className={ classNames( 'icon', `icon-add` ) } style={ { fontSize : '50px'} }/>
 						</div>
 					</div>
 					}
