@@ -2,6 +2,7 @@ Version 0.0.17
 ==============
 
   * New navigation Menu [see](https://github.com/thomaswinckell/reactfire-white-board/commit/748957906a635e3972c4e69445d099e1050fb830)
+  * Widget Idea  [\#22](https://github.com/thomaswinckell/reactfire-white-board/issues/22)
 
 Version 0.0.16-beta1
 ============
