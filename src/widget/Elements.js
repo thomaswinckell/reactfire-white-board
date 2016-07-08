@@ -69,7 +69,7 @@ export default [
     { text: 'Youtube',         icon: 'video_collection',    type: 'YoutubeWidget',  defaultProps: YoutubeWidgetDefaultProps },
     { text: 'Google Maps',     icon: 'place',               type: 'GMapsWidget',    defaultProps: GMapsWidgetDefaultProps },
     { text: 'Video message',   icon: 'videocam',            type: 'VideoWidget',    defaultProps: VideoWidgetDefaultProps },
-    //{ text: 'Jira',            icon: 'videocam',            type: 'JiraWidget',     defaultProps: JiraWidgetDefaultProps },
+    { text: 'Jira',            icon: 'videocam',            type: 'JiraWidget',     defaultProps: JiraWidgetDefaultProps },
     { text: 'Idea',            icon: 'format_list_numbered',       type: 'IdeaWidget',     defaultProps: IdeaWidgetDefaultProps }
 ];
 

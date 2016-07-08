@@ -23,12 +23,12 @@ export const cover = {
 
 export const propsElements = {
     position: 'fixed',
-    bottom: '2em',
+    bottom: '45px',
     left: '7em'
 }
 
 export const DrawingTools = {
     position: 'fixed',
-    bottom: '6em',
-    left: '45px'
+    bottom: '7em',
+    left: '43px'
 }

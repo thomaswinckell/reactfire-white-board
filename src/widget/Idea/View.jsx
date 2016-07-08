@@ -21,6 +21,11 @@ export default class IdeaWidgetView extends AbstractWidgetView {
         this.requestChange = this.link( 'ideaList' ).requestChange;
     }
 
+    /**
+     * Put a vote into an element
+     * @param item - the current item where the vote goes
+     * @param vote - String either 'up' or 'down'
+     */
     vote( item, vote ) {
 
         const currentUser = AuthStore.currentUser;

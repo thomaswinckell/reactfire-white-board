@@ -38,7 +38,7 @@ const SPRING_CONFIG = {stiffness : 400, damping : 28};
 
 // How far away from the main button does the child buttons go
 const FLY_OUT_RADIUS = 130,
-	SEPARATION_ANGLE = 40; //degrees
+	SEPARATION_ANGLE = 35; //degrees
 	// FAN_ANGLE = (NUM_CHILDREN - 1) * SEPARATION_ANGLE, //degrees
 	// BASE_ANGLE = ((180 - FAN_ANGLE)/2); // degrees
 
@@ -57,7 +57,7 @@ export default class ButtonMenu extends Component {
 		this.state = {
 			isOpen: false,
 			M_X : 200,
-			M_Y : 200,
+			M_Y : 19,
 			BASE_ANGLE : ((180 - (this.props.elements.length - 1) * SEPARATION_ANGLE)/2)
 		};
 
@@ -66,7 +66,7 @@ export default class ButtonMenu extends Component {
 	updateDimensions = () => {
         //this.setState({M_X: $(window).width() - 190, M_Y: $(window).height() - 150});
         ////TODO percentage + middle
-        this.setState({M_X: $(window).width()/2, M_Y: 0 });
+        this.setState({M_X: $(window).width()/2 });
 	}
 
 	componentDidMount() {
