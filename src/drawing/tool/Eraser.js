@@ -2,12 +2,6 @@ import Tool from './Tool';
 
 export default class Eraser extends Tool {
 
-
-    //FIXME find a better way to check if this is eraser
-    erase(){
-        //BIG HACK
-    }
-
     constructor( context ){
         super( context , 'Eraser');
     }

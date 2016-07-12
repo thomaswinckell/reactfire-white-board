@@ -1,7 +1,8 @@
-import _                        from 'lodash';
 import $                        from 'jquery';
 
 import Pencil                   from './tool/Pencil';
+
+import * as DrawingConfig       from '../config/DrawingConfig';
 
 import Styles from './DrawingSurface.scss';
 
@@ -39,9 +40,10 @@ export default class DrawingSurface {
         this.color = color;
         this.backgroundColor = backgroundColor;
         this.tool = new toolType( this.context );
+        this.lineWidth = DrawingConfig.DEFAULT_LINE_SIZE;
 
         this.fontParams = {
-            fontSize        : 24,
+            fontSize        : DrawingConfig.DEFAULT_FONT_SIZE,
             font            : 'arial',
             italic          : false,
             bold            : false,
@@ -74,7 +76,7 @@ export default class DrawingSurface {
             if( this.tool.name === 'Eraser' ){
                 this.canvas.className = Styles.cursorEraser;
                 this.tool = new toolType( this.oldContext );
-            }
+             }
         }
     }
 

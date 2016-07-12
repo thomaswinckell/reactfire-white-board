@@ -1,4 +1,3 @@
-import $                                from 'jquery';
 import React, { Component, PropTypes }  from 'react';
 import ReactDOM                         from 'react-dom';
 import { ChromePicker }                 from 'react-color';
@@ -13,6 +12,9 @@ import Line                             from './tool/Line';
 import Circle                           from './tool/Circle';
 import TextTool                         from './tool/TextTool';
 import Eraser                           from './tool/Eraser';
+import * as DrawingConfig               from '../config/DrawingConfig';
+
+import * as Styles                      from './DrawingNavBarStyle';
 
 export default class DrawingNavBar extends Component {
 
@@ -36,9 +38,9 @@ export default class DrawingNavBar extends Component {
             displayFontSizePicker           : false,
             displayText                     : false,
             text                            : '',
-            lineWidth                       : 10,
+            lineWidth                       : DrawingConfig.DEFAULT_LINE_SIZE,
             tool                            : Pencil,
-            fontSize                        : 24,
+            fontSize                        : DrawingConfig.DEFAULT_FONT_SIZE,
             bold                            : false,
             italic                          : false,
             underline                       : false,
@@ -58,15 +60,20 @@ export default class DrawingNavBar extends Component {
         this.onClose();
         DrawingActions.setTool( tool );
         this.setState( { tool } );
+        if( tool !== TextTool ){
+            this.setState({
+                displayText : false
+            })
+        }
     }
 
-    setText() {
+    setText = () => {
         this.setState({ displayText : !this.state.displayText });
         DrawingActions.endText();
         this.setTool( TextTool );
     }
 
-    onTextChange( event ) {
+    onTextChange = ( event ) => {
         this.setState({ text : event.target.value });
         DrawingActions.setText( event.target.value );
     }
@@ -84,28 +91,32 @@ export default class DrawingNavBar extends Component {
     }
 
     setBold(){
-        this.setState( { bold : !this.state.bold } );
-        DrawingActions.setBold( this.state.bold );
+        this.setState( { bold : !this.state.bold },
+            () => DrawingActions.setBold( this.state.bold )
+        );
     }
 
     setItalic(){
-        this.setState( { italic : !this.state.italic } )
-        DrawingActions.setItalic( this.state.italic );
+        this.setState( { italic : !this.state.italic },
+            () => DrawingActions.setItalic( this.state.italic )
+        );
     }
 
     setUnderline(){
-        this.setState( { underline : !this.state.underline } )
-        DrawingActions.setUnderline( this.state.underline );
+        this.setState( { underline : !this.state.underline },
+            () => DrawingActions.setUnderline( this.state.underline )
+        );
     }
 
     setStrikeThrough(){
-        this.setState( { strikeThrough : !this.state.strikeThrough } )
-        DrawingActions.setStrikeThrough( this.state.strikeThrough );
+        this.setState( { strikeThrough : !this.state.strikeThrough },
+            () => DrawingActions.setStrikeThrough( this.state.strikeThrough )
+        );
     }
 
-    onFontSizeChange ( size ) {
-        this.setState({ fontSize : size.target.value });
-        DrawingActions.setFontSize( size.target.value );
+    onFontSizeChange = ( size ) => {
+        this.setState({ fontSize : size });
+        DrawingActions.setFontSize( size );
     }
 
     onChangeColor( color ) {
@@ -116,12 +127,12 @@ export default class DrawingNavBar extends Component {
         DrawingActions.setBackgroundColor( `${color.hex}` );
     }
 
-    onLineWidthChange ( width ) {
-        this.setState({ lineWidth : width.target.value });
-        DrawingActions.setLineWidth( width.target.value );
+    onLineWidthChange = ( width ) => {
+        this.setState({ lineWidth : width });
+        DrawingActions.setLineWidth( width );
     }
 
-    hideLinewidthPicker(){
+    hideLinewidthPicker = () => {
         this.setState({ displayLineWidthPicker : false });
     }
 
@@ -130,15 +141,14 @@ export default class DrawingNavBar extends Component {
     }
 
     onClose = () => {
-        console.log('close');
         this.setState( { displayColorPicker : false, displayBackgroundColorPicker : false, displayLineWidthPicker : false } );
     }
 
-    updateBackgroundImage() {
+    updateBackgroundImage = () => {
         ReactDOM.findDOMNode( this.refs.fileUpload ).click();
     }
 
-    onUpload( event ) {
+    onUpload =( event ) => {
         const file = event.dataTransfer ? event.dataTransfer.files[0] : event.target.files[0];
         if ( file ) {
             let reader = new FileReader();
@@ -153,27 +163,9 @@ export default class DrawingNavBar extends Component {
         });
     }
 
-    render() {
-
-        const elements = [
-            new NavBarElement( 'Pencil',            'brush',     () => this.setTool( Pencil ), this.isActiveTool( Pencil ) ? "active" : "" ),
-            new NavBarElement( 'Line',              'line',      () => this.setTool( Line ), this.isActiveTool( Line ) ? "active" : "" ),
-            new NavBarElement( 'Rectangle',         'check_box_outline_blank',     () => this.setTool( Rectangle ), this.isActiveTool( Rectangle ) ? "active" : "" ),
-            new NavBarElement( 'Circle',            'radio_button_unchecked',     () => this.setTool( Circle ), this.isActiveTool( Circle ) ? "active" : "" ),
-            new NavBarElement( 'Eraser',            'phonelink_erase',     () => this.setTool( Eraser ), this.isActiveTool( Eraser ) ? "active" : "" ),
-
-            new NavBarElement( 'Line width',        'line_weight', () => this.setState( { displayLineWidthPicker : !this.state.displayLineWidthPicker } ) ),
-            new NavBarElement( 'Color',             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ) ),
-
-            new NavBarElement( 'Background color',  'format_color_fill',  () => this.setState( { displayBackgroundColorPicker : !this.state.displayBackgroundColorPicker } )  ),
-
-            new NavBarElement( 'Background image',  'image',             this.updateBackgroundImage.bind( this ) ),
-
-            new NavBarElement( 'TextTool',          'text_fields', () => this.setText(), this.isActiveTool( TextTool ) ? "active" : "" ),
-        ];
+    renderTextTool = () => {
 
         const textElements = [
-            new NavBarElement( 'Font',              'text_format' /* TODO */, null , "", "bottom" ),
             new NavBarElement( 'Font size',         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ), "", "bottom" ),
             new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), this.isActiveState( 'bold' ) ? "active" : "", "bottom"),
             new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), this.isActiveState( 'strikeThrough' ) ? "active" : "", "bottom"),
@@ -181,31 +173,10 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic(), this.isActiveState( 'italic' ) ? "active" : "", "bottom" )
         ];
 
-        const colorPosition = {
+        const TextElementsPosition = {
             position: 'fixed',
-            top: '160px',
-            left: '60px',
-            zIndex: 2147483647
-        };
-
-        const bgColorPosition = {
-            position: 'fixed',
-            top: '191px',
-            left: '60px',
-            zIndex: 2147483647
-        };
-
-        const LinePickerPosition = {
-            position: 'fixed',
-            top: '235px',
-            left: '70px',
-            zIndex: 2147483647
-        };
-
-        const FontSizePickerPosition = {
-            position: 'fixed',
-            top: '335px',
-            left: '70px',
+            top: this.state.y+50 + 'px',
+            left: this.state.x + 'px',
             zIndex: 2147483647
         };
 
@@ -214,43 +185,70 @@ export default class DrawingNavBar extends Component {
             top: this.state.y+10 + 'px',
             left: this.state.x + 'px',
             zIndex: 2147483647
+        };
+
+        if(this.state.displayText){
+            return  (
+                <div>
+                    <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null} value={this.state.text} style= {TextPosition} onChange={ this.onTextChange } />
+                    <NavBar elements={ textElements } position={ TextElementsPosition } horizontal={ false } />
+                </div>)
+        }
+    }
+
+    /**
+     * Render the props we can modify of a tool
+     *
+     * @returns {JSX}
+     */
+    renderMenuPropsElements = () => {
+        let propsElements = [
+            new NavBarElement( 'Line width',        'line_weight', () => this.setState( { displayLineWidthPicker : !this.state.displayLineWidthPicker } ), this.state.displayLineWidthPicker? "active" : "" ),
+            new NavBarElement( 'Color',             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ), this.state.displayColorPicker? "active" : "")
+        ];
+
+        if( this.state.tool === Circle || this.state.tool === Rectangle ){
+            propsElements.push(new NavBarElement( 'Background color',  'format_color_fill',  () => this.setState( { displayBackgroundColorPicker : !this.state.displayBackgroundColorPicker } ), this.state.displayBackgroundColorPicker? "active" : "" ))
         }
 
-        const TextElementsPosition = {
-            position: 'fixed',
-            top: this.state.y+50 + 'px',
-            left: this.state.x + 'px',
-            zIndex: 2147483647
-        }
+        return(
+            <NavBar elements={ propsElements } position={ Styles.propsElements } horizontal={ false } />
+        );
+    }
 
-        const popover = {
-            position: 'absolute',
-            zIndex: 200,
-        }
-        const cover = {
-            position: 'fixed',
-            top: '0px',
-            right: '0px',
-            bottom: '0px',
-            left: '0px',
-        }
-        return (
+    render() {
+
+        const elements = [
+            new NavBarElement( 'Pencil',            'brush',     () => this.setTool( Pencil ), this.isActiveTool( Pencil ) ? "active" : "" ),
+            new NavBarElement( 'Line',              'line',      () => this.setTool( Line ), this.isActiveTool( Line ) ? "active" : "" ),
+            new NavBarElement( 'Rectangle',         'check_box_outline_blank',     () => this.setTool( Rectangle ), this.isActiveTool( Rectangle ) ? "active" : "" ),
+            new NavBarElement( 'Circle',            'radio_button_unchecked',     () => this.setTool( Circle ), this.isActiveTool( Circle ) ? "active" : "" ),
+            new NavBarElement( 'Eraser',            'phonelink_erase',     () => this.setTool( Eraser ), this.isActiveTool( Eraser ) ? "active" : "" ),
+            new NavBarElement( 'TextTool',          'text_fields', () => this.setText(), this.isActiveTool( TextTool ) ? "active" : "" ),
+            new NavBarElement( 'Background image',  'image',             this.updateBackgroundImage )
+        ];
+
+       return (
             <div>
-                 { /* color={ FIXME this.state.displayColorPicker ? DrawingActions.getColor() : DrawingActions.getBackgroundColor() } value ={this.state.lineWidth} */ }
-                {this.state.displayText ? <input type='text' onKeyPress={ e => e.charCode === 13 ? this.setText() : null}value ={this.state.text}style= {TextPosition} onChange={ this.onTextChange.bind(this) } /> : null }
-                {this.state.displayLineWidthPicker ?
-                    <div style= {LinePickerPosition}>
-                        <Rcslider min={0} max={20} defaultValue={10} onChange={ this.onLineWidthChange.bind(this) } />
-                    </div>
-                 : null }
-                {this.state.displayFontSizePicker ? <input type='number' onKeyPress={ e => e.charCode === 13 ? this.hideFontSizePicker() : null}value ={this.state.fontSize }style= {FontSizePickerPosition} onChange={ this.onFontSizeChange.bind(this) } /> : null }
-                {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={  this.state.displayColorPicker ? colorPosition : bgColorPosition }>
-                 <div style={ cover } onClick={ this.onClose }/>
-                  <ChromePicker onChange={ this.state.displayColorPicker ? this.onChangeColor.bind( this ) : this.onChangeBackgroundColor.bind( this ) }/>
+                <NavBar elements={ elements } position={ Styles.DrawingTools } horizontal={ true } />
+
+                {this.state.displayLineWidthPicker ? <div style={ Styles.LinePickerPosition }>
+                    <div style={ Styles.cover } onClick={ this.hideLinewidthPicker }/>
+                        <Rcslider min={DrawingConfig.MIN_LINE_SIZE} max={DrawingConfig.MAX_LINE_SIZE} defaultValue={this.state.lineWidth} onChange={ this.onLineWidthChange } />
+                    </div> : null }
+                {this.state.displayFontSizePicker ? <div style= { Styles.LinePickerPosition }>
+                    <div style={ Styles.cover } onClick={ this.hideFontSizePicker }/>
+                        <Rcslider min={DrawingConfig.MIN_FONT_SIZE} max={DrawingConfig.MAX_FONT_SIZE} defaultValue={ this.state.fontSize } onChange={ this.onFontSizeChange } />
+                    </div>: null }
+
+                {  this.state.displayColorPicker || this.state.displayBackgroundColorPicker ? <div style={ Styles.colorPosition }>
+                    <div style={ Styles.cover } onClick={ this.onClose }/>
+                    <ChromePicker onChange={ this.state.displayColorPicker ? this.onChangeColor : this.onChangeBackgroundColor }/>
                 </div> : null }
-                 <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload.bind( this ) } accept="image/*"/>
-                 <NavBar elements={ elements } position={ this.props.position } horizontal={ true } />
-                 {this.state.displayText ?  <NavBar elements={ textElements } position={ TextElementsPosition } horizontal={ false } /> : null}
+
+                <input type="file" style={ { display : 'none' } } ref="fileUpload" onChange={ this.onUpload } accept="image/*"/>
+                {this.renderMenuPropsElements()}
+                {this.renderTextTool()}
             </div>
         );
     }

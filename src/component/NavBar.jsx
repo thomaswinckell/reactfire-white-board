@@ -55,18 +55,19 @@ export default class NavBar extends Component {
         super( props );
     }
 
-    renderNavBarElement( element : NavBarElement, key : string ) {
+    renderNavBarElement = ( element : NavBarElement, key : string ) => {
         return element.render( key );
     }
 
     render() {
         const className = classNames( Styles.root, this.props.className, {
-            [ Styles.horizontal ] : this.props.horizontal
+            [ Styles.horizontal ] : this.props.horizontal,
+            [ Styles.vertical ]   : !this.props.horizontal
         } );
         return (
             <div className={ className } style = {this.props.position}>
                 <ul>
-                    { this.props.elements.map( this.renderNavBarElement.bind( this ) ) }
+                    { this.props.elements.map( this.renderNavBarElement ) }
                 </ul>
             </div>
         );

@@ -63,9 +63,7 @@ export default class TextTool extends Tool {
         }
 
         y_under += 10;
-        console.log('x and y ', x_under, y_under)
         this.context.beginPath();
-        //this.context.lineWidth = 3;
         this.context.moveTo(x_under,y_under);
         this.context.lineTo(x_under+width,y_under);
         this.context.stroke();

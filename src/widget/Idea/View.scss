@@ -1,0 +1,45 @@
+.root {
+    overflow : hidden;
+    height: 100%;
+
+    li {
+        display : flex;
+        margin-top : 0.5em;
+
+        span {
+            word-break: break-all;
+            flex : 1 100%;
+            padding-top: 0.4em;
+            padding-right: 0.25em;
+        }
+
+        button {
+            flex : 2;
+            margin : auto;
+            margin-left : 0.5em;
+            width : 35px;
+            height : 27px;
+        }
+    }
+}
+
+.up{
+    color : green;
+}
+
+.down{
+    color: red;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.todoTitle {
+    composes : title;
+}
+
+.doneTitle {
+    composes : title;
+    margin-top: 2em;
+}

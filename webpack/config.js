@@ -11,7 +11,6 @@ const DEV = process.env.NODE_ENV === 'dev';
 const jsBundle = path.join( 'js', util.format( '[name].js' ) );
 const entries = {
     app:       ['../demo/app.js'],
-    vendors:   ['react', 'jquery', 'lodash', 'moment', 'firebase', 'classnames'],
     polyfills: ['babel-polyfill']
 };
 const alias = {

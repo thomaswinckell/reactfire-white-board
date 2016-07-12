@@ -11,11 +11,16 @@ import BackgroundDrawing        from '../drawing/BackgroundDrawing';
 import BackgroundDrawingStore   from '../drawing/BackgroundDrawingStore';
 import NotificationStore        from './NotificationStore';
 import Notification             from '../component/Notification';
+import WidgetsElements          from '../widget/Elements';
 
 
 
 @FluxComponent
 export default class App extends Component {
+    
+    static defaultProps = {
+        elements : WidgetsElements
+    };
 
     constructor( props ) {
         super( props );
@@ -53,7 +58,7 @@ export default class App extends Component {
                 <Notification notifs= { notifs } />
                 <Board widgets={ widgets } backgroundDrawing={ backgroundDrawing } backgroundImage={ backgroundImage }/>
                 <BackgroundDrawing imageContent={ backgroundDrawing } />
-                <MainNavBar/>
+                <MainNavBar elements={ this.props.elements } />
             </div>
 
         );
