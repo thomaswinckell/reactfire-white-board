@@ -12,12 +12,13 @@ import BackgroundDrawingStore   from '../drawing/BackgroundDrawingStore';
 import NotificationStore        from './NotificationStore';
 import Notification             from '../component/Notification';
 import WidgetsElements          from '../widget/Elements';
+import classNames               from 'classnames';
 
-
+import * as Styles              from '../theme/main.scss'
 
 @FluxComponent
 export default class App extends Component {
-    
+
     static defaultProps = {
         elements : WidgetsElements
     };
@@ -54,13 +55,16 @@ export default class App extends Component {
         }
 
         return (
-            <div>
-                <Notification notifs= { notifs } />
-                <Board widgets={ widgets } backgroundDrawing={ backgroundDrawing } backgroundImage={ backgroundImage }/>
-                <BackgroundDrawing imageContent={ backgroundDrawing } />
-                <MainNavBar elements={ this.props.elements } />
+            <div className={ Styles.whiteboardHtml }>
+                <div className={ Styles.whiteboardBody }>
+                    <div className={ classNames( 'whiteboardGlobal', `${Styles.whiteboard}` ) }>
+                        <Notification notifs= { notifs } />
+                        <Board widgets={ widgets } backgroundDrawing={ backgroundDrawing } backgroundImage={ backgroundImage }/>
+                        <BackgroundDrawing imageContent={ backgroundDrawing } />
+                        <MainNavBar elements={ this.props.elements } />
+                    </div>
+                </div>
             </div>
-
         );
     }
 }
