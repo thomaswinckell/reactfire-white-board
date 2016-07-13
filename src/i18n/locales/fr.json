@@ -1,0 +1,12 @@
+{
+    "sureToCancel"              : "Voulez-vous vraiment annuler?",
+    "clearBoardPopup"           : "Voulez-vous vraiment effacer le board?",
+    "clearDrawingPopup"         : "Voulez-vous vraiment effacer le dessin?",
+    "paintMode"                 : "Mode dessin",
+    "zoomIn"                    : "Zoomer",
+    "zoomOut"                   : "Dézoomer",
+    "saveDrawing"               : "Sauvegarder dessin",
+    "clearDrawingElement"       : "Effacer dessin",
+    "cancel"                    : "Annuler",
+    "clearBoardElement"         : "Effacer board"
+}

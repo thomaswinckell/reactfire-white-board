@@ -8,6 +8,7 @@ import DrawingNavBar                    from '../drawing/DrawingNavBar';
 
 import ButtonMenu                       from '../component/ButtonMenu';
 
+import translations             from '../i18n/messages/messages'
 
 import Styles from './MainNavBar.scss';
 
@@ -18,6 +19,10 @@ const Mode = {
 };
 
 export default class MainNavBar extends Component {
+
+    static contextTypes = {
+        intl : PropTypes.object
+    };
 
     constructor( props ) {
         super( props );
@@ -37,9 +42,8 @@ export default class MainNavBar extends Component {
 
     cancelDrawing = () => {
         if ( this.state.mode === Mode.drawing ) {
-
             this.setState( { confirmDialog : {
-                message   : "Are you sure you want to cancel ?",
+                message   : this.context.intl.formatMessage( translations.mainNavBar.sureToCancel ),
                 onClose : confirm => {
                     if ( confirm ) {
                         this.setState( { confirmDialog : false, mode : Mode.widgets } );
@@ -65,7 +69,7 @@ export default class MainNavBar extends Component {
 
     clearBoard = () => {
         this.setState( { confirmDialog : {
-            message   : "Are you sure you want to clear the board ?",
+            message   : this.context.intl.formatMessage( translations.mainNavBar.clearBoard ),
             onClose : confirm => {
                 if ( confirm ) {
                     BoardActions.clearBoard();
@@ -77,7 +81,7 @@ export default class MainNavBar extends Component {
 
     clearDrawing = () => {
         this.setState( { confirmDialog : {
-            message   : "Are you sure you want to clear this drawing ?",
+            message   : this.context.intl.formatMessage( translations.mainNavBar.clearBoard ),
             onClose : confirm => {
                 if ( confirm ) {
                     DrawingActions.clear();
@@ -100,13 +104,13 @@ export default class MainNavBar extends Component {
 
         let elements = [
         //new NavBarElement( 'Logout', 'sign-out', AuthActions.logout.bind( this ) ),
-            new NavBarElement( 'Paint mode',    'format_paint',        this.setDrawingMode,    this.state.mode === Mode.drawing ? 'active' : '', 'bottom' ),
+            new NavBarElement( this.context.intl.formatMessage(translations.navBarElement.PaintMode),    'format_paint',        this.setDrawingMode,    this.state.mode === Mode.drawing ? 'active' : '', 'bottom' ),
            // new NavBarElement( 'Widgets mode',  'dashboard',           this.setWidgetMode.bind( this ),      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
         ];
 
         let zoomElements = [
-            new NavBarElement( 'Zoom in', 'zoom_in', BoardActions.zoomIn,       '', 'left' ),
-            new NavBarElement( 'Zoom out', 'zoom_out', BoardActions.zoomOut,    '', 'left' )
+            new NavBarElement( this.context.intl.formatMessage(translations.navBarElement.ZoomIn), 'zoom_in', BoardActions.zoomIn,       '', 'left' ),
+            new NavBarElement( this.context.intl.formatMessage(translations.navBarElement.ZoomOut), 'zoom_out', BoardActions.zoomOut,    '', 'left' )
         ];
 
         let clearElements = [
@@ -114,13 +118,13 @@ export default class MainNavBar extends Component {
 
         if ( this.state.mode === Mode.drawing ) {
             clearElements.push(
-                new NavBarElement( 'Save drawing',      'save',   this.saveDrawing,      '', 'bottom' ),
-                new NavBarElement( 'Clear drawing',     'clear',  this.clearDrawing,      '', 'bottom' ),
-                new NavBarElement( 'Cancel',            'undo',   this.cancelDrawing,    '', 'bottom' ),
+                new NavBarElement( this.context.intl.formatMessage(translations.navBarElement.SaveDrawing),      'save',   this.saveDrawing,      '', 'bottom' ),
+                new NavBarElement( this.context.intl.formatMessage(translations.navBarElement.ClearDrawing),     'clear',  this.clearDrawing,      '', 'bottom' ),
+                new NavBarElement( this.context.intl.formatMessage(translations.navBarElement.Cancel),            'undo',   this.cancelDrawing,    '', 'bottom' ),
             );
         } else {
             clearElements.push(
-                new NavBarElement( 'Clear board',       'clear',  this.clearBoard,        '', 'bottom' ),
+                new NavBarElement( this.context.intl.formatMessage(translations.navBarElement.ClearBoard),       'clear',  this.clearBoard,        '', 'bottom' ),
             );
         }
 
