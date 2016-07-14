@@ -15,5 +15,20 @@
     "googleMap"                 : "Google map",
     "videoMessage"              : "Message vidéo",
     "jira"                      : "Jira",
-    "idea"                      : "idée"
+    "idea"                      : "Idée",
+    "pencil"                    : "Crayon",
+    "line"                      : "Ligne",
+    "rectangle"                 : "Rectangle",
+    "circle"                    : "Cercle",
+    "eraser"                    : "Gomme",
+    "textTool"                  : "Outil Texte",
+    "backgroundImage"           : "Image de fond",
+    "lineWidth"                 : "Largeur ligne",
+    "color"                     : "Couleur",
+    "backgroundColor"           : "Couleur de fond",
+    "fontSize"                  : "Taille de police",
+    "bold"                      : "Gras",
+    "strikeThrough"             : "barrer",
+    "underline"                 : "Souligner",
+    "italic"                    : "Italique"
 }

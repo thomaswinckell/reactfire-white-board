@@ -76,7 +76,73 @@ const translations = {
         Idea : {
             id : 'idea',
             defaultMessage : 'Idea'
+        }
+    },
+    drawingElement : {
+        Pencil : {
+            id : 'pencil',
+            defaultMessage : 'Pencil'
         },
+        Line : {
+            id : 'line',
+            defaultMessage : 'Line'
+        },
+        Rectangle : {
+            id : 'rectangle',
+            defaultMessage : 'Rectangle'
+        },
+        Circle : {
+            id : 'circle',
+            defaultMessage : 'Circle'
+        },
+        Eraser : {
+            id : 'eraser' ,
+            defaultMessage : 'Eraser'
+        },
+        TextTool : {
+            id : 'textTool' ,
+            defaultMessage : 'TextTool'
+        },
+        BackgroundImage : {
+            id : 'backgroundImage' ,
+            defaultMessage : 'Background Image'
+        },
+        Props : {
+            LineWidth : {
+                id : 'lineWidth',
+                defaultMessage : 'Line width'
+            },
+            Color : {
+                id : 'color',
+                defaultMessage : 'Color'
+            },
+            BackgroundColor : {
+                id : 'backgroundColor',
+                defaultMessage : 'Background Color'
+            }
+        },
+        TextToolProp : {
+            FontSize : {
+                id : 'fontSize',
+                defaultMessage : 'Font size'
+            },
+            Bold : {
+                id : 'bold',
+                defaultMessage : 'Bold'
+            },
+            StrikeThrough : {
+                id : 'strikeThrough',
+                defaultMessage : 'Strike through'
+            },
+            Underline : {
+                id : 'underline',
+                defaultMessage : 'Underline'
+            },
+            Italic : {
+                id: 'italic',
+                defaultMessage: 'Italic'
+            }
+        }
     }
 };
 
