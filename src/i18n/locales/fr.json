@@ -8,5 +8,12 @@
     "saveDrawing"               : "Sauvegarder dessin",
     "clearDrawingElement"       : "Effacer dessin",
     "cancel"                    : "Annuler",
-    "clearBoardElement"         : "Effacer board"
+    "clearBoardElement"         : "Effacer board",
+    "text"                      : "Texte",
+    "todoList"                  : "Liste de tâche",
+    "youtube"                   : "Youtube",
+    "googleMap"                 : "Google map",
+    "videoMessage"              : "Message vidéo",
+    "jira"                      : "Jira",
+    "idea"                      : "idée"
 }

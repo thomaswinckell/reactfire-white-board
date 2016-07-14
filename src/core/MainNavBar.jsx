@@ -8,7 +8,7 @@ import DrawingNavBar                    from '../drawing/DrawingNavBar';
 
 import ButtonMenu                       from '../component/ButtonMenu';
 
-import translations             from '../i18n/messages/messages'
+import translations                     from '../i18n/messages/messages';
 
 import Styles from './MainNavBar.scss';
 
@@ -103,9 +103,7 @@ export default class MainNavBar extends Component {
     render() {
 
         let elements = [
-        //new NavBarElement( 'Logout', 'sign-out', AuthActions.logout.bind( this ) ),
             new NavBarElement( this.context.intl.formatMessage(translations.navBarElement.PaintMode),    'format_paint',        this.setDrawingMode,    this.state.mode === Mode.drawing ? 'active' : '', 'bottom' ),
-           // new NavBarElement( 'Widgets mode',  'dashboard',           this.setWidgetMode.bind( this ),      this.state.mode === Mode.widgets ? 'active' : '', 'bottom' ),
         ];
 
         let zoomElements = [

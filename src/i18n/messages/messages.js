@@ -46,6 +46,36 @@ const translations = {
         ClearBoard : {
             id : "clearBoardElement",
             defaultMessage : "Clear board"
+        }
+    },
+    widgetElement : {
+        Text : {
+            id : 'text',
+            defaultMessage : 'Text'
+        },
+        TodoList : {
+            id : 'todoList',
+            defaultMessage : 'Todo list'
+        },
+        Youtube : {
+            id : 'youtube',
+            defaultMessage : 'Youtube'
+        },
+        GoogleMaps : {
+            id : 'googleMap',
+            defaultMessage : 'Google map'
+        },
+        Videomessage : {
+            id : 'videoMessage',
+            defaultMessage : 'Video message'
+        },
+        Jira : {
+            id : 'jira',
+            defaultMessage : 'Jira'
+        },
+        Idea : {
+            id : 'idea',
+            defaultMessage : 'Idea'
         },
     }
 };
