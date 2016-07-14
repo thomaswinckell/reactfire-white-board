@@ -1,13 +1,18 @@
 import React, { Component, PropTypes }  from 'react';
-import ReactDOM                         from 'react-dom';
 
 import Menu                             from '../Menu';
 
-import Styles from './Editor.scss';
+import translations                     from '../../i18n/messages/messages';
+
+import * as Styles from './Editor.scss';
 
 
 export default class AbstractWidgetEditor extends Component {
 
+    static contextTypes = {
+        intl : PropTypes.object
+    };
+    
     constructor( props ) {
         super( props );
         this.state = {};
@@ -23,11 +28,11 @@ export default class AbstractWidgetEditor extends Component {
     getMenuElements() {
         return [ {
             action      : this.props.actions.setViewMode,
-            text        : 'View',
+            text        : this.context.intl.formatMessage( translations.widgetElement.Menu.View ),
             icon        : `edit ${Styles.iconActive}`
         }, {
             action      : this.props.actions.deleteWidget,
-            text        : 'Delete',
+            text        : this.context.intl.formatMessage( translations.widgetElement.Menu.Delete ),
             icon        : 'delete'
         } ];
     }

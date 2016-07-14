@@ -76,6 +76,20 @@ const translations = {
         Idea : {
             id : 'idea',
             defaultMessage : 'Idea'
+        },
+        Menu : {
+            View : {
+                id : 'MenuView',
+                defaultMessage : 'View'
+            },
+            Delete : {
+                id : 'MenuDelete',
+                defaultMessage : 'Delete'
+            },
+            Edit : {
+                id : 'MenuEdit',
+                defaultMessage : 'Edit'
+            }
         }
     },
     drawingElement : {

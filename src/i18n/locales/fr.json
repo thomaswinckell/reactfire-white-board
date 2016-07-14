@@ -30,5 +30,8 @@
     "bold"                      : "Gras",
     "strikeThrough"             : "barrer",
     "underline"                 : "Souligner",
-    "italic"                    : "Italique"
+    "italic"                    : "Italique",
+    "MenuView"                  : "Vue",
+    "MenuDelete"                : "Supprimer",
+    "MenuEdit"                  : "Editer"
 }
