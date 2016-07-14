@@ -9,6 +9,8 @@ import classNames                       	from 'classnames';
 import ReactTooltip                     	from 'react-tooltip';
 import * as BoardActions                    from '../core/BoardActions';
 
+import translations                         from '../i18n/messages/messages';
+
 import Styles from './ButtonMenu.scss';
 // Components
 
@@ -51,16 +53,19 @@ function toRadians(degrees) {
 
 
 export default class ButtonMenu extends Component {
+
+    static contextTypes = {
+        intl : PropTypes.object
+    };
+
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			isOpen: false,
 			M_X : 200,
 			M_Y : 19,
 			BASE_ANGLE : ((180 - (this.props.elements.length - 1) * SEPARATION_ANGLE)/2)
 		};
-
 	}
 
 	updateDimensions = () => {
@@ -219,15 +224,16 @@ export default class ButtonMenu extends Component {
 				{interpolatedStyles =>
 					<div>
 						{interpolatedStyles.map(({height, left, rotate, scale, top, width}, index) =>
-							<div data-for={ 'id' + index.toString() } data-tip key={ index } >
+							<div  key={ index }>
 								{elements.length !== 0  ?
-								<div className= { Styles.childButton } key={index} onClick={ ( event ) => this.addWidget( event, elements[index] ) }
-									 style={ { left, height, top, transform: `rotate(${rotate}deg) scale(${scale})`, width } }>
+								<div className={ Styles.childButton } onClick={ ( event ) => this.addWidget( event, elements[index] ) }
+									 style={ { transform: `rotate(${rotate}deg) scale(${scale})`, width ,  left, height, top,} }
+                                     data-for={ 'id' + index.toString() } data-tip>
 									<i className={ classNames('icon' , `icon-${elements[index].icon}` ) } >
-										<ReactTooltip class= { Styles.tooltip } id={'id' + index.toString() } place={ elements[index].tooltipPosition } type="light" effect="solid" >
-											{ elements[index].text }
-										</ReactTooltip>
 									</i>
+										<ReactTooltip id={'id' + index.toString() } place={ elements[index].tooltipPosition } type="light" effect="solid" >
+											{ this.context.intl.formatMessage( translations.widgetElement[elements[index].text] ) }
+										</ReactTooltip>
 								</div> : null }
 							</div>
 						)}
