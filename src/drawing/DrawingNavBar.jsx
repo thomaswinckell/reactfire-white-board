@@ -49,11 +49,12 @@ export default class DrawingNavBar extends Component {
             y                               : 85
         };
 
-        TextToolActions.onMouseDown.listen( this._onMouseDown.bind( this ) );
+        this.onMouseDownListener = TextToolActions.onMouseDown.listen( this._onMouseDown.bind( this ) );
     }
 
     componentWillUnmount() {
         this.onClose();
+        this.onMouseDownListener();
     }
 
     setTool( tool ) {
@@ -90,27 +91,9 @@ export default class DrawingNavBar extends Component {
         return tool === this.state.tool;
     }
 
-    setBold(){
-        this.setState( { bold : !this.state.bold },
-            () => DrawingActions.setBold( this.state.bold )
-        );
-    }
-
-    setItalic(){
-        this.setState( { italic : !this.state.italic },
-            () => DrawingActions.setItalic( this.state.italic )
-        );
-    }
-
-    setUnderline(){
-        this.setState( { underline : !this.state.underline },
-            () => DrawingActions.setUnderline( this.state.underline )
-        );
-    }
-
-    setStrikeThrough(){
-        this.setState( { strikeThrough : !this.state.strikeThrough },
-            () => DrawingActions.setStrikeThrough( this.state.strikeThrough )
+    setTextToolProp = ( prop ) => {
+        this.setState( { [prop] : !this.state[prop] },
+            () => DrawingActions.setTextToolProp ( prop , this.state[ prop ] )
         );
     }
 
@@ -136,7 +119,7 @@ export default class DrawingNavBar extends Component {
         this.setState({ displayLineWidthPicker : false });
     }
 
-    hideFontSizePicker(){
+    hideFontSizePicker = () => {
         this.setState({ displayFontSizePicker : false });
     }
 
@@ -167,10 +150,10 @@ export default class DrawingNavBar extends Component {
 
         const textElements = [
             new NavBarElement( 'Font size',         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ), "", "bottom" ),
-            new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), this.isActiveState( 'bold' ) ? "active" : "", "bottom"),
-            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), this.isActiveState( 'strikeThrough' ) ? "active" : "", "bottom"),
-            new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline(), this.isActiveState( 'underline' ) ? "active" : "", "bottom" ),
-            new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic(), this.isActiveState( 'italic' ) ? "active" : "", "bottom" )
+            new NavBarElement( 'Bold',              'format_bold', () => this.setTextToolProp('bold'), this.isActiveState( 'bold' ) ? "active" : "", "bottom"),
+            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setTextToolProp('strikeThrough'), this.isActiveState( 'strikeThrough' ) ? "active" : "", "bottom"),
+            new NavBarElement( 'Underline',         'format_underlined', () => this.setTextToolProp('underline'), this.isActiveState( 'underline' ) ? "active" : "", "bottom" ),
+            new NavBarElement( 'Italic',            'format_italic' , () => this.setTextToolProp('italic'), this.isActiveState( 'italic' ) ? "active" : "", "bottom" )
         ];
 
         const TextElementsPosition = {

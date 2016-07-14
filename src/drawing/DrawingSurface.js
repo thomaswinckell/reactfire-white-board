@@ -80,24 +80,12 @@ export default class DrawingSurface {
         }
     }
 
-    setBold( bold ) {
-        this.fontParams.bold = bold;
-    }
-
     setFontSize( fontSize ){
         this.fontParams.fontSize = fontSize;
     }
 
-    setItalic( italic ) {
-        this.fontParams.italic = italic;
-    }
-
-    setUnderline( underline ) {
-        this.fontParams.underline = underline;
-    }
-
-    setStrikeThrough( strikeThrough ){
-        this.fontParams.strikeThrough = strikeThrough;
+    setTextToolProp( prop, value ){
+        this.fontParams[prop] = value;
     }
 
     setColor( color ) {
