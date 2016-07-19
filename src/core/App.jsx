@@ -38,7 +38,7 @@ export default class App extends Component {
 
     static defaultProps = {
         elements : WidgetsElements,
-        locale : 'fr'
+        locale : 'en'
     };
 
     constructor( props ) {
