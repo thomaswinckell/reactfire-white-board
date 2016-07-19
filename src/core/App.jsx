@@ -3,6 +3,13 @@ import { FluxComponent }        from 'airflux';
 
 import AppConfig                from '../config/AppConfig';
 import * as ConfigActions       from '../config/ConfigActions';
+
+import en                       from 'react-intl/locale-data/en';
+import fr                       from 'react-intl/locale-data/fr';
+import frMessages               from '../i18n/locales/fr.json';
+import {addLocaleData,
+    IntlProvider}               from 'react-intl';
+
 import Board                    from './Board';
 import AuthStore                from './AuthStore';
 import BoardStore               from './BoardStore';
@@ -13,13 +20,25 @@ import NotificationStore        from './NotificationStore';
 import Notification             from '../component/Notification';
 import WidgetsElements          from '../widget/Elements';
 
+addLocaleData([...en, ...fr]);
 
+function getLocalMessage(locale){
+    switch (locale) {
+        case 'fr':
+            return frMessages;
+        case 'en':
+            return ;
+        default: return ;
+
+    }
+}
 
 @FluxComponent
 export default class App extends Component {
-    
+
     static defaultProps = {
-        elements : WidgetsElements
+        elements : WidgetsElements,
+        locale : 'en'
     };
 
     constructor( props ) {
@@ -54,13 +73,14 @@ export default class App extends Component {
         }
 
         return (
-            <div>
-                <Notification notifs= { notifs } />
-                <Board widgets={ widgets } backgroundDrawing={ backgroundDrawing } backgroundImage={ backgroundImage }/>
-                <BackgroundDrawing imageContent={ backgroundDrawing } />
-                <MainNavBar elements={ this.props.elements } />
-            </div>
-
+            <IntlProvider locale={ this.props.locale } messages={ getLocalMessage( this.props.locale ) }>
+                <div>
+                    <Notification notifs={ notifs } />
+                    <Board widgets={ widgets } backgroundDrawing={ backgroundDrawing } backgroundImage={ backgroundImage }/>
+                    <BackgroundDrawing imageContent={ backgroundDrawing } />
+                    <MainNavBar elements={ this.props.elements } />
+                </div>
+            </IntlProvider>
         );
     }
 }

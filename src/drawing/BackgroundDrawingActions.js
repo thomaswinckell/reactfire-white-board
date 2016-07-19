@@ -19,9 +19,6 @@ export const setBackgroundColor     : Action = new Action().asFunction;
 
 export const setLineWidth           : Action = new Action().asFunction;
 export const setText                : Action = new Action().asFunction;
-export const setBold                : Action = new Action().asFunction;
+export const setTextToolProp        : Action = new Action().asFunction;
 export const setFontSize            : Action = new Action().asFunction;
-export const setItalic              : Action = new Action().asFunction;
-export const setUnderline           : Action = new Action().asFunction;
-export const setStrikeThrough       : Action = new Action().asFunction;
 export const endText                : Action = new Action().asFunction;

@@ -14,6 +14,8 @@ import TextTool                         from './tool/TextTool';
 import Eraser                           from './tool/Eraser';
 import * as DrawingConfig               from '../config/DrawingConfig';
 
+import translations                     from '../i18n/messages/messages';
+
 import * as Styles                      from './DrawingNavBarStyle';
 
 export default class DrawingNavBar extends Component {
@@ -21,6 +23,10 @@ export default class DrawingNavBar extends Component {
     static propTypes = {
         position    : PropTypes.object
     }
+
+    static contextTypes = {
+        intl : PropTypes.object
+    };
 
     static defaultProps = {
         position : {
@@ -49,11 +55,12 @@ export default class DrawingNavBar extends Component {
             y                               : 85
         };
 
-        TextToolActions.onMouseDown.listen( this._onMouseDown.bind( this ) );
+        this.onMouseDownListener = TextToolActions.onMouseDown.listen( this._onMouseDown.bind( this ) );
     }
 
     componentWillUnmount() {
         this.onClose();
+        this.onMouseDownListener();
     }
 
     setTool( tool ) {
@@ -90,27 +97,9 @@ export default class DrawingNavBar extends Component {
         return tool === this.state.tool;
     }
 
-    setBold(){
-        this.setState( { bold : !this.state.bold },
-            () => DrawingActions.setBold( this.state.bold )
-        );
-    }
-
-    setItalic(){
-        this.setState( { italic : !this.state.italic },
-            () => DrawingActions.setItalic( this.state.italic )
-        );
-    }
-
-    setUnderline(){
-        this.setState( { underline : !this.state.underline },
-            () => DrawingActions.setUnderline( this.state.underline )
-        );
-    }
-
-    setStrikeThrough(){
-        this.setState( { strikeThrough : !this.state.strikeThrough },
-            () => DrawingActions.setStrikeThrough( this.state.strikeThrough )
+    setTextToolProp = ( prop ) => {
+        this.setState( { [prop] : !this.state[prop] },
+            () => DrawingActions.setTextToolProp ( prop , this.state[ prop ] )
         );
     }
 
@@ -136,7 +125,7 @@ export default class DrawingNavBar extends Component {
         this.setState({ displayLineWidthPicker : false });
     }
 
-    hideFontSizePicker(){
+    hideFontSizePicker = () => {
         this.setState({ displayFontSizePicker : false });
     }
 
@@ -166,11 +155,11 @@ export default class DrawingNavBar extends Component {
     renderTextTool = () => {
 
         const textElements = [
-            new NavBarElement( 'Font size',         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ), "", "bottom" ),
-            new NavBarElement( 'Bold',              'format_bold', () => this.setBold(), this.isActiveState( 'bold' ) ? "active" : "", "bottom"),
-            new NavBarElement( 'Strike through',    'format_strikethrough', () => this.setStrikeThrough(), this.isActiveState( 'strikeThrough' ) ? "active" : "", "bottom"),
-            new NavBarElement( 'Underline',         'format_underlined', () => this.setUnderline(), this.isActiveState( 'underline' ) ? "active" : "", "bottom" ),
-            new NavBarElement( 'Italic',            'format_italic' , () => this.setItalic(), this.isActiveState( 'italic' ) ? "active" : "", "bottom" )
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.TextToolProp.FontSize ),         'format_size', () => this.setState( { displayFontSizePicker : !this.state.displayFontSizePicker } ), "", "bottom" ),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.TextToolProp.Bold ),              'format_bold', () => this.setTextToolProp('bold'), this.isActiveState( 'bold' ) ? "active" : "", "bottom"),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.TextToolProp.StrikeThrough ),    'format_strikethrough', () => this.setTextToolProp('strikeThrough'), this.isActiveState( 'strikeThrough' ) ? "active" : "", "bottom"),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.TextToolProp.Underline ),         'format_underlined', () => this.setTextToolProp('underline'), this.isActiveState( 'underline' ) ? "active" : "", "bottom" ),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.TextToolProp.Italic ),            'format_italic' , () => this.setTextToolProp('italic'), this.isActiveState( 'italic' ) ? "active" : "", "bottom" )
         ];
 
         const TextElementsPosition = {
@@ -203,12 +192,12 @@ export default class DrawingNavBar extends Component {
      */
     renderMenuPropsElements = () => {
         let propsElements = [
-            new NavBarElement( 'Line width',        'line_weight', () => this.setState( { displayLineWidthPicker : !this.state.displayLineWidthPicker } ), this.state.displayLineWidthPicker? "active" : "" ),
-            new NavBarElement( 'Color',             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ), this.state.displayColorPicker? "active" : "")
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Props.LineWidth ),        'line_weight', () => this.setState( { displayLineWidthPicker : !this.state.displayLineWidthPicker } ), this.state.displayLineWidthPicker? "active" : "", "bottom" ),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Props.Color ),             'colorize',     () => this.setState( { displayColorPicker : !this.state.displayColorPicker } ), this.state.displayColorPicker? "active" : "", "bottom")
         ];
 
         if( this.state.tool === Circle || this.state.tool === Rectangle ){
-            propsElements.push(new NavBarElement( 'Background color',  'format_color_fill',  () => this.setState( { displayBackgroundColorPicker : !this.state.displayBackgroundColorPicker } ), this.state.displayBackgroundColorPicker? "active" : "" ))
+            propsElements.push(new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Props.BackgroundColor ),  'format_color_fill',  () => this.setState( { displayBackgroundColorPicker : !this.state.displayBackgroundColorPicker } ), this.state.displayBackgroundColorPicker? "active" : "" , "bottom"))
         }
 
         return(
@@ -219,13 +208,13 @@ export default class DrawingNavBar extends Component {
     render() {
 
         const elements = [
-            new NavBarElement( 'Pencil',            'brush',     () => this.setTool( Pencil ), this.isActiveTool( Pencil ) ? "active" : "" ),
-            new NavBarElement( 'Line',              'line',      () => this.setTool( Line ), this.isActiveTool( Line ) ? "active" : "" ),
-            new NavBarElement( 'Rectangle',         'check_box_outline_blank',     () => this.setTool( Rectangle ), this.isActiveTool( Rectangle ) ? "active" : "" ),
-            new NavBarElement( 'Circle',            'radio_button_unchecked',     () => this.setTool( Circle ), this.isActiveTool( Circle ) ? "active" : "" ),
-            new NavBarElement( 'Eraser',            'phonelink_erase',     () => this.setTool( Eraser ), this.isActiveTool( Eraser ) ? "active" : "" ),
-            new NavBarElement( 'TextTool',          'text_fields', () => this.setText(), this.isActiveTool( TextTool ) ? "active" : "" ),
-            new NavBarElement( 'Background image',  'image',             this.updateBackgroundImage )
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Pencil ),            'brush',     () => this.setTool( Pencil ), this.isActiveTool( Pencil ) ? "active" : "" ),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Line ),              'line',      () => this.setTool( Line ), this.isActiveTool( Line ) ? "active" : "" ),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Rectangle ),         'check_box_outline_blank',     () => this.setTool( Rectangle ), this.isActiveTool( Rectangle ) ? "active" : "" ),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Circle ),            'radio_button_unchecked',     () => this.setTool( Circle ), this.isActiveTool( Circle ) ? "active" : "" ),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Eraser ),            'phonelink_erase',     () => this.setTool( Eraser ), this.isActiveTool( Eraser ) ? "active" : "" ),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.TextTool ),          'text_fields', () => this.setText(), this.isActiveTool( TextTool ) ? "active" : "" ),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.BackgroundImage ),  'image',             this.updateBackgroundImage )
         ];
 
        return (
@@ -236,7 +225,7 @@ export default class DrawingNavBar extends Component {
                     <div style={ Styles.cover } onClick={ this.hideLinewidthPicker }/>
                         <Rcslider min={DrawingConfig.MIN_LINE_SIZE} max={DrawingConfig.MAX_LINE_SIZE} defaultValue={this.state.lineWidth} onChange={ this.onLineWidthChange } />
                     </div> : null }
-                {this.state.displayFontSizePicker ? <div style= { Styles.LinePickerPosition }>
+                {this.state.displayFontSizePicker ? <div style={ Styles.LinePickerPosition }>
                     <div style={ Styles.cover } onClick={ this.hideFontSizePicker }/>
                         <Rcslider min={DrawingConfig.MIN_FONT_SIZE} max={DrawingConfig.MAX_FONT_SIZE} defaultValue={ this.state.fontSize } onChange={ this.onFontSizeChange } />
                     </div>: null }

@@ -1,7 +1,6 @@
 import React, { Component, PropTypes }      from 'react';
 import classNames                           from 'classnames';
 import $                                    from 'jquery';
-import ReactDOM                             from 'react-dom';
 
 import * as BoardActions                    from '../../core/BoardActions';
 import { timeBeforeHideMenu,
@@ -10,12 +9,18 @@ import { gridWidth }                        from '../../config/BoardConfig';
 import Menu                                 from '../Menu';
 import BoardStore                           from '../../core/BoardStore';
 
-import Styles   from './View.scss';
+import translations                         from '../../i18n/messages/messages';
+
+import * as Styles   from './View.scss';
 
 /**
  * Manage drag & drop and all others actions common to all widgets in view mode
  */
 export default class AbstractWidgetView extends Component {
+
+    static contextTypes = {
+        intl : PropTypes.object
+    };
 
     constructor( props ) {
         super( props );
@@ -36,11 +41,11 @@ export default class AbstractWidgetView extends Component {
         return [
             {
                 action      : this.props.actions.setEditMode,
-                text        : "Edit",
+                text        : this.context.intl.formatMessage( translations.widgetElement.Menu.Edit ),
                 icon        : "edit"
             }, {
                 action      : this.props.actions.deleteWidget,
-                text        : "Delete",
+                text        : this.context.intl.formatMessage( translations.widgetElement.Menu.Delete ),
                 icon        : "delete"
             }
         ];

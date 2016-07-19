@@ -28,11 +28,8 @@ export default class BackgroundDrawing extends Component {
         this.unsub.push( Actions.setBackgroundColor.listen( this.setBackgroundColor.bind( this ) ) ) ;
         this.unsub.push( Actions.setLineWidth.listen( this.setLineWidth.bind( this ) ) ) ;
         this.unsub.push( Actions.setText.listen( this.setText.bind( this ) ) ) ;
-        this.unsub.push( Actions.setBold.listen( this.setBold.bind( this ) ) ) ;
         this.unsub.push( Actions.setFontSize.listen( this.setFontSize.bind( this ) ) ) ;
-        this.unsub.push( Actions.setItalic.listen( this.setItalic.bind( this ) ) ) ;
-        this.unsub.push( Actions.setUnderline.listen( this.setUnderline.bind( this ) ) ) ;
-        this.unsub.push( Actions.setStrikeThrough.listen( this.setStrikeThrough.bind( this ) ) ) ;
+        this.unsub.push( Actions.setTextToolProp.listen( this.setTextToolProp.bind( this ) ) ) ;
         this.unsub.push( Actions.endText.listen( this.endText.bind( this ) ) ) ;
     }
 
@@ -106,24 +103,12 @@ export default class BackgroundDrawing extends Component {
         }
     }
 
-    setBold( bold ){
-        this.drawingSurface.setBold( bold );
-    }
-
     setFontSize( fontSize ){
         this.drawingSurface.setFontSize( fontSize );
     }
 
-    setUnderline( underline ){
-        this.drawingSurface.setUnderline( underline);
-    }
-
-    setItalic( italic ){
-        this.drawingSurface.setItalic( italic );
-    }
-
-    setStrikeThrough( strikeThrough ){
-        this.drawingSurface.setStrikeThrough( strikeThrough );
+    setTextToolProp( prop , value ){
+        this.drawingSurface.setTextToolProp( prop , value );
     }
 
     endText(){

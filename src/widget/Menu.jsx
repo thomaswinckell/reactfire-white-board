@@ -38,7 +38,7 @@ export default class WidgetMenu extends Component {
         };
     }
 
-    renderMenuElement( e, key ) {
+    renderMenuElement = ( e, key ) => {
         const id = Guid.generate();
         return (
             <li key={ key } className={ e.className } onClick={ e.action } data-for={ 'id' + id } data-tip>
@@ -84,7 +84,7 @@ export default class WidgetMenu extends Component {
         return (
             <div className={ className } style={ style }>
                 <ul className={ Styles.list }>
-                    { this.props.menuElements.map( this.renderMenuElement.bind( this ) ) }
+                    { this.props.menuElements.map( this.renderMenuElement ) }
                 </ul>
                 <hr/>
             </div>
