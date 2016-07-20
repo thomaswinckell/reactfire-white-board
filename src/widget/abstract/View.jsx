@@ -30,6 +30,11 @@ export default class AbstractWidgetView extends Component {
         };
     }
 
+    //catch panels list
+    componentDidMount(){
+        this.state.panels = BoardStore.panels;
+    }
+
     link( prop ) {
         return {
             value           : this.props[ prop ],
@@ -71,6 +76,34 @@ export default class AbstractWidgetView extends Component {
     }
 
     /**
+     * @return Boolean
+     * True if widget is in panel
+     */
+    isInPanel = (panel, x, y) => {
+        const pos = panel.val.props.position;
+        const size = panel.val.props.size;
+        return pos.x < x && x < (pos.x+size.width) && pos.y < y && y < (pos.y+size.height);
+    }
+
+    /**
+     * check if the widget should go into a panel
+     * @param x
+     * @param y
+     */
+    checkPanels = (x, y) => {
+        if( this.props.type === 'PanelWidget'){
+            return ;
+        }
+
+        this.state.panels.map( (panel) => {
+             if( this.isInPanel( panel, x, y) ){
+                 console.log('yeah');
+             }
+        })
+
+    };
+
+    /**
      * Init D&D
      * stores initial position of mouse cursor and widget
      * @param  {event} event mouseClick event
@@ -97,12 +130,39 @@ export default class AbstractWidgetView extends Component {
     }
 
     /**
+     * Formula to compute position of the widgets and consider the zoom
+     * @param event
+     */
+    computePositionZoom = ( event ) => {
+
+        const zoom = BoardStore.zoom;
+
+        var x = this.initialPropsX + ((event.pageX - this.initialEventX) / zoom);
+        var y = this.initialPropsY + ((event.pageY - this.initialEventY) / zoom);
+
+        x = x > 0 ? x : 0;
+        y = y > 0 ? y : 0;
+
+        /*
+         round up values of x & y
+         example x: 478.5 y : 201 ==> x : 470 y : 200
+         */
+        if ( ( Math.abs( this.props.position.x - x ) >= gridWidth ) ||
+            ( Math.abs( this.props.position.y - y ) >= gridWidth ) ) {
+
+            x = x - x % gridWidth;
+            y = y - y % gridWidth;
+
+            return [x, y];
+        }
+            return [x, y];
+    };
+
+    /**
      * Manage D&D
      * @param  {event} event New position of the cursor
      */
     onDrag = ( event ) => {
-
-        const zoom = BoardStore.zoom;
 
         this.clearScrollTimeouts();
 
@@ -118,31 +178,20 @@ export default class AbstractWidgetView extends Component {
             this.scrollTop( true );
         }
 
-        //Formula to compute position of the widgets and consider the zoom
-        var x = this.initialPropsX + ((event.pageX - this.initialEventX) / zoom);
-        var y = this.initialPropsY + ((event.pageY - this.initialEventY) / zoom);
+        const [x, y] = this.computePositionZoom( event );
 
-        x = x > 0 ? x : 0;
-        y = y > 0 ? y : 0;
+        this.link( 'position' ).requestChange( { x, y } );
 
-        /*
-            round up values of x & y
-            example x: 478.5 y : 201 ==> x : 470 y : 200
-         */
-        if ( ( Math.abs( this.props.position.x - x ) >= gridWidth ) ||
-             ( Math.abs( this.props.position.y - y ) >= gridWidth ) ) {
-
-            x = x - x % gridWidth;
-            y = y - y % gridWidth;
-
-            this.link( 'position' ).requestChange( { x, y } );
-        }
     };
 
     /**
      * Remove listener and unlock widget
      */
     onDragEnd = ( event ) => {
+
+        const [x, y] = this.computePositionZoom( event );
+        this.checkPanels(x, y );
+
         this.isDragging = false;
         document.removeEventListener( 'mousemove', this.onDrag );
         document.removeEventListener( 'mouseup', this.onDragEnd );

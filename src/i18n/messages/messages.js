@@ -77,6 +77,10 @@ const translations = {
             id : 'idea',
             defaultMessage : 'Idea'
         },
+        Panel : {
+            id : 'panel',
+            defaultMessage : 'Panel'
+        },
         Menu : {
             View : {
                 id : 'MenuView',

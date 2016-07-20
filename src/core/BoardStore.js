@@ -10,7 +10,8 @@ class BoardStore extends Store {
     state = {
         widgets : [],
         authStoreState : '',
-        zoom : 1
+        zoom : 1,
+        panels : []
     };
 
     constructor() {
@@ -28,6 +29,8 @@ class BoardStore extends Store {
     get size() { return this.state.size; }
 
     get zoom() { return this.state.zoom || 1; }
+
+    get panels() { return this.state.panels || []; }
 
     destroy() {
         this.boardSizeRef.off();
@@ -77,13 +80,26 @@ class BoardStore extends Store {
 
     }
 
+    /**
+     * Add a widget to widgets list and if it is a panel to panels list
+     * @param dataSnapshot firebase object with key and val
+     * @private
+     */
     _onAddWidget( dataSnapshot ) {
         let { widgets } = this.state;
         widgets.push( { key : dataSnapshot.key(), val : dataSnapshot.val() } );
         this.state.widgets = widgets;
+
+        if( dataSnapshot.val().type === 'PanelWidget'){
+            this.state.panels.push( {key : dataSnapshot.key(), val : dataSnapshot.val() } );
+        }
+
         this.publishState();
     }
 
+    /*
+    TODO remove panel
+     */
     _onRemoveWidget( oldDataSnapshot ) {
         const widgetKey = oldDataSnapshot.key();
         let { widgets } = this.state;
@@ -130,6 +146,12 @@ class BoardStore extends Store {
        });
    }
 
+    /**
+     * Remove a widget from firebase
+     * /!\ DO NOT REMOVE IT FROM THE STATE
+     * @param widgetKey
+     * @private
+     */
     _removeWidget( widgetKey ) {
         const { firebaseUrl , boardKey } = this.authStoreState.appConfig;
         let widgetBase = new Firebase( `${firebaseUrl}/widgets/${boardKey}/${widgetKey}` );

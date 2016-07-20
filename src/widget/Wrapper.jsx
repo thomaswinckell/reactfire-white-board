@@ -215,6 +215,7 @@ export default class WidgetWrapper extends Component {
         const props = _.extend( {}, this.state, {
             valueLink   : this.updateData.bind( this ),
             actions     : this.actions,
+            type        : this.props.widgetType,
             isLockedByAnotherUser : this.isLockedByAnotherUser(),
             isEditingByAnotherUser : this.isEditingByAnotherUser(),
             lockName               : this.isLockedByAnotherUser() ? this.state.isLockedBy.name : null,

@@ -1,4 +1,3 @@
-import $                                from 'jquery';
 import _                                from 'lodash';
 import React, { Component, PropTypes }  from 'react';
 import WidgetWrapperDisplay             from './WrapperDisplay';
