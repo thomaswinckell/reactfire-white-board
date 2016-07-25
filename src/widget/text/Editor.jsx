@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import ReactDOM             from 'react-dom';
-import $                    from 'jquery';
 
 import AbstractWidgetEditor from '../abstract/Editor';
 
@@ -14,7 +13,9 @@ export default class TextWidgetEditor extends AbstractWidgetEditor {
     };
 
     componentDidMount() {
-        ReactDOM.findDOMNode( this.refs.textEditor ).focus();
+        if( !this.props.aggregate ){
+           ReactDOM.findDOMNode( this.refs.textEditor ).focus();
+        }
     }
 
     renderEditor() {

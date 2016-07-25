@@ -212,7 +212,7 @@ export default class AbstractWidgetView extends Component {
     onDragEnd ( event ) {
 
         let [x, y] = this.computePositionZoom( event );
-        
+
         const isPanel = this.checkPanels(x, y);
         const panel = isPanel ? isPanel.val.props : false;
 
@@ -303,6 +303,22 @@ export default class AbstractWidgetView extends Component {
         throw `The component ${this.constructor.name} should implement the method renderView !`;
     }
 
+    /**
+     * View when aggregated. It is not abstracted.
+     */
+    renderAggregate() {
+
+        let generateTitle = () => {
+            return this.props.type
+        }
+
+        return (
+            <div style={{textAlign : 'center'}}>
+                <label>{this.props.title || generateTitle()}</label>
+            </div>
+        )
+    }
+
     render() {
 
         const className = classNames( Styles.root, {
@@ -374,7 +390,7 @@ export default class AbstractWidgetView extends Component {
                <div style={{postion: 'fixed', top:'1%', right:'1%'}}>
                    {this.state.event ? this.state.event.pageX : null }
                </div>
-               { this.renderView() }
+               { this.props.aggregate ? this.renderAggregate() : this.renderView() }
            </div>
         );
     }
