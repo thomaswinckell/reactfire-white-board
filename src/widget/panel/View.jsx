@@ -17,7 +17,8 @@ export default class PanelWidgetView extends AbstractWidgetView {
      */
     static defaultProps = {
         heightRow : 100,
-        nbCol : 2
+        nbCol : 2,
+        offsetMenu : 40
     }
 
     constructor( props ){
@@ -54,8 +55,6 @@ export default class PanelWidgetView extends AbstractWidgetView {
         const { width, height } = this.props.size;
         const { nbCol, heightRow } = this.props;
 
-        const offsetMenu = 50;
-
         const style = {
             height      : `${heightRow}px`,
             border      : '1px solid rgba(59,59,59,0.25)',
@@ -65,11 +64,11 @@ export default class PanelWidgetView extends AbstractWidgetView {
 
         var ret = [];
         const leftIncrement = width/nbCol;
-        const nbRow = (height-offsetMenu)/heightRow |0;
+        const nbRow = (height-this.props.offsetMenu)/heightRow |0;
 
         for(var i = 0; i<nbCol; i++){
             for(var j = 0; j<nbRow; j++){
-               ret.push(<div key={i.toString() + j.toString()} style={ { left : `${leftIncrement*i}px`, top: `${heightRow*j+offsetMenu || offsetMenu}px`, ...style }  }></div>)
+               ret.push(<div key={i.toString() + j.toString()} style={ { left : `${leftIncrement*i}px`, top: `${heightRow*j+this.props.offsetMenu || this.props.offsetMenu}px`, ...style }  }></div>)
             }
         }
         return ret;
