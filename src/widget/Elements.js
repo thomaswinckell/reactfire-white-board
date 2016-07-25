@@ -66,7 +66,9 @@ const PanelWidgetDefaultProps = {
     size: {
         height: 350,
         width: 450
-    }
+    },
+    nbCol : 2,
+    heightRow : 80
 }
 
 export default [

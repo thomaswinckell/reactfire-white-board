@@ -28,6 +28,9 @@ export default class AbstractWidgetView extends Component {
             canDrag     : true,
             displayMenu : false
         };
+
+        this.onDrag     = this.onDrag.bind( this );
+        this.onDragEnd  = this.onDragEnd.bind( this );
     }
 
     //catch panels list
@@ -91,16 +94,15 @@ export default class AbstractWidgetView extends Component {
      * @param y
      */
     checkPanels = (x, y) => {
-        if( this.props.type === 'PanelWidget'){
-            return ;
+        if( this.props.type === 'PanelWidget' ){
+            return false;
         }
 
-        this.state.panels.map( (panel) => {
-             if( this.isInPanel( panel, x, y) ){
-                 console.log('yeah');
-             }
-        })
-
+        const panel = this.state.panels.find( panel =>
+             this.isInPanel( panel, x, y )
+        )
+        //return panel or false instead of panel or undefined
+        return panel ? panel : false;
     };
 
     /**
@@ -109,6 +111,9 @@ export default class AbstractWidgetView extends Component {
      * @param  {event} event mouseClick event
      */
     onDragStart( event ) {
+
+        this.state.panels = BoardStore.panels;
+
         if ( !this.state.canDrag ) {
             return;
         }
@@ -116,17 +121,21 @@ export default class AbstractWidgetView extends Component {
         this.initialEventX = event.pageX;
         this.initialEventY = event.pageY;
 
-        this.initialPropsX = this.props.position.x
-        this.initialPropsY = this.props.position.y
+        this.initialPropsX = this.props.position.x;
+        this.initialPropsY = this.props.position.y;
 
         this.isDragging = true;
 
+        const isPanel = this.checkPanels(this.props.position.x, this.props.position.y);
+        if ( isPanel){
+            this.state.panelKey = isPanel.key;
+        }
         document.addEventListener( 'mousemove', this.onDrag );
         document.addEventListener( 'mouseup', this.onDragEnd );
 
         this.forceUpdate();
 
-        this.props.actions.select();
+        this.props.type === 'PanelWidget' ? null : this.props.actions.select();
     }
 
     /**
@@ -143,26 +152,16 @@ export default class AbstractWidgetView extends Component {
         x = x > 0 ? x : 0;
         y = y > 0 ? y : 0;
 
-        /*
-         round up values of x & y
-         example x: 478.5 y : 201 ==> x : 470 y : 200
-         */
-        if ( ( Math.abs( this.props.position.x - x ) >= gridWidth ) ||
-            ( Math.abs( this.props.position.y - y ) >= gridWidth ) ) {
 
-            x = x - x % gridWidth;
-            y = y - y % gridWidth;
+        return [x, y];
 
-            return [x, y];
-        }
-            return [x, y];
     };
 
     /**
      * Manage D&D
      * @param  {event} event New position of the cursor
      */
-    onDrag = ( event ) => {
+    onDrag ( event ) {
 
         this.clearScrollTimeouts();
 
@@ -178,19 +177,55 @@ export default class AbstractWidgetView extends Component {
             this.scrollTop( true );
         }
 
-        const [x, y] = this.computePositionZoom( event );
+        let [x, y] = this.computePositionZoom( event );
 
-        this.link( 'position' ).requestChange( { x, y } );
+        /*
+         round up values of x & y
+         example x: 478.5 y : 201 ==> x : 470 y : 200
+         */
+
+        if ( ( Math.abs( this.props.position.x - x ) >= gridWidth ) ||
+            ( Math.abs( this.props.position.y - y ) >= gridWidth ) ) {
+            x = x - x % gridWidth;
+            y = y - y % gridWidth;
+
+            const isPanel = this.checkPanels(x, y);
+            const panel = isPanel ? isPanel.val.props : false;
+
+            if(panel){
+                this.link('aggregate').requestChange( {panel : isPanel.key, width : panel.size.width/panel.nbCol - 2, height : panel.heightRow -2 } );
+            }else{
+                this.link('aggregate').requestChange(false);
+            }
+
+            this.link( 'position' ).requestChange( { x, y } );
+
+            this.x = x; this.y = y;
+
+        }
 
     };
 
     /**
      * Remove listener and unlock widget
      */
-    onDragEnd = ( event ) => {
+    onDragEnd ( event ) {
 
-        const [x, y] = this.computePositionZoom( event );
-        this.checkPanels(x, y );
+        let [x, y] = this.computePositionZoom( event );
+
+        const isPanel = this.checkPanels(x, y);
+        const panel = isPanel ? isPanel.val.props : false;
+
+        if( panel ) {
+            const widthCol = panel.size.width/panel.nbCol;
+            x = Math.floor((x-panel.position.x)/widthCol) * widthCol +panel.position.x+2;
+            y = Math.floor((y-panel.position.y+50)/panel.heightRow) * panel.heightRow +panel.position.y-50+2;
+            this.link( 'position' ).requestChange( { x, y } );
+            this.props.addToPanel(isPanel.key);
+        } else if ( this.state.panelKey ) {
+            this.props.removeFromPanel( this.state.panelKey );
+            //this.setState( {panelKey : null} );
+        }
 
         this.isDragging = false;
         document.removeEventListener( 'mousemove', this.onDrag );
@@ -274,8 +309,8 @@ export default class AbstractWidgetView extends Component {
         });
 
         const style = {
-            width : this.props.size.width - 30, // FIXME
-            height : this.props.size.height - 65
+            width :  this.props.aggregate ? this.props.aggregate.width - 30 : this.props.size.width - 30, // FIXME
+            height : this.props.aggregate ? this.props.aggregate.height : this.props.size.height - 65
         };
 
         if ( this.props.displayOnly ) {

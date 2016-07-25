@@ -15,3 +15,7 @@ export const removeWidget   : Action = new Action().asFunction;
 export const setSize        : Action = new Action().asFunction;
 export const clearBoard     : Action = new Action().asFunction;
 export const setZoom        : Action = new Action().asFunction;
+
+export const addWidgetPanel : Action = new Action().asFunction;
+export const removeWidgetPanel : Action = new Action().asFunction;
+export const updatePosition : Action = new Action().asFunction;
