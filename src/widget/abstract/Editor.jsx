@@ -1,4 +1,5 @@
 import React, { Component, PropTypes }  from 'react';
+import ReactDOM                         from 'react-dom';
 
 import Menu                             from '../Menu';
 
@@ -12,11 +13,18 @@ export default class AbstractWidgetEditor extends Component {
     static contextTypes = {
         intl : PropTypes.object
     };
-    
+
     constructor( props ) {
         super( props );
         this.state = {};
     }
+
+    componentDidMount() {
+        if( this.props.aggregate ){
+            ReactDOM.findDOMNode( this.refs.aggEditor ).focus();
+        }
+    }
+
 
     link( prop ) {
         return {
@@ -44,6 +52,17 @@ export default class AbstractWidgetEditor extends Component {
         throw `The component ${this.constructor.name} should implement the method renderEditor !`;
     }
 
+    renderAggregate() {
+        return (
+            <textarea ref="aggEditor"
+                  className={ Styles.aggregate }
+                  placeholder="Write title here..."
+                  valueLink={ this.link( 'title' ) }
+                  onKeyPress={ e => e.charCode === 13 ? this.props.actions.setViewMode() : null }>
+            </textarea>
+        )
+    }
+
     render() {
 
         const style = {
@@ -58,7 +77,7 @@ export default class AbstractWidgetEditor extends Component {
 
                  { <Menu menuElements={ this.getMenuElements() } position={ this.props.position } display={ true } /> }
 
-                 { this.renderEditor() }
+                 { this.props.aggregate? this.renderAggregate() : this.renderEditor() }
             </div>
         );
     }
