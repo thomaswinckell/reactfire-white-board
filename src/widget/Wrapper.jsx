@@ -2,7 +2,6 @@ import React,
        { Component, PropTypes } from 'react';
 import Firebase                 from 'firebase';
 import _                        from 'lodash';
-import $                        from 'jquery';
 import classNames               from 'classnames';
 import ReactDOM                 from 'react-dom';
 
@@ -46,6 +45,8 @@ export default class WidgetWrapper extends Component {
         this.actions.deleteWidget.listen( this.deleteWidget.bind( this ) );
         this.actions.select.listen( this.select.bind( this ) );
         this.actions.unselect.listen( this.unselect.bind( this ) );
+
+        this.updateData = this.updateData.bind( this );
     }
 
     componentWillMount() {
@@ -54,6 +55,9 @@ export default class WidgetWrapper extends Component {
         this.isEditingByRef = new Firebase( this.props.baseUrl + '/isEditingBy' );
     }
 
+    /**
+     * Create Firebase ref to the widget
+     */
     componentDidMount() {
 
         this.isRemoved = false;
@@ -115,8 +119,6 @@ export default class WidgetWrapper extends Component {
         return AuthStore.isCurrentUser( this.state.isLockedBy );
     }
 
-    //FIX this.state.isEditingBy.uid and not .id
-    //Returned false when locked but not edited -- fixed again
     isLockedByAnotherUser() {
         return this.state.isLockedBy && !this.isLockedByCurrentUser()
     }
@@ -128,7 +130,6 @@ export default class WidgetWrapper extends Component {
     isEditingByAnotherUser() {
         return this.state.isEditingBy && !this.isEditingByCurrentUser()
     }
-
 
     setEditMode() {
         if(!this.isLockedByAnotherUser())
@@ -151,7 +152,6 @@ export default class WidgetWrapper extends Component {
         this.removeOnDisconnectHandler();
     }
 
-    // FIX with 2 updates to prevent the lock to be fired after the unlock
     select() {
         this.updateData( { isLockedBy: AuthStore.currentUser } );
         BoardStore.getLatestIndex( ( error, committed, snapshot ) => {
@@ -168,6 +168,7 @@ export default class WidgetWrapper extends Component {
         this.removeOnDisconnectHandler();
     }
 
+    //TODO translate
     deleteWidget() {
         this.setState( { confirmDialog : {
             message   : 'Are you sure you want to delete this widget ?',
@@ -211,15 +212,25 @@ export default class WidgetWrapper extends Component {
         event.stopPropagation();
     }
 
+    addToPanel = ( panelKey ) => {
+        BoardActions.addWidgetPanel( panelKey , this.props.baseKey );
+    }
+
+    removeFromPanel = ( panelKey ) => {
+        BoardActions.removeWidgetPanel( panelKey , this.props.baseKey );
+    }
+
     renderWidgetView() {
         const props = _.extend( {}, this.state, {
-            valueLink   : this.updateData.bind( this ),
+            valueLink   : this.updateData,
             actions     : this.actions,
             type        : this.props.widgetType,
             isLockedByAnotherUser : this.isLockedByAnotherUser(),
             isEditingByAnotherUser : this.isEditingByAnotherUser(),
             lockName               : this.isLockedByAnotherUser() ? this.state.isLockedBy.name : null,
-            isEditingBy            : this.isEditingByAnotherUser() ? this.state.isEditingBy.name : null
+            isEditingBy            : this.isEditingByAnotherUser() ? this.state.isEditingBy.name : null,
+            addToPanel             : this.addToPanel,
+            removeFromPanel        : this.removeFromPanel
         } );
         return WidgetFactory.createWidgetView( this.props.widgetType, props );
     }
@@ -285,8 +296,8 @@ export default class WidgetWrapper extends Component {
                              zIndex  : this.state.index + 1000,
                              top     : `${interpolatingStyle.top}px`,
                              left    : `${interpolatingStyle.left}px`,
-                             width   : this.state.size.width,
-                             height  : this.state.size.height
+                             width   : this.state.aggregate ? this.state.aggregate.width : this.state.size.width,
+                             height  : this.state.aggregate ? this.state.aggregate.height : this.state.size.height
                          } }
                          onMouseDown={ this.onMouseDown.bind( this ) }>
 
