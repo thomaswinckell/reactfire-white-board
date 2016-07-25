@@ -68,7 +68,8 @@ const PanelWidgetDefaultProps = {
         width: 450
     },
     nbCol : 2,
-    heightRow : 80
+    heightRow : 80,
+    offsetMenu : 40
 }
 
 export default [

@@ -212,14 +212,15 @@ export default class AbstractWidgetView extends Component {
     onDragEnd ( event ) {
 
         let [x, y] = this.computePositionZoom( event );
-
+        
         const isPanel = this.checkPanels(x, y);
         const panel = isPanel ? isPanel.val.props : false;
 
         if( panel ) {
             const widthCol = panel.size.width/panel.nbCol;
+            const offset = panel.offsetMenu;
             x = Math.floor((x-panel.position.x)/widthCol) * widthCol +panel.position.x+2;
-            y = Math.floor((y-panel.position.y+50)/panel.heightRow) * panel.heightRow +panel.position.y-50+2;
+            y = Math.floor((y-panel.position.y-offset)/panel.heightRow) * panel.heightRow +panel.position.y+2+offset;
             this.link( 'position' ).requestChange( { x, y } );
             this.props.addToPanel(isPanel.key);
         } else if ( this.state.panelKey ) {
