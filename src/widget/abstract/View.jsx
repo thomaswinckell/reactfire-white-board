@@ -207,10 +207,11 @@ export default class AbstractWidgetView extends Component {
     };
 
     /**
-     * Remove listener and unlock widget
+     * Store or remove a widget from a panel
+     * Place the widget in the good spot into a panel
+     * @param event
      */
-    onDragEnd ( event ) {
-
+    onDragEndPutPanel = ( event ) => {
         let [x, y] = this.computePositionZoom( event );
 
         const isPanel = this.checkPanels(x, y);
@@ -220,14 +221,25 @@ export default class AbstractWidgetView extends Component {
             const widthCol = panel.size.width/panel.nbCol;
             const offset = panel.offsetMenu;
             x = Math.floor((x-panel.position.x)/widthCol) * widthCol +panel.position.x+2;
-            y = Math.floor((y-panel.position.y-offset)/panel.heightRow) * panel.heightRow +panel.position.y+2+offset;
+            //prevent placing the widget on the menu
+            if ( y-panel.position.y-offset <= 0) {
+                y = panel.position.y+offset+2;
+            } else {
+                y = Math.floor((y-panel.position.y-offset)/panel.heightRow) * panel.heightRow +panel.position.y+2+offset;
+            }
             this.link( 'position' ).requestChange( { x, y } );
             this.props.addToPanel(isPanel.key);
         } else if ( this.state.panelKey ) {
             this.props.removeFromPanel( this.state.panelKey );
             //this.setState( {panelKey : null} );
         }
+    }
 
+    /**
+     * Remove listener and unlock widget
+     */
+    onDragEnd ( event ) {
+        this.onDragEndPutPanel( event );
         this.isDragging = false;
         document.removeEventListener( 'mousemove', this.onDrag );
         document.removeEventListener( 'mouseup', this.onDragEnd );
