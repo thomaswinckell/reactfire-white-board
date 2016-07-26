@@ -253,6 +253,15 @@ export default class WidgetWrapper extends Component {
         }
     }
 
+    renderResizer() {
+        return(
+            <Resizer valueLink={this.link('size')}
+                 index={this.state.index + 2000}
+                 onResizeStart={this.onResizeStart.bind( this ) } onResizeEnd={this.onResizeEnd.bind( this ) }
+                 canResize={ () => !this.isLockedByAnotherUser() }/>
+        )
+    }
+
     render() {
         if ( this.state.status !== LoadingStatus.loaded ) {
             return null;
@@ -305,10 +314,7 @@ export default class WidgetWrapper extends Component {
 
                         { isEditingByCurrentUser ? this.renderWidgetEditor() : this.renderWidgetView() }
 
-                        <Resizer valueLink={this.link('size')}
-                                 index={this.state.index + 2000}
-                                 onResizeStart={this.onResizeStart.bind( this ) } onResizeEnd={this.onResizeEnd.bind( this ) }
-                                 canResize={ () => !this.isLockedByAnotherUser() }/>
+                        { !this.state.aggregate ? this.renderResizer() : null}
 
                          { this.renderConfirmDialog() }
                     </div>
