@@ -74,7 +74,7 @@ export default class BackgroundDrawing extends Component {
             Actions.setBackgroundDrawing( this.drawingSurface.getResultAsDataUrl() );
             NotificationActions.pushNotif({
                 type        : 'success',
-                message     : 'Drawing saved !'
+                message     : 'drawingSaved'
             });
         }
     }
@@ -92,7 +92,7 @@ export default class BackgroundDrawing extends Component {
             this.drawingSurface = new DrawingSurface( 'canvas-drawingSurface-background', BoardStore.size, false, oldTool, oldColor );
             NotificationActions.pushNotif({
                 type        : 'success',
-                message     : 'drawing cleared !'
+                message     : 'drawingCleared'
             });
         }
     }

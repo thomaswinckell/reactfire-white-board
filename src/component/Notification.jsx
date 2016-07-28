@@ -1,10 +1,16 @@
 import React, { Component, PropTypes }  from 'react';
 import NotificationSystem               from 'react-notification-system';
 
+import translations                     from '../i18n/messages/messages';
+
 /**
  * Wrapper of NotificationSystem to display Notification
  */
 export default class Notification extends Component {
+
+    static contextTypes = {
+        intl : PropTypes.object
+    };
 
     constructor( props ) {
         super( props );
@@ -26,7 +32,7 @@ export default class Notification extends Component {
      */
     _addNotification ( notif ) {
         this._notificationSystem.addNotification({
-          message : notif.val.message,
+          message : this.context.intl.formatMessage( translations.Notification[notif.val.message], notif.val ),
           level   : notif.val.type,
           uid     : notif.key,
           position : 'br'

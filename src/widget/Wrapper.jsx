@@ -2,7 +2,6 @@ import React,
        { Component, PropTypes } from 'react';
 import Firebase                 from 'firebase';
 import _                        from 'lodash';
-import $                        from 'jquery';
 import classNames               from 'classnames';
 import ReactDOM                 from 'react-dom';
 
@@ -14,6 +13,8 @@ import AuthStore                from '../core/AuthStore';
 import Resizer                  from '../component/Resizer';
 import Blur                     from '../component/Blur';
 import ConfirmDialog            from '../component/ConfirmDialog';
+
+import translations             from '../i18n/messages/messages';
 
 import {Motion , spring}        from 'react-motion';
 
@@ -30,6 +31,10 @@ const LoadingStatus = {
  * Wrapper for widget contains utility method used by all widgets
  */
 export default class WidgetWrapper extends Component {
+
+    static contextTypes = {
+        intl : PropTypes.object
+    };
 
     constructor( props ) {
         super( props );
@@ -170,7 +175,7 @@ export default class WidgetWrapper extends Component {
 
     deleteWidget() {
         this.setState( { confirmDialog : {
-            message   : 'Are you sure you want to delete this widget ?',
+            message   : this.context.intl.formatMessage( translations.mainNavBar.sureToDelete ),
             onClose : confirm => {
                 if ( confirm ) {
                     this.isRemoved = true;

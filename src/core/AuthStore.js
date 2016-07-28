@@ -47,7 +47,8 @@ class AuthStore extends Store {
         this.publishState();
         NotificationActions.pushNotif({
             type        : 'info',
-            message     : authData.google ? authData.google.displayName + ' logged in!' : authData.auth.name + ' logged in!'
+            message     : 'loggedIn',
+            name        : authData.google ? authData.google.displayName  : authData.auth.name
         });
     }
 

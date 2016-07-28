@@ -9,6 +9,10 @@ const translations = {
             id : "sureToCancel",
             defaultMessage : "Are you sure you want to cancel ?"
         },
+        sureToDelete : {
+            id : "sureToDelete",
+            defaultMessage : "Are you sure you want to delete this widget ?"
+        },
         clearBoard : {
             id : "clearBoardPopup",
             defaultMessage : "Are you sure you want to clear the board ?"
@@ -156,6 +160,36 @@ const translations = {
                 id: 'italic',
                 defaultMessage: 'Italic'
             }
+        }
+    },
+    Notification : {
+        loggedIn : {
+            id : 'loggedIn',
+            defaultMessage : "{name} logged in !"
+        },
+        widgetAdded : {
+            id : 'widgetAdded',
+            defaultMessage : 'widget {typeWidget} added !'
+        },
+        widgetRemoved : {
+            id : 'widgetRemoved',
+            defaultMessage : 'Widget Removed'
+        },
+        backgroundSaving : {
+            id :'backgroundSaving',
+            defaultMessage : 'Background Image is saving ...'
+        },
+        backgroundSaved : {
+            id : 'backgroundSaved',
+            defaultMessage : 'Background Image saved ! '
+        },
+        drawingSaved : {
+            id : 'drawingSaved',
+            defaultMessage : 'Drawing saved !'
+        },
+        drawingCleared : {
+            id : 'drawingCleared',
+            defaultMessage : 'drawing cleared !'
         }
     }
 };

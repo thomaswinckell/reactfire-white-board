@@ -33,5 +33,13 @@
     "italic"                    : "Italique",
     "MenuView"                  : "Vue",
     "MenuDelete"                : "Supprimer",
-    "MenuEdit"                  : "Editer"
+    "MenuEdit"                  : "Editer",
+    "sureToDelete"              : "Voulez-vous vraiment supprimer ce widget?",
+    "loggedIn"                  : "{name} vient de se connecter !",
+    "widgetAdded"               : "widget {typeWidget} ajouté",
+    "widgetRemoved"             : "widget supprimé",
+    "backgroundSaving"          : "Image de fond en cours de sauvegarde...",
+    "backgroundSaved"           : "Image de fond sauvegardé !",
+    "drawingSaved"              : "Dessin sauvegardé !",
+    "drawingCleared"            : "Dessin effacé !"
 }

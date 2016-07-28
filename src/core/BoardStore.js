@@ -114,8 +114,9 @@ class BoardStore extends Store {
                         });
                     } else {
                         NotificationActions.pushNotif({
-                            type     : 'success',
-                            message  : 'Widget ' + widget.type + ' added'
+                            type        : 'success',
+                            message     : 'widgetAdded',
+                            typeWidget  : widget.type
                         });
                     }
                });
@@ -137,7 +138,7 @@ class BoardStore extends Store {
         widgetBase.off();
         NotificationActions.pushNotif({
             type     : 'success',
-            message  : 'Widget removed'
+            message  : 'widgetRemoved'
         });
     }
 

@@ -57,13 +57,13 @@ class BackgroundDrawingStore extends Store {
     _setBackgroundImage( data ) {
         NotificationActions.pushNotif({
             type        : 'info',
-            message     : 'Background Image is saving ...'
+            message     : 'backgroundSaving'
         });
         this.backgroundImageRef.set( data )
         .then( (error) => {
             NotificationActions.pushNotif({
                 type        : 'success',
-                message     : 'Background Image saved ! '
+                message     : 'backgroundSaved'
             });
         });
     }
