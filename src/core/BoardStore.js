@@ -4,6 +4,7 @@ import Firebase                         from 'firebase';
 import AuthStore                        from './AuthStore';
 import * as Actions                     from './BoardActions';
 import * as NotificationActions         from '../core/NotificationActions';
+import Factory                          from '../widget/Factory';
 
 class BoardStore extends Store {
 
@@ -150,8 +151,11 @@ class BoardStore extends Store {
    _addWidget( widget ) {
        this.getLatestIndex( ( error, committed, snapshot ) => {
            if ( !error && committed ) {
+               const hasEditor = !!Factory.getWidgetEditorClass(widget.type);
                widget.props.index = snapshot.val();
-               widget.props.isEditingBy = AuthStore.currentUser;
+               if( hasEditor ) {
+                   widget.props.isEditingBy = AuthStore.currentUser;
+               }
                this.widgetsRef.push( widget, (error) => {
                     if (error){
                         console.log(error);
