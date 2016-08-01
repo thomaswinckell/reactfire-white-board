@@ -29,7 +29,7 @@ export default class AbstractWidgetView extends Component {
             displayMenu : false
         };
 
-        this.onDrag     = this.onDrag.bind( this );
+        this.onDrag     = _.throttle( this.onDrag.bind( this ), 50);
         this.onDragEnd  = this.onDragEnd.bind( this );
     }
 
