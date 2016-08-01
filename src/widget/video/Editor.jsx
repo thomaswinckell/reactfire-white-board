@@ -5,6 +5,7 @@ import { videoTime }                    from '../../config/WidgetConfig';
 import Webcam                           from '../../component/Webcam';
 import AbstractWidgetEditor             from '../abstract/Editor';
 
+import * as NotificationActions         from '../../core/NotificationActions'
 
 export default class VideoWidgetEditor extends AbstractWidgetEditor {
 
@@ -38,6 +39,10 @@ export default class VideoWidgetEditor extends AbstractWidgetEditor {
     }
 
     onEndRecord( dataUrl ) {
+        NotificationActions.pushNotif({
+            type        : 'success',
+            message     : 'videoSaved'
+        });
         this.link( 'video' ).requestChange( dataUrl );
         this.setState( { isRecording : false } );
     }
