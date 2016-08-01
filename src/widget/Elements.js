@@ -64,10 +64,10 @@ const IdeaWidgetDefaultProps = {
 }
 const PanelWidgetDefaultProps = {
     size: {
-        height: 350,
-        width: 450
+        height: 280,
+        width: 400
     },
-    nbCol : 2,
+    widthCol : 200,
     heightRow : 80,
     offsetMenu : 40
 }

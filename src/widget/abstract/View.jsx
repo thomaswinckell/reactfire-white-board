@@ -193,7 +193,7 @@ export default class AbstractWidgetView extends Component {
             const panel = isPanel ? isPanel.val.props : false;
 
             if(panel){
-                this.link('aggregate').requestChange( {panel : isPanel.key, width : panel.size.width/panel.nbCol - 2, height : panel.heightRow -2 } );
+                this.link('aggregate').requestChange( {panel : isPanel.key, width : panel.widthCol-2, height : panel.heightRow -2 } );
             }else{
                 this.link('aggregate').requestChange(false);
             }
@@ -218,9 +218,8 @@ export default class AbstractWidgetView extends Component {
         const panel = isPanel ? isPanel.val.props : false;
 
         if( panel ) {
-            const widthCol = panel.size.width/panel.nbCol;
             const offset = panel.offsetMenu;
-            x = Math.floor((x-panel.position.x)/widthCol) * widthCol +panel.position.x+2;
+            x = Math.floor((x-panel.position.x)/panel.widthCol) * panel.widthCol +panel.position.x+2;
             //prevent placing the widget on the menu
             if ( y-panel.position.y-offset <= 0) {
                 y = panel.position.y+offset+2;
