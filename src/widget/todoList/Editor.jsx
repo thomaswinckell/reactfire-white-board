@@ -56,12 +56,12 @@ export default class TodoListWidgetEditor extends AbstractWidgetEditor {
         return (
             <li key={ key } className={ classNames( { [ Styles.doneTitle ] : item.done } ) }>
                 { item.value }
-                { item.done ? <button className="small" type="button" onClick={ () => this.removeItem( item ) }><i className="icon icon-delete"></i></button> : null }
+                { item.done ? <button className="small" type="button" onClick={ () => this.removeItem( item ) }><i className="icon icon-delete"/></button> : null }
                 {
                     item.done ?
-                    <button className="small" type="button" onClick={ () => this.doneItem( item, true ) }><i className="icon icon-clear"></i></button>
+                    <button className="small" type="button" onClick={ () => this.doneItem( item, true ) }><i className="icon icon-clear"/></button>
                         :
-                    <button className="small" type="button" onClick={ () => this.doneItem( item ) }><i className="icon icon-check"></i></button>
+                    <button className="small" type="button" onClick={ () => this.doneItem( item ) }><i className="icon icon-check"/></button>
                 }
             </li>
         );
@@ -79,7 +79,7 @@ export default class TodoListWidgetEditor extends AbstractWidgetEditor {
 
                 <div className={ Styles.form }>
                     <input type="text" placeholder="What to do..." valueLink={ this.linkNewTodo() } onKeyPress={ e => e.charCode === 13 ? this.addItem() : null }/>
-                    <button className="small" type="button" onClick={ this.addItem.bind( this ) }><i className="icon icon-add"></i></button>
+                    <button className="small" type="button" onClick={ this.addItem.bind( this ) }><i className="icon icon-add"/></button>
                 </div>
 
                 { dones.length ? <div className={ Styles.doneTitle }>DONE :</div> : null }

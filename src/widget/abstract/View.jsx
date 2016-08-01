@@ -319,73 +319,81 @@ export default class AbstractWidgetView extends Component {
      * View when aggregated. It is not abstracted.
      */
     renderAggregate() {
-
-        let generateTitle = () => {
-            return this.props.type
-        }
-
         return (
             <div style={{textAlign : 'center'}}>
-                <label>{this.props.title || generateTitle()}</label>
+                <label>{this.props.title || this.props.type}</label>
             </div>
-        )
+        );
+    }
+
+    renderDisplayOnly( className, style ) {
+        return (
+            <div tabIndex="1000"
+                 style={ style }
+                 className={ className } >
+                { this.renderView() }
+            </div>
+        );
+    }
+
+    renderEditingByAnother( className, style ) {
+        return (
+            <div tabIndex="1000"
+                 style={ style }
+                 className={ className } >
+                <div className={ Styles.isEditingByAnotherUser }>
+                    { this.props.isEditingBy } is editing...
+                </div>
+
+                <Menu ref="menu"
+                      position = { this.props.position }
+                      lock     = { true }
+                      display  = { true }
+                      lockName = { this.props.lockName }/>
+            </div>
+        );
+    }
+
+    renderLocked( className, style ) {
+        return (
+            <div tabIndex="1000"
+                 style={ style }
+                 className={ className } >
+                { this.renderView() }
+
+                <Menu ref="menu"
+                      position = { this.props.position }
+                      lock     = { true }
+                      display  = { true }
+                      lockName   = { this.props.lockName }/>
+            </div>
+        );
     }
 
     render() {
 
+        const { aggregate } = this.props;
+
         const className = classNames( Styles.root, {
             [ Styles.dragging ] : this.isDragging
-        });
+        } );
 
         const style = {
-            width :  this.props.aggregate ? this.props.aggregate.width - 30 : this.props.size.width - 30, // FIXME
-            height : this.props.aggregate ? this.props.aggregate.height : this.props.size.height - 65
+            width :  aggregate ? aggregate.width - 30 : this.props.size.width - 30, // FIXME
+            height : aggregate ? aggregate.height : this.props.size.height - 65
         };
 
-        if ( this.props.displayOnly ) {
-            return (
-                <div tabIndex="1000"
-                     style={ style }
-                     className={ className } >
-                   { this.renderView() }
-               </div>
-            );
+        if( this.props.displayOnly ) {
+            return this.renderDisplayOnly( className, style );
         }
 
-        if( this.props.isEditingByAnotherUser ){
-            return (
-                <div tabIndex="1000"
-                     style={ style }
-                     className={ className } >
-                  <div className={ Styles.isEditingByAnotherUser }>
-                        { this.props.isEditingBy } is editing...
-                  </div>
-
-                   <Menu ref="menu"
-                     position = { this.props.position }
-                     lock     = { true }
-                     display  = { true }
-                     lockName = { this.props.lockName }/>
-               </div>
-            );
+        if( this.props.isEditingByAnotherUser ) {
+            return this.renderEditingByAnother( className, style );
         }
 
-        if( this.props.isLockedByAnotherUser ){
-            return (
-                <div tabIndex="1000"
-                     style={ style }
-                     className={ className } >
-                   { this.renderView() }
-
-                   <Menu ref="menu"
-                     position = { this.props.position }
-                     lock     = { true }
-                     display  = { true }
-                     lockName   = { this.props.lockName }/>
-               </div>
-            );
+        if( this.props.isLockedByAnotherUser ) {
+            return this.renderLocked( className, style );
         }
-
 
         return (
             <div tabIndex="1000"
@@ -402,7 +410,7 @@ export default class AbstractWidgetView extends Component {
                <div style={{postion: 'fixed', top:'1%', right:'1%'}}>
                    {this.state.event ? this.state.event.pageX : null }
                </div>
-               { this.props.aggregate ? this.renderAggregate() : this.renderView() }
+               { aggregate ? this.renderAggregate() : this.renderView() }
            </div>
         );
     }

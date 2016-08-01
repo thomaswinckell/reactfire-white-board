@@ -1,5 +1,4 @@
 import React                from 'react';
-import classNames           from 'classnames';
 
 import AbstractWidgetEditor from '../abstract/Editor';
 
@@ -27,16 +26,16 @@ export default class IdeaWidgetEditor extends AbstractWidgetEditor {
     }
 
     addItem = () => {
-        const value = this.state.newTodo;
+        let value = this.state.newTodo;
         if ( value ) {
             let { items } = this.props.ideaList;
-            const index = items.push( { value } );
-            items[index -1].up =0;
-            items[index -1].down =0;
+            value.up = 0;
+            value.down = 0;
+            items.push( { value } );
             this.requestChange( { items } );
             this.setState( { newTodo : '' } );
         }
-    }
+    };
 
     removeItem( item ) {
         let { items } = this.props.ideaList;
@@ -48,7 +47,7 @@ export default class IdeaWidgetEditor extends AbstractWidgetEditor {
         return (
             <li key={ key } className={ Styles.doneTitle }>
                 { item.value }
-                <button className="small" type="button" onClick={ () => this.removeItem( item ) }><i className="icon icon-delete"></i></button>
+                <button className="small" type="button" onClick={ () => this.removeItem( item ) }><i className="icon icon-delete"/></button>
             </li>
         );
     }
@@ -63,7 +62,7 @@ export default class IdeaWidgetEditor extends AbstractWidgetEditor {
 
                 <div className={ Styles.form }>
                     <input type="text" placeholder="What to propose..." valueLink={ this.linkNewTodo() } onKeyPress={ e => e.charCode === 13 ? this.addItem() : null }/>
-                    <button className="small" type="button" onClick={ this.addItem }><i className="icon icon-add"></i></button>
+                    <button className="small" type="button" onClick={ this.addItem }><i className="icon icon-add"/></button>
                 </div>
 
             </ul>
