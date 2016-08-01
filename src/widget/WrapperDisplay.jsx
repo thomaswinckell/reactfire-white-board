@@ -33,15 +33,6 @@ export default class WidgetWrapperDisplay extends Component {
             height  : this.props.size.height
         };
 
-        const styleBoardBackground = _.extend(
-            {},
-            BoardStore.size,
-            {
-                top     : -this.props.position.y,
-                left    : -this.props.position.x
-            }
-        );
-
         return (
             <div tabIndex="1000"
                  className={ Styles.root }
