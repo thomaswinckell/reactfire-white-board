@@ -17,7 +17,7 @@ export default class PanelWidgetView extends AbstractWidgetView {
      */
     static defaultProps = {
         heightRow : 100,
-        nbCol : 2,
+        widthCol : 200,
         offsetMenu : 40
     };
 
@@ -49,20 +49,21 @@ export default class PanelWidgetView extends AbstractWidgetView {
     renderGrid = () => {
 
         const { width, height } = this.props.size;
-        const { nbCol, heightRow } = this.props;
+        const { widthCol, heightRow } = this.props;
 
         const style = {
             height      : `${heightRow}px`,
             border      : '1px solid rgba(59,59,59,0.25)',
             position    : 'absolute',
-            width       : `${width/nbCol-1}px`
+            width       : `${widthCol}px`
         };
 
-        const leftIncrement = width/nbCol;
+        const nbCol = width /widthCol | 0;
         const nbRow = ( height - this.props.offsetMenu ) / heightRow | 0;
 
+
         return _.flatten( _.range( nbCol ).map( i => _.range( nbRow ).map( j => {
-            const left = `${leftIncrement * i}px`;
+            const left = `${widthCol * i}px`;
             const top = `${heightRow * j + this.props.offsetMenu || this.props.offsetMenu}px`;
             return (
                 <div key={i.toString() + j.toString()} style={ { left, top, ...style }  }/>

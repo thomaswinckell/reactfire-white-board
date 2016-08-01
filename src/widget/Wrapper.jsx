@@ -108,7 +108,8 @@ export default class WidgetWrapper extends Component {
             if( data.isEditingBy !== false ){
                 this.isEditingByRef.onDisconnect().set(false);
             }
-            this.base.set( _.merge( {}, this.state, data, { status : null, onEnter : null, onLeave : null, confirmDialog : null } ) );
+            this.base.set( _.merge( {}, this.state, data, { status : null, onEnter : null, onLeave : null, confirmDialog : null } ),
+            error => error ? console.log(error) : null );
         }
     }
 
