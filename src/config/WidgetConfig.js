@@ -4,6 +4,6 @@ export const videoTime = 5000;
 
 export const resizerConfig = {
     resizerWidth    : 20,
-    minWidth        : 50,
-    minHeight       : 50,
+    minWidth        : 150,
+    minHeight       : 100,
 };

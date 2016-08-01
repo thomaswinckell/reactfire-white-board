@@ -62,6 +62,15 @@ const IdeaWidgetDefaultProps = {
         width: 400
     }
 }
+const PanelWidgetDefaultProps = {
+    size: {
+        height: 350,
+        width: 450
+    },
+    nbCol : 2,
+    heightRow : 80,
+    offsetMenu : 40
+}
 
 export default [
     { text:'Text',             icon: 'textsms',             type: 'TextWidget',     defaultProps: TextWidgetDefaultProps },
@@ -69,8 +78,9 @@ export default [
     { text: 'Youtube',         icon: 'video_collection',    type: 'YoutubeWidget',  defaultProps: YoutubeWidgetDefaultProps },
     { text: 'GoogleMaps',      icon: 'place',               type: 'GMapsWidget',    defaultProps: GMapsWidgetDefaultProps },
     { text: 'Videomessage',    icon: 'videocam',            type: 'VideoWidget',    defaultProps: VideoWidgetDefaultProps },
-    { text: 'Jira',            icon: 'videocam',            type: 'JiraWidget',     defaultProps: JiraWidgetDefaultProps },
-    { text: 'Idea',            icon: 'format_list_numbered',       type: 'IdeaWidget',     defaultProps: IdeaWidgetDefaultProps }
+    // { text: 'Jira',            icon: 'videocam',            type: 'JiraWidget',     defaultProps: JiraWidgetDefaultProps },
+    { text: 'Idea',            icon: 'format_list_numbered',       type: 'IdeaWidget',     defaultProps: IdeaWidgetDefaultProps },
+    { text: 'Panel',           icon: 'book',       type: 'PanelWidget',     defaultProps: PanelWidgetDefaultProps }
 ];
 
 

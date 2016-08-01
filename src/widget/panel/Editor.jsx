@@ -6,16 +6,14 @@ import AbstractWidgetEditor from '../abstract/Editor';
 import Styles from './Editor.scss';
 
 
-export default class TextWidgetEditor extends AbstractWidgetEditor {
+export default class PanelWidgetEditor extends AbstractWidgetEditor {
 
     static propTypes = {
         value : PropTypes.string
     };
 
     componentDidMount() {
-        if( !this.props.aggregate ){
-           ReactDOM.findDOMNode( this.refs.textEditor ).focus();
-        }
+        ReactDOM.findDOMNode( this.refs.textEditor ).focus();
     }
 
     renderEditor() {
