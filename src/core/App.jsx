@@ -20,16 +20,16 @@ import NotificationStore        from './NotificationStore';
 import Notification             from '../component/Notification';
 import WidgetsElements          from '../widget/Elements';
 
-addLocaleData([...en, ...fr]);
+addLocaleData( [ ...en, ...fr ] );
 
-function getLocalMessage(locale){
-    switch (locale) {
+function getLocalMessage( locale ) {
+    switch ( locale ) {
         case 'fr':
             return frMessages;
         case 'en':
-            return ;
-        default: return ;
-
+            return;
+        default:
+            return;
     }
 }
 

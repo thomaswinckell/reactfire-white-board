@@ -15,19 +15,14 @@ export default class ConfirmDialog extends Component {
     static defaultProps = {
         message : 'Are you sure ?',
         onClose : () => true
-    }
+    };
 
-    constructor( props ) {
-        super( props );
-        this.state = {
-            onEnter : true
-        };
-    }
+    state = {
+        onEnter : true
+    };
 
     componentWillMount() {
-        setTimeout( () => {
-            this.setState( { onEnter : false } );
-        }, 200 );
+        setTimeout( () => this.setState( { onEnter : false } ), 200 );
     }
 
     close( result ) {

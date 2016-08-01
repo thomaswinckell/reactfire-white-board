@@ -75,8 +75,9 @@ export default class Board extends Component {
     onMouseDown( event ) {
         this._startX = event.screenX;
         this._startY = event.screenY;
-        this._startScrollLeft = $( 'body' ).scrollLeft();
-        this._startScrollTop = $( 'body' ).scrollTop();
+        const body = $( 'body' );
+        this._startScrollLeft = body.scrollLeft();
+        this._startScrollTop = body.scrollTop();
 
         ReactDOM.findDOMNode( this ).addEventListener( 'mousemove', this.onMouseMove );
         ReactDOM.findDOMNode( this ).addEventListener( 'mouseup', this.onMouseUp );
@@ -86,12 +87,14 @@ export default class Board extends Component {
      * If the cursor is on one side of the screen scroll in this direction
      */
     onMouseMove = ( event ) => {
-        console.log('moving');
         let newScrollTop = this._startScrollTop - ( event.screenY - this._startY );
         let newScrollLeft = this._startScrollLeft - ( event.screenX - this._startX );
 
-        let scrollHeight = $( document ).height() - $( window ).height();
-        let scrollWidth = $( document ).width() - $( window ).width();
+        const documentElement = $( document );
+        const windowElement = $( window );
+
+        let scrollHeight = documentElement.height() - windowElement.height();
+        let scrollWidth = documentElement.width() - windowElement.width();
 
         let { height, width } = this.size;
 
@@ -105,8 +108,9 @@ export default class Board extends Component {
 
         Actions.setSize( { height, width } );
 
-        $( 'body' ).scrollTop( newScrollTop );
-        $( 'body' ).scrollLeft( newScrollLeft );
+        const body = $( 'body' );
+        body.scrollTop( newScrollTop );
+        body.scrollLeft( newScrollLeft );
     };
 
     /**

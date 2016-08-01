@@ -37,7 +37,6 @@ class AuthStore extends Store {
     }
 
     onAuthSuccess( authData, appConfig ) {
-        console.log(authData);
         const currentUser = {
             uid             : authData.uid,
             profileImageURL : authData.auth.picture || null,

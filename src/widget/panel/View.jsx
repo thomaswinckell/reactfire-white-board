@@ -19,11 +19,7 @@ export default class PanelWidgetView extends AbstractWidgetView {
         heightRow : 100,
         nbCol : 2,
         offsetMenu : 40
-    }
-
-    constructor( props ){
-        super(props);
-    }
+    };
 
     /**
      * save starting pos
@@ -62,16 +58,16 @@ export default class PanelWidgetView extends AbstractWidgetView {
             width       : `${width/nbCol-1}px`
         };
 
-        var ret = [];
         const leftIncrement = width/nbCol;
-        const nbRow = (height-this.props.offsetMenu)/heightRow |0;
+        const nbRow = ( height - this.props.offsetMenu ) / heightRow | 0;
 
-        for(var i = 0; i<nbCol; i++){
-            for(var j = 0; j<nbRow; j++){
-               ret.push(<div key={i.toString() + j.toString()} style={ { left : `${leftIncrement*i}px`, top: `${heightRow*j+this.props.offsetMenu || this.props.offsetMenu}px`, ...style }  }></div>)
-            }
-        }
-        return ret;
+        return _.flatten( _.range( nbCol ).map( i => _.range( nbRow ).map( j => {
+            const left = `${leftIncrement * i}px`;
+            const top = `${heightRow * j + this.props.offsetMenu || this.props.offsetMenu}px`;
+            return (
+                <div key={i.toString() + j.toString()} style={ { left, top, ...style }  }/>
+            );
+        } ) ) );
     };
 
     renderView() {

@@ -74,7 +74,6 @@ class BoardStore extends Store {
 
         //Counter for ppl on
         this.presenceRef = new Firebase( `https://${firebaseUrl}/presence/${boardKey}/${this.authStoreState.currentUser.uid}` );
-        // this.userRef = this.presenceRef.push();
         this.connectedRef = new Firebase( `${firebaseUrl}/.info/connected` );
         this.connectedRef.on("value", ( snap ) => {
             if( snap.val() ){

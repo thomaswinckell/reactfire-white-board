@@ -38,7 +38,7 @@ export default class MainNavBar extends Component {
         } else {
             this.setWidgetMode();
         }
-    }
+    };
 
     cancelDrawing = () => {
         if ( this.state.mode === Mode.drawing ) {
@@ -54,18 +54,18 @@ export default class MainNavBar extends Component {
                 }
             } } );
         }
-    }
+    };
 
     saveDrawing = () => {
         DrawingActions.save();
-    }
+    };
 
     setWidgetMode = () => {
         if ( this.state.mode === Mode.drawing ) {
             DrawingActions.disable();
             this.setState( { mode : Mode.widgets  } );
         }
-    }
+    };
 
     clearBoard = () => {
         this.setState( { confirmDialog : {
@@ -77,7 +77,7 @@ export default class MainNavBar extends Component {
                 this.setState( { confirmDialog : false } );
             }
         } } );
-    }
+    };
 
     clearDrawing = () => {
         this.setState( { confirmDialog : {
@@ -89,7 +89,7 @@ export default class MainNavBar extends Component {
                 this.setState( { confirmDialog : false } );
             }
         } } );
-    }
+    };
 
     renderConfirmDialog() {
         if ( this.state.confirmDialog ) {
@@ -111,8 +111,7 @@ export default class MainNavBar extends Component {
             new NavBarElement( this.context.intl.formatMessage(translations.navBarElement.ZoomOut), 'zoom_out', BoardActions.zoomOut,    '', 'left' )
         ];
 
-        let clearElements = [
-        ];
+        let clearElements = [];
 
         if ( this.state.mode === Mode.drawing ) {
             clearElements.push(
@@ -136,7 +135,7 @@ export default class MainNavBar extends Component {
                 </div>
                 <div className={ Styles.clearNavbar }>
                     <ul>
-                    { clearElements.map( ( e, key ) => e.render( key ) ) }
+                        { clearElements.map( ( e, key ) => e.render( key ) ) }
                     </ul>
                 </div>
                 { this.renderConfirmDialog() }

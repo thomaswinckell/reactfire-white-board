@@ -12,12 +12,7 @@ export default class Notification extends Component {
         intl : PropTypes.object
     };
 
-    constructor( props ) {
-        super( props );
-        this.state = {
-            _notificationSystem : null
-        };
-    }
+    _notificationSystem = null;
 
     /**
      * Initialise the ref to the component to call his Method
@@ -30,25 +25,22 @@ export default class Notification extends Component {
      * Method of NotificationSystem to add a notif to the component
      * @param { notif with message and type ( level ) } notif
      */
-    _addNotification ( notif ) {
-        this._notificationSystem.addNotification({
-          message : this.context.intl.formatMessage( translations.Notification[notif.val.message], notif.val ),
-          level   : notif.val.type,
-          uid     : notif.key,
-          position : 'br'
-        });
-  }
+    _addNotification( notif ) {
+        this._notificationSystem.addNotification( {
+            message  : this.context.intl.formatMessage( translations.Notification[ notif.val.message ], notif.val ),
+            level    : notif.val.type,
+            uid      : notif.key,
+            position : 'br'
+        } );
+    }
 
-  /**
-   * Add our notifs to react-notification-system
-   * @param  {Array of notifs} nextProps
-   */
-  componentWillReceiveProps( nextProps ){
-      var notifs = nextProps.notifs.map( ( notif ) => {
-          this._addNotification( notif );
-      });
-  }
-
+    /**
+     * Add our notifs to react-notification-system
+     * @param  {Array of notifs} nextProps
+     */
+    componentWillReceiveProps( nextProps ) {
+        nextProps.notifs.forEach( notif => this._addNotification( notif ) );
+    }
 
     render() {
         return (

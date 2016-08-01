@@ -35,9 +35,9 @@ export default class TodoListWidgetView extends AbstractWidgetView {
                 { item.value }
                 {
                     item.done ?
-                    <button className="small" type="button" onClick={ () => this.doneItem( item, true ) }><i className="icon icon-clear"></i></button>
+                    <button className="small" type="button" onClick={ () => this.doneItem( item, true ) }><i className="icon icon-clear"/></button>
                     :
-                    <button  className="small" type="button" onClick={ () => this.doneItem( item ) }><i className="icon icon-check"></i></button>
+                    <button  className="small" type="button" onClick={ () => this.doneItem( item ) }><i className="icon icon-check"/></button>
                 }
             </li>
         );
