@@ -41,5 +41,6 @@
     "backgroundSaving"          : "Image de fond en cours de sauvegarde...",
     "backgroundSaved"           : "Image de fond sauvegardé !",
     "drawingSaved"              : "Dessin sauvegardé !",
-    "drawingCleared"            : "Dessin effacé !"
+    "drawingCleared"            : "Dessin effacé !",
+    "videoSaved"                : "Video sauvegardé !"
 }

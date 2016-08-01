@@ -193,7 +193,11 @@ const translations = {
         },
         drawingCleared : {
             id : 'drawingCleared',
-            defaultMessage : 'drawing cleared !'
+            defaultMessage : 'Drawing cleared !'
+        },
+        videoSaved : {
+            id : 'videoSaved',
+            defaultMessage : 'Video saved !'
         }
     }
 };
