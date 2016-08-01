@@ -245,7 +245,7 @@ export default class ButtonMenu extends Component {
 
 	render() {
 		const {isOpen} = this.state;
-		const mainButtonRotation = isOpen ? {rotate: spring(0, {stiffness : 500, damping : 30})} : {rotate: spring(120, {stiffness : 500, damping : 28})};
+		const mainButtonRotation = !isOpen ? {rotate: spring(0, {stiffness : 500, damping : 30})} : {rotate: spring(120, {stiffness : 500, damping : 28})};
 		return (
 			<div>
 				{this.renderChildButtons()}
