@@ -193,7 +193,7 @@ export default class AbstractWidgetView extends Component {
             const panel = isPanel ? isPanel.val.props : false;
 
             if(panel){
-@                this.link('aggregate').requestChange( {panel : isPanel.key, width : panel.sizeCell.width-2, height : panel.sizeCell.height -2 } );
+                this.link('aggregate').requestChange( {panel : isPanel.key, width : panel.sizeCell.width-2, height : panel.sizeCell.height -2 } );
             }else{
                 this.link('aggregate').requestChange(false);
             }
