@@ -67,8 +67,10 @@ const PanelWidgetDefaultProps = {
         height: 280,
         width: 400
     },
-    widthCol : 200,
-    heightRow : 80,
+    sizeCell : {
+        width : 200,
+        height : 80,
+    },
     offsetMenu : 40
 }
 

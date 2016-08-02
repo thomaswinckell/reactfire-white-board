@@ -29,9 +29,12 @@ export default class IdeaWidgetEditor extends AbstractWidgetEditor {
         let value = this.state.newTodo;
         if ( value ) {
             let { items } = this.props.ideaList;
-            value.up = 0;
-            value.down = 0;
-            items.push( { value } );
+            const newItem = {
+                value,
+                up : 0,
+                down : 0
+            };
+            items.push( newItem );
             this.requestChange( { items } );
             this.setState( { newTodo : '' } );
         }

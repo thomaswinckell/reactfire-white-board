@@ -33,12 +33,13 @@ export default class IdeaWidgetView extends AbstractWidgetView {
         const { items } = this.props.ideaList;
         const itemIndex = items.indexOf( item );
 
-        //create uid on the idea in case the user never voted on this idea
-        if( !items[ itemIndex ][currentUser.uid] ){
-            items[ itemIndex ][currentUser.uid] = {'up' : false , 'down' : false}
-        }
-
         if ( itemIndex > -1 ) {
+
+            //create uid on the idea in case the user never voted on this idea
+            if( !items[ itemIndex ][currentUser.uid] ){
+                items[ itemIndex ][currentUser.uid] = {'up' : false , 'down' : false}
+            }
+
             items[ itemIndex ][ currentUser.uid ][ vote ] = items[ itemIndex ][ currentUser.uid  ][ vote ]? false : true;
             items[ itemIndex ][ currentUser.uid ][ vote ] ? items[ itemIndex ][ vote ]++ : items[ itemIndex ][ vote ]--;
 

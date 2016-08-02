@@ -1,8 +1,13 @@
-import React                from 'react';
+import React, { PropTypes } from 'react';
 
 import * as Actions         from '../../core/BoardActions'
 
 import AbstractWidgetView   from '../abstract/View';
+import Resizer              from '../../component/Resizer';
+
+import translations         from '../../i18n/messages/messages';
+
+import AuthStore             from '../../core/AuthStore';
 
 /**
  * Manage PanelView
@@ -12,12 +17,18 @@ import AbstractWidgetView   from '../abstract/View';
  */
 export default class PanelWidgetView extends AbstractWidgetView {
 
+    static contextTypes = {
+        intl : PropTypes.object
+    };
+
     /**
      * @type {{heightRow: number, nbCol: number}}
      */
     static defaultProps = {
-        heightRow : 100,
-        widthCol : 200,
+        sizeCell : {
+            heightRow : 80,
+            widthCol : 200
+        },
         offsetMenu : 40
     };
 
@@ -46,10 +57,40 @@ export default class PanelWidgetView extends AbstractWidgetView {
         }
     }
 
+    getMenuElements() {
+        return [
+            {
+                action      : this.props.actions.deleteWidget,
+                text        : this.context.intl.formatMessage( translations.widgetElement.Menu.Delete ),
+                icon        : "delete"
+            }
+        ];
+    }
+
+    onResizeStart( event ) {
+        event.stopPropagation();
+        this.props.valueLink({'isLockedBy': AuthStore.currentUser});
+    }
+
+    onResizeEnd( event ) {
+        if( !this.props.isEditingByCurrentUser ) {
+            this.props.valueLink({'isLockedBy': false});
+        }
+    }
+
+    renderResizer() {
+        return(
+            <Resizer valueLink={super.link('sizeCell')}
+                     onResizeStart={this.onResizeStart.bind( this ) } onResizeEnd={this.onResizeEnd.bind( this ) }
+                     index={200000}/>
+        )
+    }
+
     renderGrid = () => {
 
         const { width, height } = this.props.size;
-        const { widthCol, heightRow } = this.props;
+        const widthCol  = this.props.sizeCell.width;
+        const heightRow = this.props.sizeCell.height;
 
         const style = {
             height      : `${heightRow}px`,
@@ -66,7 +107,9 @@ export default class PanelWidgetView extends AbstractWidgetView {
             const left = `${widthCol * i}px`;
             const top = `${heightRow * j + this.props.offsetMenu || this.props.offsetMenu}px`;
             return (
-                <div key={i.toString() + j.toString()} style={ { left, top, ...style }  }/>
+                <div key={i.toString() + j.toString()} style={ { left, top, ...style }  }>
+                    {this.renderResizer()}
+                </div>
             );
         } ) ) );
     };
