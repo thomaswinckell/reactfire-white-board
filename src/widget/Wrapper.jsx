@@ -203,12 +203,10 @@ export default class WidgetWrapper extends Component {
     }
 
     onResizeStart( event ) {
-      this.isResizing = true;
       this.updateData( { isLockedBy: AuthStore.currentUser } );
     }
 
     onResizeEnd( event ) {
-        this.isResizing = false;
         if( !this.isEditingByCurrentUser() ) {
             this.updateData( { isLockedBy: false } );
             this.removeOnDisconnectHandler();
@@ -274,31 +272,9 @@ export default class WidgetWrapper extends Component {
             return null;
         }
 
-        const styleWidget = {
-            zIndex  : this.state.index + 1000,
-            top     : this.state.position.y,
-            left    : this.state.position.x,
-            width   : this.state.size.width,
-            height  : this.state.size.height
-        };
-
-        const styleBoardBackground = _.extend(
-            {},
-            BoardStore.size,
-            {
-                top     : -this.state.position.y,
-                left    : -this.state.position.x
-            }
-        );
-
         const isEditingByCurrentUser = this.isEditingByCurrentUser();
 
         const className = classNames( Styles.root, {
-            /*'resizing'                  : this.isResizing,
-            'locked-by-current-user'    : this.isLockedByCurrentUser(),
-            'locked-by-another'         : this.isLockedByAnotherUser(),
-            'onEnter'                   : this.state.onEnter,
-            'onLeave'                   : this.state.onLeave*/
         } );
 
         const rigid = { stiffness: 652, damping: 25 };
