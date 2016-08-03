@@ -85,6 +85,10 @@ const translations = {
             id : 'panel',
             defaultMessage : 'Panel'
         },
+        Twitter : {
+            id : 'twitter',
+            defaultMessage : 'twitter'
+        },
         Menu : {
             View : {
                 id : 'MenuView',

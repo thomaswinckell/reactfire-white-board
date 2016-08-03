@@ -6,3 +6,4 @@ export * from './youtube';
 export * from './jira';
 export * from './Idea';
 export * from './panel';
+export * from './twitter';
