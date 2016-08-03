@@ -91,7 +91,7 @@ export default class ButtonMenu extends Component {
             top    : this.state.M_Y - CHILD_BUTTON_DIAM / 2,
             left   : this.state.M_X - CHILD_BUTTON_DIAM / 2,
             rotate : -180,
-            scale  : 0.5
+            scale  : 0.1
         };
     }
 
@@ -102,7 +102,7 @@ export default class ButtonMenu extends Component {
             top    : spring( this.state.M_Y - CHILD_BUTTON_DIAM / 2, SPRING_CONFIG ),
             left   : spring( this.state.M_X - CHILD_BUTTON_DIAM / 2, SPRING_CONFIG ),
             rotate : spring( -180, SPRING_CONFIG ),
-            scale  : spring( 0.5, SPRING_CONFIG )
+            scale  : spring( 0.1, SPRING_CONFIG )
         };
     }
 
@@ -157,6 +157,7 @@ export default class ButtonMenu extends Component {
             return isOpen ? this.finalChildButtonStylesInit( i ) : this.initialChildButtonStylesInit();
         } );
 
+        //convert object in array
         const targetButtonStylesInit = Object.keys( targetButtonStylesInitObject ).map( key => targetButtonStylesInitObject[ key ] );
 
         const targetButtonStyles = range( elements.length ).map( i => {
