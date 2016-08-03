@@ -74,6 +74,13 @@ const PanelWidgetDefaultProps = {
     offsetMenu : 40
 }
 
+const TwitterWidgetDefaultProps = {
+    size: {
+        height: 280,
+        width: 400
+    }
+}
+
 export default [
     { text:'Text',             icon: 'textsms',             type: 'TextWidget',     defaultProps: TextWidgetDefaultProps },
     { text:'TodoList',         icon: 'list',                type: 'TodoListWidget', defaultProps: TodoListWidgetDefaultProps },
@@ -82,7 +89,8 @@ export default [
     { text: 'Videomessage',    icon: 'videocam',            type: 'VideoWidget',    defaultProps: VideoWidgetDefaultProps },
     // { text: 'Jira',            icon: 'videocam',            type: 'JiraWidget',     defaultProps: JiraWidgetDefaultProps },
     { text: 'Idea',            icon: 'format_list_numbered',       type: 'IdeaWidget',     defaultProps: IdeaWidgetDefaultProps },
-    { text: 'Panel',           icon: 'book',       type: 'PanelWidget',     defaultProps: PanelWidgetDefaultProps }
+    { text: 'Panel',           icon: 'book',       type: 'PanelWidget',     defaultProps: PanelWidgetDefaultProps },
+    { text: 'Twitter',           icon: 'twitter',       type: 'TwitterWidget',     defaultProps: TwitterWidgetDefaultProps }
 ];
 
 
