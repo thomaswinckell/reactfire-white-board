@@ -78,19 +78,20 @@ const TwitterWidgetDefaultProps = {
     size: {
         height: 280,
         width: 400
-    }
+    },
+    widgetId : 'https://twitter.com/ThombsonCrema'
 }
 
 export default [
-    { text:'Text',             icon: 'textsms',             type: 'TextWidget',     defaultProps: TextWidgetDefaultProps },
-    { text:'TodoList',         icon: 'list',                type: 'TodoListWidget', defaultProps: TodoListWidgetDefaultProps },
+    { text:'Text',             icon: 'textsms',             type: 'TextWidget',     defaultProps: TextWidgetDefaultProps, tooltipPosition : 'right' },
+    { text:'TodoList',         icon: 'list',                type: 'TodoListWidget', defaultProps: TodoListWidgetDefaultProps, tooltipPosition : 'right' },
     { text: 'Youtube',         icon: 'video_collection',    type: 'YoutubeWidget',  defaultProps: YoutubeWidgetDefaultProps },
     { text: 'GoogleMaps',      icon: 'place',               type: 'GMapsWidget',    defaultProps: GMapsWidgetDefaultProps },
     { text: 'Videomessage',    icon: 'videocam',            type: 'VideoWidget',    defaultProps: VideoWidgetDefaultProps },
     // { text: 'Jira',            icon: 'videocam',            type: 'JiraWidget',     defaultProps: JiraWidgetDefaultProps },
     { text: 'Idea',            icon: 'format_list_numbered',       type: 'IdeaWidget',     defaultProps: IdeaWidgetDefaultProps },
-    { text: 'Panel',           icon: 'book',       type: 'PanelWidget',     defaultProps: PanelWidgetDefaultProps },
-    { text: 'Twitter',           icon: 'twitter',       type: 'TwitterWidget',     defaultProps: TwitterWidgetDefaultProps }
+    { text: 'Panel',           icon: 'book',       type: 'PanelWidget',     defaultProps: PanelWidgetDefaultProps, tooltipPosition : 'left' },
+    { text: 'Twitter',         icon: 'twitter',       type: 'TwitterWidget',     defaultProps: TwitterWidgetDefaultProps, tooltipPosition : 'left' }
 ];
 
 

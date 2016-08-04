@@ -2,11 +2,11 @@ import _                                    from 'lodash';
 import $                                    from 'jquery';
 import React, { Component, PropTypes }      from 'react';
 
-import { Motion, StaggeredMotion, spring }    from 'react-motion';
+import { Motion, StaggeredMotion, spring }  from 'react-motion';
 import range                                from 'lodash.range';
 
-import classNames                        from 'classnames';
-import ReactTooltip                        from 'react-tooltip';
+import classNames                           from 'classnames';
+import ReactTooltip                         from 'react-tooltip';
 import * as BoardActions                    from '../core/BoardActions';
 
 import translations                         from '../i18n/messages/messages';
@@ -28,7 +28,7 @@ const SPRING_CONFIG = { stiffness : 400, damping : 28 };
 
 // How far away from the main button does the child buttons go
 const FLY_OUT_RADIUS   = 130,
-      SEPARATION_ANGLE = 35; //degrees
+      SEPARATION_ANGLE = 30; //degrees
 
 // Utility functions
 
@@ -206,6 +206,7 @@ export default class ButtonMenu extends Component {
                                          </i>
                                          <ReactTooltip id={'id' + index.toString() }
                                                        place={ elements[index].tooltipPosition }
+                                                       class={ Styles.tooltip }
                                                        type="light" effect="solid">
                                              { this.context.intl.formatMessage( translations.widgetElement[ elements[ index ].text ] ) }
                                          </ReactTooltip>
