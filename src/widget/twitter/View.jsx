@@ -19,10 +19,35 @@ export default class TwitterWidgetView extends AbstractWidgetView {
 
     constructor( props ){
         super( props );
-        this.state.data = {
-            sourceType : "url",
-            url : this.props.widgetId.trim()
-        };
+        this.checkForIdInit( this.props.widgetId )
+    }
+
+    checkForIdInit( widgetId ){
+        if( widgetId.includes('http') ){
+            this.state.data = {
+                sourceType : "url",
+                url : widgetId.trim()
+            }
+        } else {
+            this.state.data = widgetId.trim();
+        }
+    }
+
+    checkForId( widgetId ){
+        if( widgetId.includes('http') ){
+            this.setState({data : {
+                sourceType : "url",
+                url : widgetId.trim()
+            }});
+        } else {
+            this.setState({data : widgetId.trim() })
+        }
+    }
+
+    componentWillReceiveProps( nextProps ){
+        if( this.props.widgetId !== nextProps.widgetId ){
+            this.checkForId( nextProps.widgetId )
+        }
     }
 
     //we put a fix height to have a scroll into the widget.
