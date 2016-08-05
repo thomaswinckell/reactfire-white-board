@@ -5,7 +5,7 @@ import AbstractWidgetView   from '../abstract/View';
 import Styles from './View.scss';
 
 
-//desabled type checker cause we send an object and not a String
+//disabled type checker cause we send an object and not a String
 Timeline.propTypes = null;
 
 export default class TwitterWidgetView extends AbstractWidgetView {

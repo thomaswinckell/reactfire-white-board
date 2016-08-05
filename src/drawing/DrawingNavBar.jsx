@@ -212,7 +212,7 @@ export default class DrawingNavBar extends Component {
             new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Line ),              'line',      () => this.setTool( Line ), this.isActiveTool( Line ) ? "active" : "" ),
             new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Rectangle ),         'check_box_outline_blank',     () => this.setTool( Rectangle ), this.isActiveTool( Rectangle ) ? "active" : "" ),
             new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Circle ),            'radio_button_unchecked',     () => this.setTool( Circle ), this.isActiveTool( Circle ) ? "active" : "" ),
-            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Eraser ),            'phonelink_erase',     () => this.setTool( Eraser ), this.isActiveTool( Eraser ) ? "active" : "" ),
+            new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.Eraser ),            'eraser',     () => this.setTool( Eraser ), this.isActiveTool( Eraser ) ? "active" : "" ),
             new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.TextTool ),          'text_fields', () => this.setText(), this.isActiveTool( TextTool ) ? "active" : "" ),
             new NavBarElement( this.context.intl.formatMessage( translations.drawingElement.BackgroundImage ),  'image',             this.updateBackgroundImage )
         ];

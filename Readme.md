@@ -18,7 +18,7 @@ Enable Blur effect for Chrome
 Demo
 ====
 
-See http://board.winckell.com
+See https://whiteboardtest.firebaseapp.com/boards/-KJ_LLIeJjvPDVS8Xcma
 
 Contribution
 ============
