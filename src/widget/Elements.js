@@ -58,7 +58,7 @@ const JiraWidgetDefaultProps = {
 
 const IdeaWidgetDefaultProps = {
     size: {
-        height: 500,
+        height: 300,
         width: 400
     }
 }
@@ -91,7 +91,7 @@ export default [
     // { text: 'Jira',            icon: 'videocam',            type: 'JiraWidget',     defaultProps: JiraWidgetDefaultProps },
     { text: 'Idea',            icon: 'format_list_numbered',       type: 'IdeaWidget',     defaultProps: IdeaWidgetDefaultProps },
     { text: 'Panel',           icon: 'book',       type: 'PanelWidget',     defaultProps: PanelWidgetDefaultProps, tooltipPosition : 'left' },
-    { text: 'Twitter',         icon: 'twitter',       type: 'TwitterWidget',     defaultProps: TwitterWidgetDefaultProps, tooltipPosition : 'left' }
+    { text: 'Twitter',         icon: 'social-twitter',       type: 'TwitterWidget',     defaultProps: TwitterWidgetDefaultProps, tooltipPosition : 'left' }
 ];
 
 
