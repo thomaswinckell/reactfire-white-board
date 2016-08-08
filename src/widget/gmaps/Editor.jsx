@@ -26,7 +26,7 @@ export default class GMapsWidgetEditor extends AbstractWidgetEditor {
 
         var map = new maps.Map( ReactDOM.findDOMNode( this.refs.map ), {
             center: location,
-            zoom: 13
+            zoom: this.props.gmaps.zoom
         } );
 
         var input = ReactDOM.findDOMNode( this.refs.pacInput );
@@ -41,11 +41,20 @@ export default class GMapsWidgetEditor extends AbstractWidgetEditor {
             anchorPoint: new maps.Point(0, -29)
         });
 
+        //Update the current zoom when plus or minus button are pressed
+        map.addListener('zoom_changed', () => {
+            this.requestChange( { zoom : map.getZoom() } );
+        });
+
+        //update the position when dragging the position in edit mode
+        map.addListener('dragend', () => {
+            this.requestChange( { lat : map.getCenter().lat(), lng : map.getCenter().lng() , zoom : map.getZoom() } )
+        });
+
         autocomplete.addListener('place_changed', () => {
             infowindow.close();
             marker.setVisible(false);
             var place = autocomplete.getPlace();
-            console.log('place', place)
             if (!place.geometry) {
                 window.alert("Autocomplete's returned place contains no geometry");
                 return;
@@ -80,7 +89,7 @@ export default class GMapsWidgetEditor extends AbstractWidgetEditor {
             infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
             infowindow.open(map, marker);
 
-            this.requestChange( { lat : place.geometry.location.lat(), lng : place.geometry.location.lng() } );
+            this.requestChange( { lat : place.geometry.location.lat(), lng : place.geometry.location.lng() , zoom : map.getZoom() } );
         } );
     }
 
