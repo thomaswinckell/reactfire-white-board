@@ -45,6 +45,7 @@ export default class GMapsWidgetEditor extends AbstractWidgetEditor {
             infowindow.close();
             marker.setVisible(false);
             var place = autocomplete.getPlace();
+            console.log('place', place)
             if (!place.geometry) {
                 window.alert("Autocomplete's returned place contains no geometry");
                 return;
@@ -79,7 +80,7 @@ export default class GMapsWidgetEditor extends AbstractWidgetEditor {
             infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
             infowindow.open(map, marker);
 
-            this.requestChange( { lat : place.geometry.location.G, lng : place.geometry.location.K } );
+            this.requestChange( { lat : place.geometry.location.lat(), lng : place.geometry.location.lng() } );
         } );
     }
 

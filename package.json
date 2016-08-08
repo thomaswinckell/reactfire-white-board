@@ -2,12 +2,12 @@
   "name": "reactfire-white-board",
   "title": "White Board",
   "description": "An awesome white board",
-  "version": "0.0.17-beta16",
+  "version": "0.0.17-beta17",
   "author": "Thomas Winckell",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com:thomaswinckell/reactfire-white-board.git"
+    "url": "https://github.com/thomaswinckell/reactfire-white-board.git"
   },
   "dependencies": {
     "airflux": "^0.5.1",
