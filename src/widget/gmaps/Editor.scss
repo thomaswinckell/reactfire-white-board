@@ -1,21 +1,6 @@
 .root {
 
-    :global .pac-container {
-        font-family: Roboto;
-        z-index: 2100000;
-    }
 
-    :global .typeSelector {
-        color: #fff;
-        background-color: #4d90fe;
-        padding: 5px 11px 0px 11px;
-    }
-
-    :global .typeSelector label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-    }
 }
 
 .input {
@@ -35,6 +20,7 @@
     padding: 0 11px 0 13px;
     text-overflow: ellipsis;
     width: 300px;
+    z-index: 9999999;
 
     &:focus {
         border-color: #4d90fe;
@@ -43,4 +29,21 @@
 
 .map {
     height: 100%;
+}
+
+:global .pac-container {
+    font-family: Roboto;
+    z-index: 2100000;
+}
+
+:global .typeSelector {
+    color: #fff;
+    background-color: #4d90fe;
+    padding: 5px 11px 0px 11px;
+}
+
+:global .typeSelector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
 }
