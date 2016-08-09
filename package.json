@@ -2,7 +2,7 @@
   "name": "reactfire-white-board",
   "title": "White Board",
   "description": "An awesome white board",
-  "version": "0.0.17-beta17",
+  "version": "0.0.17-beta20",
   "author": "Thomas Winckell",
   "license": "MIT",
   "repository": {
@@ -29,8 +29,8 @@
     "react-notification-system": "^0.2.7",
     "react-tooltip": "3.0.13",
     "react-twitter-widgets": "^0.2.4",
-    "react-webcam": "^0.0.9",
-    "recordrtc": "^5.2.7"
+    "react-webcam": "^0.0.14",
+    "recordrtc": "5.3.8"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",

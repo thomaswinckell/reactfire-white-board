@@ -62,6 +62,7 @@ export default class VideoWidgetEditor extends AbstractWidgetEditor {
     }
 
     handleUserMedia( stream ) {
+        console.log('handleUserMedia', stream)
         this.recordRTC = new RecordRTC( stream, { type : 'video' } );
     }
 

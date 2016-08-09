@@ -26,7 +26,8 @@ export default class GMapsWidgetEditor extends AbstractWidgetEditor {
 
         var map = new maps.Map( ReactDOM.findDOMNode( this.refs.map ), {
             center: location,
-            zoom: this.props.gmaps.zoom
+            zoom: this.props.gmaps.zoom,
+            mapTypeId : this.props.gmaps.mapTypeId
         } );
 
         var input = ReactDOM.findDOMNode( this.refs.pacInput );
@@ -45,6 +46,11 @@ export default class GMapsWidgetEditor extends AbstractWidgetEditor {
         map.addListener('zoom_changed', () => {
             this.requestChange( { zoom : map.getZoom() } );
         });
+
+        //update the typeMap
+        map.addListener('maptypeid_changed', () => {
+            this.requestChange( { mapTypeId : map.getMapTypeId() } );
+        })
 
         //update the position when dragging the position in edit mode
         map.addListener('dragend', () => {

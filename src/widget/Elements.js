@@ -28,7 +28,9 @@ const GMapsWidgetDefaultProps = {
     },
     gmaps: {
         lat: 49.815273,
-        lng: 6.129583000000025
+        lng: 6.129583000000025,
+        zoom : 13,
+        mapTypeId : 'roadmap'
     }
 };
 
