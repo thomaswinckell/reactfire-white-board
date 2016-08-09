@@ -31,7 +31,8 @@ export default class GMapsWidgetView extends AbstractWidgetView {
     initMap( maps, location ) {
         var map = new maps.Map( ReactDOM.findDOMNode( this.refs.map ), {
             center: location,
-            zoom: this.props.gmaps.zoom
+            zoom: this.props.gmaps.zoom,
+            mapTypeId: this.props.gmaps.mapTypeId
         } );
     }
 
